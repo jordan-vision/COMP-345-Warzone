@@ -1,7 +1,82 @@
 
 #pragma once
 
-#include "DirectedGraph.h"
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+class State;
+class Transition;
+class DirectedGraph;
+
+class State {
+private:
+	string label;
+	vector<Transition*> transitions;
+
+public:
+	State();
+	State(string theLabel);
+	State(State& toCopy);
+	~State();
+
+	void operator=(State& rhs);
+
+	string getLabel();
+	vector<Transition*> getAllTransitions();
+	Transition* getTransition(int index);
+	void setLabel(string theLabel);
+
+	void connect(State* arrivalState, string transitionLabel);
+	State* executeCommand(string command);
+};
+
+ostream& operator<<(ostream& out, State& state);
+
+class Transition {
+private:
+	string label;
+	State* arrivalState;
+
+public:
+	Transition(string theLabel);
+	Transition(Transition& toCopy);
+
+	void operator=(Transition& rhs);
+
+	string getLabel();
+	State* getArrivalState();
+	void setLabel(string theLabel);
+	void setArrivalState(State* theArrival);
+};
+
+ostream& operator<<(ostream& out, Transition& transition);
+
+class DirectedGraph {
+private:
+	State* startState, * endState, * currentState;
+
+public:
+	DirectedGraph(State* theStart, State* theEnd);
+	DirectedGraph(DirectedGraph& toCopy);
+	~DirectedGraph();
+
+	void operator=(DirectedGraph& rhs);
+
+	State* getStartState();
+	State* getEndState();
+	State* getCurrentState();
+	void setStartState(State* theStart);
+	void setEndState(State* theEnd);
+	void setCurrentState(State* theState);
+
+	bool executeCommand(string command);
+};
+
+ostream& operator<<(ostream& out, DirectedGraph& graph);
+
+int indexOfState(vector<State*> vec, State* element);
 
 class GameEngine {
 private:
