@@ -3,25 +3,27 @@
 
 int main() {
 
+    const int DECK_SIZE = 17;
+    const int HAND_SIZE = 2;
+
     Deck myDeck;
     Hand myHand;
 
-    Card myCard;
-    Card otherCard;
+    myDeck.fillDeck(DECK_SIZE);
 
-    otherCard = myCard;
+    cout << myDeck << "\n" << endl;
 
-    Card newCard = myCard;
-     
-    myDeck.fillDeck(48);
+    for (int i = 0; i < HAND_SIZE; i++) 
+        myDeck.draw(&myHand);
     
-    myDeck.printDeckOutput();
-    myDeck.draw(&myHand);
-    myDeck.printDeckOutput();
+    cout << myHand << "\n" << endl;
+    
+    for (int i = 0; i < HAND_SIZE; i++)         
+        myHand.handCards[0]->play(&myHand, &myDeck);
 
-    myHand.handCards[0]->play(&myHand, &myDeck);
+    cout << myDeck << "\n" << endl;
 
-
+    cout << myHand << "\n" << endl;
+        
     return 0;
 }
-
