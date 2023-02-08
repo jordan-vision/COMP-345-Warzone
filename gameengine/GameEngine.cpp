@@ -204,59 +204,7 @@ void Transition::setLabel(string theLabel) { label = theLabel; };
 void Transition::setArrivalState(State* theArrival) { arrivalState = theArrival; };
 
 
-// FREE FUNCTIONS
-
-// Stream isertion operators
-ostream& operator<<(ostream& out, State& state) {
-	out << state.getLabel();
-	for (Transition* trans : state.getAllTransitions()) {
-		out << endl << "\t" << *trans;
-	}
-	return out;
-};
-ostream& operator<<(ostream& out, Transition& transition) {
-	out << transition.getLabel();
-	out << " -> " << transition.getArrivalState()->getLabel();
-	return out;
-};
-ostream& operator<<(ostream& out, DirectedGraph& graph) {
-	out << "DIRECTED GRAPH" << endl << endl;
-	out << "START: " << *graph.getStartState() << endl << endl;
-	vector<State*> allPrinted = { graph.getStartState() };
-	vector<State*> newlyPrinted = { graph.getStartState() };
-
-	while (!newlyPrinted.empty()) {
-		vector<State*> nextNew;
-
-		for (State* state : newlyPrinted) {
-			for (Transition* trans : state->getAllTransitions()) {
-				State* arrivalState = trans->getArrivalState();
-
-				if (!count(allPrinted.begin(), allPrinted.end(), arrivalState)) {
-					if (arrivalState == graph.getEndState()) {
-						out << "END: ";
-					}
-					out << *arrivalState << endl << endl;
-					allPrinted.push_back(arrivalState);
-					nextNew.push_back(arrivalState);
-				}
-			}
-		}
-
-		newlyPrinted = nextNew;
-	}
-	return out;
-};
-
-// Returns first position of specific state in vector, if said state is in said vector
-int indexOfState(vector<State*> vec, State* element) {
-	vector<State*>::iterator itr = find(vec.begin(), vec.end(), element);
-	if (itr != vec.cend()) {
-		return distance(vec.begin(), itr);
-	}
-	return -1;
-};
-
+// GAME ENGINE CLASS
 // Constructors and destructor
 GameEngine::GameEngine() {
 	// Start and end states
@@ -332,3 +280,57 @@ ostream& operator<<(ostream& out, GameEngine& engine) {
 	out << *engine.getGameLoop();
 	return out;
 }
+
+
+// FREE FUNCTIONS
+
+// Stream isertion operators
+ostream& operator<<(ostream& out, State& state) {
+	out << state.getLabel();
+	for (Transition* trans : state.getAllTransitions()) {
+		out << endl << "\t" << *trans;
+	}
+	return out;
+};
+ostream& operator<<(ostream& out, Transition& transition) {
+	out << transition.getLabel();
+	out << " -> " << transition.getArrivalState()->getLabel();
+	return out;
+};
+ostream& operator<<(ostream& out, DirectedGraph& graph) {
+	out << "DIRECTED GRAPH" << endl << endl;
+	out << "START: " << *graph.getStartState() << endl << endl;
+	vector<State*> allPrinted = { graph.getStartState() };
+	vector<State*> newlyPrinted = { graph.getStartState() };
+
+	while (!newlyPrinted.empty()) {
+		vector<State*> nextNew;
+
+		for (State* state : newlyPrinted) {
+			for (Transition* trans : state->getAllTransitions()) {
+				State* arrivalState = trans->getArrivalState();
+
+				if (!count(allPrinted.begin(), allPrinted.end(), arrivalState)) {
+					if (arrivalState == graph.getEndState()) {
+						out << "END: ";
+					}
+					out << *arrivalState << endl << endl;
+					allPrinted.push_back(arrivalState);
+					nextNew.push_back(arrivalState);
+				}
+			}
+		}
+
+		newlyPrinted = nextNew;
+	}
+	return out;
+};
+
+// Returns first position of specific state in vector, if said state is in said vector
+int indexOfState(vector<State*> vec, State* element) {
+	vector<State*>::iterator itr = find(vec.begin(), vec.end(), element);
+	if (itr != vec.cend()) {
+		return distance(vec.begin(), itr);
+	}
+	return -1;
+};

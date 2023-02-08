@@ -35,6 +35,7 @@ ostream& operator<<(ostream& out, DirectedGraph& graph);
 
 int indexOfState(vector<State*> vec, State* element);
 
+
 class State {
 private:
 	string label;
@@ -59,6 +60,7 @@ public:
 
 ostream& operator<<(ostream& out, State& state);
 
+
 class Transition {
 private:
 	string label;
@@ -77,6 +79,7 @@ public:
 };
 
 ostream& operator<<(ostream& out, Transition& transition);
+
 
 class GameEngine {
 private:
