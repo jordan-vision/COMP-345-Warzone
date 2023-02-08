@@ -7,7 +7,8 @@
 using namespace std;
 
 /* 
-*  This source file contains the implementation of all methods from the GameEngine class declared in the GameEngine.h header file.
+*  This source file contains the implementation of all methods from the GameEngine class declared in the GameEngine.h header file. It also contains the implementations of methods from
+*  user defined classes DirectedGraph, State and Transition which all aid in the implementation of the game loop diagram.
 */
 
 
