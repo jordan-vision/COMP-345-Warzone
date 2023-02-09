@@ -46,7 +46,7 @@ public:
     void operator =(const Territory& rhs);                
 
     //insertion operator 
-    friend ostream& operator<<(ostream& out, const Territory& t);   
+    friend ostream& operator<<(ostream& out, Territory& t);   
 
     // destructor 
     ~Territory();                     
@@ -86,7 +86,7 @@ public:
     ~Continent();     
 
     //insertion operator 
-    friend ostream& operator<<(ostream& output, const Continent& c);     
+    friend ostream& operator<<(ostream& output, Continent& c);     
 
 
 };
@@ -123,7 +123,7 @@ public:
     ~Map();                
 
     //insertion operator 
-    friend ostream& operator<< (ostream& output,  const Map& m);      
+    friend ostream& operator<< (ostream& output,  Map& m);      
 
 };
 
@@ -142,5 +142,5 @@ public:
 
     ~MapLoader();      
 
-    friend ostream& operator<<(ostream& output, const MapLoader &m);       
+    friend ostream& operator<<(ostream& output, MapLoader &m);       
 };

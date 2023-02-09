@@ -45,7 +45,7 @@ ostream& operator<<(std::ostream& out, const Deck& deck) {
 void Deck::draw(Hand* playerHand) {
 
     // DECK SHUFFLER
-    auto randomSeed = random_device {};                         // Generates random seed    (ensures each run will generate new unique shuffle)
+    auto randomSeed = std::mt19937(std::random_device{}());                          // Generates random seed    (ensures each run will generate new unique shuffle)
     auto random = default_random_engine { randomSeed() };       // Generates random number  
     shuffle(deckCards.begin(), deckCards.end(), random);        // Shuffles vector according to random
 

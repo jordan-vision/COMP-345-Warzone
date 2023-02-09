@@ -10,21 +10,22 @@ int main () {
 
 // Example of a valid map file 
 MapLoader* loader = new MapLoader();
-Map* map = loader->loadMap("solar.map");              
+Map* map = loader->loadMap("Map/solar.map");              
 map->validate();
+
 //cout<<"Fist map done"<<endl;
 // Example of a map file that isn't located in the current folder
-Map* map2 = loader->loadMap("MiddleEast-Qatar.map");
+//Map* map2 = loader->loadMap("MiddleEast-Qatar.map");
 
 // Example of a map file that is not valid
-Map* map3 = loader->loadMap("france.map");
-map3->validate();
+//Map* map3 = loader->loadMap("Map/france.map");
+//map3->validate();
 
 
 
 
 // Prints continents of map
-cout<< "\nContinents : "<<endl;
+/*cout<< "\nContinents : "<<endl;
 for(auto it: map->getContinents()){
     cout<<it->getName()<<endl;
 } 

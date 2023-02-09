@@ -101,8 +101,8 @@ void Territory:: operator =(const Territory& rhs){
     // this->owner = new Player(*rhs.owner);       remove the comment once the player.h file is included 
 }
 
-ostream& operator <<(ostream& output, const Territory& t){
-    output << t.name;
+ostream& operator <<(ostream& output,  Territory& t){
+    output << t.getName();
     return output; 
 }
 
@@ -191,8 +191,8 @@ Continent:: ~Continent(){
     delete this;
 }
 
-ostream& operator<<(ostream& output, const Continent& c){
-    output << c.name;
+ostream& operator<<(ostream& output,  Continent& c){
+    output << c.getName();
     return output;
 }
 
@@ -366,8 +366,8 @@ Map:: ~Map(){
     delete this; 
 }
 
-ostream& operator << (ostream& output, const Map& m){
-    output<<m.name;
+ostream& operator << (ostream& output,  Map& m){
+    output<<m.getName();
     return output;
 }
 
@@ -386,7 +386,7 @@ MapLoader :: MapLoader(const MapLoader& copy){}
 
 void MapLoader:: operator=(const MapLoader & map) {}
 
-ostream& operator <<(ostream& output, const MapLoader & map){}
+ostream& operator <<(ostream& output,  MapLoader & map){}
 
 MapLoader:: ~MapLoader() {delete this;}
 
@@ -401,7 +401,8 @@ vector <string> MapLoader:: split(string readLine){
 }
 
 Map* MapLoader:: loadMap(string file){
-    cout<<"\nLoading map: "<<file<<endl;
+    string fileName = file.substr((file.find("/")) + 1, file.length());
+    cout<<"\nLoading map: "<<fileName<<endl;
     Map* map = new Map();
     ifstream inputStream;
     string extension = file.substr(file.find("."), file.length());
