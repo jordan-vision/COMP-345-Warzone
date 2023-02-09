@@ -1,5 +1,4 @@
 #include "Cards.h"
-#include "Cards.cpp"
 
 int main() {
 
