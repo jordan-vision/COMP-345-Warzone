@@ -54,26 +54,26 @@ for (int i = 0; i < territoriesAttack.size(); i++)
 return attackList;
 }
 
-void Player::issueOrder(OrdersList* order)
-{
-std::vector<OrdersList*> orderList;
-for (int i = 0; i < orders.size(); i++)
-{
-  orderList.push_back(orders[i]);
-}
-orderList.push_back(order);
-this->orders = orderList;
-}
+// void Player::issueOrder(OrdersList* order)
+// {
+// std::vector<OrdersList*> orderList;
+// for (int i = 0; i < orders.size(); i++)
+// {
+//   orderList.push_back(orders[i]);
+// }
+// orderList.push_back(order);
+// this->orders = orderList;
+// }
 
-//declaration of handOfCards() method
-std::vector<Hand*> Player::handOfCards()
-{
-std::vector<Hand*> cardList;
-//The loop iterates through cards and every time it iterates, 
-//the name of the card that the Hand pointer is on gets added to the list
-for (int i = 0; i < cards.size(); i++)
-{
-  cardList.push_back(cards[i]);
-}
-return cards;
-}
+// //declaration of handOfCards() method
+// std::vector<Hand*> Player::handOfCards()
+// {
+// std::vector<Hand*> cardList;
+// //The loop iterates through cards and every time it iterates, 
+// //the name of the card that the Hand pointer is on gets added to the list
+// for (int i = 0; i < cards.size(); i++)
+// {
+//   cardList.push_back(cards[i]);
+// }
+// return cards;
+// }

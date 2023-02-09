@@ -29,13 +29,12 @@ int main()
     Airlift airlift;
     Negotiate negotiate;
 
-(*player.myOrders).add(&deploy);
-(*player.myOrders).add(&advance);
-(*player.myOrders).add(&bomb);
-(*player.myOrders).add(&blockade);
-(*player.myOrders).add(&airlift);
-(*player.myOrders).add(&negotiate);
-
+    (*player.myOrders).add(&deploy);
+    (*player.myOrders).add(&advance);
+    (*player.myOrders).add(&bomb);
+    (*player.myOrders).add(&blockade);
+    (*player.myOrders).add(&airlift);
+    (*player.myOrders).add(&negotiate);
 
 
     std::cout << "\nTerritories to defend: " << std::endl;
@@ -55,4 +54,5 @@ int main()
     std::cout << "\nIssued orders: " << std::endl;
     (*player.myOrders).printOrdersList();
 
-}
+return 0;
+};

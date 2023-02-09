@@ -5,7 +5,6 @@
 #include <string>
 #include "Cards.h"
 #include "Orders.h"
-#include "Orders.cpp"
 
 //Territory class with getName() function in order to take the name from the vector
 class Territory {
@@ -27,21 +26,22 @@ public:
     Player(std::vector<Territory*> territoriesDefend, std::vector<Territory*> territoriesAttack);
     //Copy Constructor passing parameter p
     Player(const Player& p);
-    OrdersList* myOrders;
-
     //method named toDefend() that return a list of territories that are to be defend - const so it cannot be modified
     std::vector<Territory*> toDefend() ;
     //method named toAttack() that returns a list of territories that are to be attacked  - const so it cannot be modified
     std::vector<Territory*> toAttack() ;
-    //method named issueOrder() that creates an Order object and puts it in the player’s list of orders (takes a vector of pointers)
+    //creating an order object called myOrders
+    OrdersList* myOrders;
+    //method named issueOrder() 
     void issueOrder(OrdersList* order);
-    //method named cards() that return a list of the hand of cards  - const so it cannot be modified
-    std::vector<Hand*> handOfCards() ;
+    //creating a hand of cards called myHand
+    Hand* myHand;
+    
 
 private:
     std::vector<Territory*> territoriesDefend;
     std::vector<Territory*> territoriesAttack;
     std::vector<OrdersList*> orders;
-    std::vector<Hand*> cards;
+    
 };
  #endif
