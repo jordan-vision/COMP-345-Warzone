@@ -10,7 +10,7 @@ int main () {
 
 // Example of a valid map file 
 MapLoader* loader = new MapLoader();
-Map* map = loader->loadMap("Map/solar.map");              
+Map* map = loader->loadMap("solar.map");              
 map->validate();
 
 //cout<<"Fist map done"<<endl;
@@ -25,7 +25,7 @@ map->validate();
 
 
 // Prints continents of map
-/*cout<< "\nContinents : "<<endl;
+cout<< "\nContinents : "<<endl;
 for(auto it: map->getContinents()){
     cout<<it->getName()<<endl;
 } 

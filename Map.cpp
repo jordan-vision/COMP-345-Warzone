@@ -401,8 +401,7 @@ vector <string> MapLoader:: split(string readLine){
 }
 
 Map* MapLoader:: loadMap(string file){
-    string fileName = file.substr((file.find("/")) + 1, file.length());
-    cout<<"\nLoading map: "<<fileName<<endl;
+    cout<<"\nLoading map: "<<file<<endl;
     Map* map = new Map();
     ifstream inputStream;
     string extension = file.substr(file.find("."), file.length());
