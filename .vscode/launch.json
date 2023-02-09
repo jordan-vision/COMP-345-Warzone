@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/allysteinberg/Desktop/COMP_345/COMP-345-Warzone",
+      "program": "/Users/allysteinberg/Desktop/COMP_345/COMP-345-Warzone/build/Debug/outDebug"
+    }
+  ]
+}

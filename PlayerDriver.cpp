@@ -7,13 +7,13 @@
 
 int main()
 {
-    std::vector<Territory*> territoriesDefend;
+    vector<Territory*> territoriesDefend;
     territoriesDefend.push_back(new Territory("Quebec"));
     territoriesDefend.push_back(new Territory("Ontario"));
     territoriesDefend.push_back(new Territory("Alberta"));
     territoriesDefend.push_back(new Territory("Alaska"));
 
-    std::vector<Territory*> territoriesAttack;
+    vector<Territory*> territoriesAttack;
     territoriesAttack.push_back(new Territory("Mexico"));
     territoriesAttack.push_back(new Territory("Argentina"));
     territoriesAttack.push_back(new Territory("Brazil"));
@@ -37,22 +37,24 @@ int main()
     (*player.myOrders).add(&negotiate);
 
 
-    std::cout << "\nTerritories to defend: " << std::endl;
-    std::vector<Territory*> defendList = player.toDefend();
+    cout << "\nTerritories to defend: " << std::endl;
+    vector<Territory*> defendList = player.toDefend();
     for (int i = 0; i < defendList.size(); i++)
     {
-        std::cout << defendList[i]->getName() << std::endl;
+        cout << defendList[i]->getName() << std::endl;
     }
 
-    std::cout << "\nTerritories to attack: " << std::endl;
-    std::vector<Territory*> attackList = player.toAttack();
+    cout << "\nTerritories to attack: " << std::endl;
+    vector<Territory*> attackList = player.toAttack();
     for (int i = 0; i < attackList.size(); i++)
     {
-        std::cout << attackList[i]->getName() << std::endl;
+        cout << attackList[i]->getName() << std::endl;
     }
 
-    std::cout << "\nIssued orders: " << std::endl;
+    cout << "\nIssued orders: " << std::endl;
+    player.issueOrder();
     (*player.myOrders).printOrdersList();
+    
 
 return 0;
 };
