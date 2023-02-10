@@ -1,3 +1,5 @@
 .vscode/settings.json
 Orders/a.exe
 a.exe
+.vscode/c_cpp_properties.json
+.vscode/tasks.json
