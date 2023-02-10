@@ -7,14 +7,14 @@
 /*                              OrdersList Class                              */
 /* -------------------------------------------------------------------------- */
 
-OrdersList::OrdersList() {
-	vector<Order*> vectorOfOrders;
+OrdersList::OrdersList() { // default constructor 
+	vector<Order*> vectorOfOrders; // initialize vector of orders 
 }
 
-OrdersList::OrdersList(OrdersList& copy){
+OrdersList::OrdersList(OrdersList& copy){ // copy constructor
 }
 
-void OrdersList::printOrdersList(){
+void OrdersList::printOrdersList(){ // prints vector contents 
 	int counter = 0;
 	cout << "Printing List of Orders..." << endl;
 	for (const auto o : vectorOfOrders) {
@@ -24,14 +24,14 @@ void OrdersList::printOrdersList(){
 	cout << endl;
 }
 
-void OrdersList::remove(int i) 
+void OrdersList::remove(int i) // removes order at position i
 { 
 	cout << "Erasing order at position " << i << "..." << endl;
 	cout << endl;
 	vectorOfOrders.erase(vectorOfOrders.begin() + i); 
 }
 
-void OrdersList::move(int from, int to) { 
+void OrdersList::move(int from, int to) { // moves order from position <from> to position <to>
 	cout << "Moving order from position " << from << " to position " << to << endl;
 	cout << endl;
 	swap(vectorOfOrders[from], vectorOfOrders[to]);
@@ -42,20 +42,20 @@ void OrdersList::move(int from, int to) {
 /*                                 Order Class                                */
 /* -------------------------------------------------------------------------- */
 
-Order::Order()
+Order::Order() // default constructor
 {
 	orderEffect = "Order has been placed on order list. Nothing happened yet";
 }
 
-Order::Order(Order& copy){
+Order::Order(Order& copy){ // copy constructor
 	orderEffect = copy.orderEffect;
 }
 
-string Order::getOrderEffect(){
+string Order::getOrderEffect(){ // getter for orderEffect 
 	return orderEffect;
 }
 
-ostream& operator<<(ostream &out, Order& o) { //display effect of Order
+ostream& operator<<(ostream &out, Order& o) { //displays description and effect of Order
 	cout << "Here is information for order of type " << typeid(o).name() << ":" << endl;
 	out << "--- Order description: ---" << endl;
 	out << o.getDescription() << endl; 
@@ -73,9 +73,11 @@ Deploy::Deploy(){ //contructor
 }
 
 Deploy::Deploy(Deploy& copy){ //copy constructor
+	orderEffect = copy.orderEffect;
 }
 
-Deploy& Deploy::operator=(const Deploy& a){ //assignment operator
+Deploy& Deploy::operator=(const Deploy& d){ //assignment operator
+	orderEffect = d.orderEffect;
 	return *this;
 }
 
@@ -90,7 +92,7 @@ void Deploy::execute(){
 }
 
 bool Deploy::validate(){
-	return true; 
+	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
 }
 
 string Deploy::getDescription() 
@@ -112,11 +114,12 @@ Advance::Advance(){
 
 }
 
-Advance::Advance(Advance& copy){
-
+Advance::Advance(Advance& copy){ // copy constructor 
+	orderEffect = copy.orderEffect;
 }
 
 Advance& Advance::operator=(const Advance& a){ //assignment operator
+	orderEffect = a.orderEffect;
 	return *this;
 }
 
@@ -131,7 +134,7 @@ void Advance::execute(){
 }
 
 bool Advance::validate(){
-	return true; // logic to be implemented, currrently returning true for testing purposes 
+	return true; // TODO: logic to be implemented, currrently returning true for testing purposes  
 }
 
 string Advance::getDescription()
@@ -153,11 +156,12 @@ Bomb::Bomb(){
 
 }
 
-Bomb::Bomb(Bomb& b){
-
+Bomb::Bomb(Bomb& copy){ // copy constructor
+	orderEffect = copy.orderEffect;
 }
 
-Bomb& Bomb::operator=(const Bomb& a){ //assignment operator
+Bomb& Bomb::operator=(const Bomb& b){ //assignment operator
+	orderEffect = b.orderEffect;
 	return *this;
 }
 
@@ -172,7 +176,7 @@ void Bomb::execute(){
 }
 
 bool Bomb::validate(){
-	return true; // logic to be implemented, currrently returning true for testing purposes 
+	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
 }
 
 string Bomb::getDescription(){
@@ -193,11 +197,13 @@ Blockade::Blockade(){
 
 }
 
-Blockade::Blockade(Blockade& b){
+Blockade::Blockade(Blockade& copy){ // copy constructor
+	orderEffect = copy.orderEffect;
 
 }
 
 Blockade& Blockade::operator=(const Blockade& b){ //assignment operator
+	orderEffect = b.orderEffect;
 	return *this;
 }
 
@@ -211,7 +217,7 @@ void Blockade::execute(){
 	}
 }
 bool Blockade::validate(){
-	return true; // logic to be implemented, currrently returning true for testing purposes 
+	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
 }
 
 string Blockade::getDescription(){
@@ -231,11 +237,12 @@ string Blockade::getDescription(){
 Airlift::Airlift(){
 
 }
-Airlift::Airlift(Airlift& a){
-
+Airlift::Airlift(Airlift& copy){ // copy constructor
+	orderEffect = copy.orderEffect;
 }
 
 Airlift& Airlift::operator=(const Airlift& a){ //assignment operator
+	orderEffect = a.orderEffect;
 	return *this;
 }
 
@@ -249,7 +256,7 @@ void Airlift::execute(){
 	}
 }
 bool Airlift::validate(){
-	return true; // logic to be implemented, currrently returning true for testing purposes 
+	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
 }
 
 string Airlift::getDescription(){
@@ -270,11 +277,12 @@ Negotiate::Negotiate(){
 
 }
 
-Negotiate::Negotiate(Negotiate& n){
-
+Negotiate::Negotiate(Negotiate& copy){ //copy constructor 
+	orderEffect = copy.orderEffect;
 }
 
-Negotiate& Negotiate::operator=(const Negotiate& a){ //assignment operator
+Negotiate& Negotiate::operator=(const Negotiate& n){ //assignment operator
+	orderEffect = n.orderEffect;
 	return *this;
 }
 
@@ -288,7 +296,7 @@ void Negotiate::execute(){
 	}
 }
 bool Negotiate::validate(){
-	return true; // logic to be implemented, currrently returning true for testing purposes 
+	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
 }
 
 string Negotiate::getDescription(){

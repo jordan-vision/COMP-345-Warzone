@@ -25,6 +25,7 @@ main()
    ol.printOrdersList();
 
    // demonstrate use of remove order
+   cout << "***************** Remove Order demo *****************" << endl;
    ol.remove(1); 
 
    ol.printOrdersList();
@@ -40,13 +41,18 @@ main()
    cout << bl << endl;
 
    // Demonstrate use of copy constructor
+   cout << "***************** Copy Constructor demo *****************" << endl;
    Negotiate n2;
+   n2.execute();
    Negotiate n1 = n2;
+   cout << n1 << endl;
 
    // Demonstrate use of assignment operator
-   Negotiate n3;
-   n3 = n1;
+   cout << "***************** Assignment operator demo *****************" << endl;
+   Blockade n3;
+   n3 = bl;
 
+   cout << n3 << endl;
    
 
 }
