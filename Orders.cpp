@@ -18,7 +18,8 @@ void OrdersList::printOrdersList(){ // prints vector contents
 	int counter = 0;
 	cout << "Printing List of Orders..." << endl;
 	for (const auto o : vectorOfOrders) {
-        cout << "The order at position " << counter << " in the list of orders is : " << typeid(*o).name() << " " << endl;
+		string str = typeid(*o).name();
+        cout << "The order at position " << counter << " in the list of orders is : " << str.substr(1) << " " << endl;
 		counter++;
     }
 	cout << endl;
