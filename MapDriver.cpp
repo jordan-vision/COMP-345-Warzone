@@ -8,44 +8,50 @@ using std:: cout;
 
 int main () {
 
-// Example of a valid map file 
+
+cout<<"**** MAP SECTION ****"<<endl;
+
 MapLoader* loader = new MapLoader();
-Map* map = loader->loadMap("solar.map");              
-map->validate();
 
-//cout<<"Fist map done"<<endl;
-// Example of a map file that isn't located in the current folder
-//Map* map2 = loader->loadMap("MiddleEast-Qatar.map");
+// Example of a map file that doesn't exist
+Map* map1 = loader->loadMap("house.map");
 
-// Example of a map file that is not valid
-//Map* map3 = loader->loadMap("Map/france.map");
-//map3->validate();
+// Examples of both valid/invalid map files
+Map* map2 = loader->loadMap("Chrono_Trigger.map");        
+map2->validate();
+Map* map3 = loader->loadMap("periodict.map");         
+map3->validate();
+Map* map4 = loader->loadMap("solar.map");      
+map4->validate();
+Map* map5 = loader->loadMap("europe.map");      
+map5->validate();
 
 
 
-
-// Prints continents of map
-cout<< "\nContinents : "<<endl;
-for(auto it: map->getContinents()){
+// Prints continents of map 5 - europe.map
+cout<< "\nContinents in map [europe.map]:"<<endl;
+for(auto it: map5->getContinents()){
     cout<<it->getName()<<endl;
 } 
 
 
-// Prints territories of a continent
-for(auto continent: map->getContinents()){
+// Prints territories of a continent in map 5 - europe.map
+for(auto continent: map5->getContinents()){
     cout<<"\nContinent "<<continent->getName()<<" has territories: "<<endl;
     for(auto territory: continent->getTerritories()){
-        cout<<" "<<territory->getName();
+        cout<<territory->getName()<<endl;
     }
 }
 
-// The code below is just to show the adjacent territories if needed for testing purposes
+// Prints adjacent territories of some territories in map 5 - europe.map
 
-/*for (auto ter : map->getTeritories()){
-    cout<<"\nTerritory "<<ter->getName()<<"has these adjacent territories: "<<endl;
-    for (auto adj : ter->getAdjacentTerritories()){
-        cout<<adj->getName();
+for (int i = 0; i <= 3 ; i++){
+    cout<<"\nTerritory "<<map5->getTeritories()[i]->getName()<<" has these adjacent territories: "<<endl;
+    for(int j = 0; j < map5->getTeritories()[i]->getAdjacentTerritories().size(); j++){
+        cout<<map5->getTeritories()[i]->getAdjacentTerritories()[j]->getName()<<endl;
     }
-}*/
+}
+
+cout<<"\n**** MAP END ****"<<endl;
 
 }
