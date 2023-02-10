@@ -64,19 +64,54 @@ vector<Territory*> attackList;
   return attackList;
 }
 
-//issurOrder() method
-void Player::issueOrder()  
+void Player::issueOrder(string orderType)
 {
-  // Order *newOrder = new Order;
-  // myOrders.add(*newOrder);
+int orderCount = 0; // Keep track of the number of orders
+    if (orderType == "Deploy")
+{
+    Deploy deploy;
+    myOrders->add(&deploy);
+    ++orderCount;
+}
+else if (orderType == "Advance")
+{
+    Advance advance;
+    myOrders->add(&advance);
+    ++orderCount;
+}
+else if (orderType == "Bomb")
+{
+    Bomb bomb;
+    myOrders->add(&bomb);
+    ++orderCount;
+}
+else if (orderType == "Blockade")
+{
+    Blockade blockade;
+    myOrders->add(&blockade);
+    ++orderCount;
+}
+else if (orderType == "Airlift")
+{
+    Airlift airlift;
+    myOrders->add(&airlift);
+    ++orderCount;
+}
+else if (orderType == "Negotiate")
+{
+    Negotiate negotiate;
+    myOrders->add(&negotiate);
+    ++orderCount;
+}
+else
+{
+    cout << "Invalid order type" << endl;
+    return;
+}
 
-  // Deploy *newOrder = new Deploy;
-  // Advance *newOrder = new Advance;
-  Bomb *newOrder = new Bomb;
-  // Blockade *newOrder = new Blockade;
-  // Airlift *newOrder = new Airlift;
-  // Negotiate *newOrder = new Negotiate;
-  myOrders->add(new Bomb());
+// Print the type of the order that was just added
+cout << "Order type: " << orderType << endl;
+
 }
 
 

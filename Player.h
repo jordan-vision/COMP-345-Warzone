@@ -39,7 +39,7 @@ class Player
         //creating an order object called myOrders
         OrdersList* myOrders;
         //method named issueOrder() 
-        void issueOrder();
+        void issueOrder(string orderType);
         //creating a hand of cards called myHand
         Hand* myHand;
     private:

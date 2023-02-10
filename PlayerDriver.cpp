@@ -20,6 +20,7 @@ int main()
     territoriesAttack.push_back(new Territory("Brazil"));
     territoriesAttack.push_back(new Territory("Venezuela"));
 
+
     //create a player
     Player player(territoriesDefend, territoriesAttack);
 
@@ -37,24 +38,30 @@ int main()
         cout << attackList[i]->getName() << endl;
     }
 
-    Deploy deploy;
-    Advance advance;
-    Bomb bomb;
-    Blockade blockade;
-    Airlift airlift;
-    Negotiate negotiate;
+// OrdersList ordersList;
 
-    (*player.myOrders).add(&deploy);
-    (*player.myOrders).add(&advance);
-    (*player.myOrders).add(&bomb);
-    (*player.myOrders).add(&blockade);
-    (*player.myOrders).add(&airlift);
-    (*player.myOrders).add(&negotiate);
+// Deploy deploy;
+// Advance advance;
+// Bomb bomb;
+// Blockade blockade;
+// Airlift airlift;
+// Negotiate negotiate;
 
-    cout << "\nIssued orders: " << endl;
-    player.issueOrder();
-    (*player.myOrders).printOrdersList();
-    
+// ordersList.add(&deploy);
+// ordersList.add(&advance);
+// ordersList.add(&bomb);
+// ordersList.add(&blockade);
+// ordersList.add(&airlift);
+// ordersList.add(&negotiate);
+
+cout << "\nIssued orders: " << endl;
+player.issueOrder("Deploy");
+player.issueOrder("Advance");
+player.issueOrder("Bomb");
+player.issueOrder("Blockade");
+player.issueOrder("Airlift");
+player.issueOrder("Negotiate");
+
 
 return 0;
 };
