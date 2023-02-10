@@ -29,9 +29,10 @@ map5->validate();
 
 
 // Prints continents of map 5 - europe.map
+// I'm trying to print out the continent object but I get its address instead of its name 
 cout<< "\nContinents in map [europe.map]:"<<endl;
 for(auto it: map5->getContinents()){
-    cout<<it->getName()<<endl;
+    cout<<it<<endl;
 } 
 
 
