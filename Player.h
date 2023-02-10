@@ -7,6 +7,7 @@ using std:: endl;
 using std:: cout; 
 using std:: vector;
 using std:: string; 
+using std:: ostream;
 //defining class
 class OrdersList;
 class Hand;
@@ -17,6 +18,8 @@ class Territory
     public:
         Territory(string territoryName) : name(territoryName) {}
         string getName() const { return name; }
+        //insertion operator
+        friend ostream& operator<<(ostream& output, Territory&  t);  
     private:
         string name;
 };
@@ -42,6 +45,9 @@ class Player
         void issueOrder(string orderType);
         //creating a hand of cards called myHand
         Hand* myHand;
+        //insertion operator
+        friend ostream& operator<<(ostream& output, Player& );  
+
     private:
         vector<Territory*> territoriesDefend;
         vector<Territory*> territoriesAttack;
