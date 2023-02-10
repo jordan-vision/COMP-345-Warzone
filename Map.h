@@ -128,8 +128,13 @@ public:
 };
 
 class MapLoader{
+private: 
+    string name;
 public: 
 
+
+    string getName();
+    void setName();
     MapLoader();       
 
     MapLoader(const MapLoader& copy);   

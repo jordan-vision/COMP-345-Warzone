@@ -370,18 +370,29 @@ ostream& operator << (ostream& output,  Map& m){
 ////////////  MAPLOADER CLASS SECTION  /////////////
 
 
-// Most of the functions for this class are empty because this class has no data members 
-// The MapLoader class is used only to generate a map, therefore there is no need to make other functions
-// I implemented/declared these functions despite them being empty becuase the grading sheet specifies that ALL classes should contain certain functions, so I did included those just in case. 
+void MapLoader:: setName(){
+    this->name = name;
+}
 
+string MapLoader:: getName(){
+    return name;
+}
+MapLoader:: MapLoader(){
+    name = "";
+}
 
-MapLoader:: MapLoader(){};
+MapLoader :: MapLoader(const MapLoader& copy){
+    this->name = copy.name;
+}
 
-MapLoader :: MapLoader(const MapLoader& copy){}
+void MapLoader:: operator=(const MapLoader & rhs) {
+    this-> name = rhs.name;
+}
 
-void MapLoader:: operator=(const MapLoader & map) {}
-
-ostream& operator <<(ostream& output,  MapLoader & map){}
+ostream& operator <<(ostream& output,  MapLoader & map){
+    output<<map.getName()<<endl;
+    return output;
+}
 
 MapLoader:: ~MapLoader() {delete this;}
 
