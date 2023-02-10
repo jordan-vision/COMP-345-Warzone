@@ -1,9 +1,9 @@
 #include "Player.h"
+#include "Orders.h"
 #include <iostream>
 #include <vector>
 #include <string>
 
-using namespace std;
 
 //Default constructor - initialize the player
 Player::Player() 
@@ -26,7 +26,6 @@ Player::Player(vector<Territory*> territoriesDefend, vector<Territory*> territor
  {
   this->territoriesDefend = territoriesDefend;
   this->territoriesAttack = territoriesAttack;
-  this->myOrders = new OrdersList();
  }
 
 //Copy Constructor passing parameter p
@@ -68,9 +67,12 @@ vector<Territory*> attackList;
 //issurOrder() method
 void Player::issueOrder()  
 {
+  // Order *newOrder = new Order;
+  // myOrders.add(*newOrder);
+
   // Deploy *newOrder = new Deploy;
   // Advance *newOrder = new Advance;
-  // Bomb *newOrder = new Bomb;
+  Bomb *newOrder = new Bomb;
   // Blockade *newOrder = new Blockade;
   // Airlift *newOrder = new Airlift;
   // Negotiate *newOrder = new Negotiate;

@@ -1,9 +1,10 @@
 #include "Player.h"
-#include "Cards.h"
 #include "Orders.h"
 #include <iostream>
 #include <vector>
 #include <string>
+
+using namespace std;
 
 int main()
 {
@@ -22,6 +23,20 @@ int main()
     //create a player
     Player player(territoriesDefend, territoriesAttack);
 
+    cout << "\nTerritories to defend: " << endl;
+    vector<Territory*> defendList = player.toDefend();
+    for (int i = 0; i < defendList.size(); i++)
+    {
+        cout << defendList[i]->getName() << endl;
+    }
+
+    cout << "\nTerritories to attack: " << endl;
+    vector<Territory*> attackList = player.toAttack();
+    for (int i = 0; i < attackList.size(); i++)
+    {
+        cout << attackList[i]->getName() << endl;
+    }
+
     Deploy deploy;
     Advance advance;
     Bomb bomb;
@@ -36,22 +51,7 @@ int main()
     (*player.myOrders).add(&airlift);
     (*player.myOrders).add(&negotiate);
 
-
-    cout << "\nTerritories to defend: " << std::endl;
-    vector<Territory*> defendList = player.toDefend();
-    for (int i = 0; i < defendList.size(); i++)
-    {
-        cout << defendList[i]->getName() << std::endl;
-    }
-
-    cout << "\nTerritories to attack: " << std::endl;
-    vector<Territory*> attackList = player.toAttack();
-    for (int i = 0; i < attackList.size(); i++)
-    {
-        cout << attackList[i]->getName() << std::endl;
-    }
-
-    cout << "\nIssued orders: " << std::endl;
+    cout << "\nIssued orders: " << endl;
     player.issueOrder();
     (*player.myOrders).printOrdersList();
     
