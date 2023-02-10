@@ -3,12 +3,11 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include "Cards.h"
-#include "Orders.h"
 using std:: endl;
 using std:: cout; 
 using std:: vector;
 using std:: string; 
+using std:: ostream;
 //defining class
 class OrdersList;
 class Hand;
@@ -19,6 +18,8 @@ class Territory
     public:
         Territory(string territoryName) : name(territoryName) {}
         string getName() const { return name; }
+        //insertion operator
+        friend ostream& operator<<(ostream& output, Territory&  t);  
     private:
         string name;
 };
@@ -41,9 +42,12 @@ class Player
         //creating an order object called myOrders
         OrdersList* myOrders;
         //method named issueOrder() 
-        void issueOrder();
+        void issueOrder(string orderType);
         //creating a hand of cards called myHand
         Hand* myHand;
+        //insertion operator
+        friend ostream& operator<<(ostream& output, Player& );  
+
     private:
         vector<Territory*> territoriesDefend;
         vector<Territory*> territoriesAttack;

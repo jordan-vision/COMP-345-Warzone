@@ -312,28 +312,24 @@ void Map:: mapTraversal(Territory* current, vector <Territory*> &visitedTerritor
 void Map:: validate(){
 
 // This block checks if a territory belongs to only one continent, no duplicates are allowed
-
-    for(int i = 0; i < continents.size(); i++){
-        for(int j = 0; j < continents[i]->getTerritories().size(); j++){
-            for(int r = 1 + i; r < continents.size(); r++){
-                for(int s = 1 + j; s < continents[r]->getTerritories().size(); s++){
-                    if (continents[i]->getTerritories()[j] == continents[r]->getTerritories()[s]){
-                        cout<<"\nTerritory belongs to more than one continent. Map is invalid. "<<endl;
-                        return; 
-                    }
-                }
+    for(int i = 0; i < territories.size(); i++){
+        for (int j = 1 + i; j < territories.size(); j++){
+            if (territories[i]->getName() == territories[j]->getName()){
+                cout<<"Error. Duplicate territory ["<<territories[i]->getName()<<"] "<<"was found. Invalid map."<<endl;
+                return;
             }
         }
     }
 
+
 // The mapTraversal method with 2 arguments checks if the map is connected as a whole
 // this method checks if all territories in the map can be reached from one territory (starting point)
     
-    bool mapConnected = false;
+  
     vector <Territory*> visitedTerritories; 
     mapTraversal(this->territories[0], visitedTerritories);
     if (visitedTerritories.size() != this->territories.size()) {
-        cout<<"\nThis map is not connected: Invalid map. "<<endl;
+        cout<<"This map is not connected: Invalid map. "<<endl;
         return;
     } 
 
@@ -342,16 +338,15 @@ void Map:: validate(){
 // if we can reach the other territories that belong to the same continent
 
     visitedTerritories.clear();
-
     for (auto it: continents) {
         mapTraversal(it->getTerritories()[0], visitedTerritories, it->getName());
         if (visitedTerritories.size() != it->getTerritories().size()){
-            cout<<"\nThis map is not a connected subgraph: Invalid map. "<<endl;
+            cout<<"This map is not a connected subgraph: Invalid map. "<<endl;
             return;
         }
         visitedTerritories.clear();
     }
-    cout<<"\nThe map is connected and is a subgraph: Valid map. "<<endl;
+    cout<<"The map is connected and is a subgraph: Valid map. "<<endl;
 }
 
 Map:: ~Map(){
