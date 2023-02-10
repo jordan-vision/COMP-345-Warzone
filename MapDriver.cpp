@@ -32,24 +32,24 @@ map5->validate();
 // I'm trying to print out the continent object but I get its address instead of its name 
 cout<< "\nContinents in map [europe.map]:"<<endl;
 for(auto it: map5->getContinents()){
-    cout<<it<<endl;
+    cout<<*it<<endl;
 } 
 
 
 // Prints territories of a continent in map 5 - europe.map
 for(auto continent: map5->getContinents()){
-    cout<<"\nContinent "<<continent->getName()<<" has territories: "<<endl;
+    cout<<"\nContinent "<<*continent<<" has territories: "<<endl;
     for(auto territory: continent->getTerritories()){
-        cout<<territory->getName()<<endl;
+        cout<<*territory<<endl;
     }
 }
 
 // Prints adjacent territories of some territories in map 5 - europe.map
 
 for (int i = 0; i <= 3 ; i++){
-    cout<<"\nTerritory "<<map5->getTeritories()[i]->getName()<<" has these adjacent territories: "<<endl;
+    cout<<"\nTerritory "<<*map5->getTeritories()[i]<<" has these adjacent territories: "<<endl;
     for(int j = 0; j < map5->getTeritories()[i]->getAdjacentTerritories().size(); j++){
-        cout<<map5->getTeritories()[i]->getAdjacentTerritories()[j]->getName()<<endl;
+        cout<<*map5->getTeritories()[i]->getAdjacentTerritories()[j]<<endl;
     }
 }
 
