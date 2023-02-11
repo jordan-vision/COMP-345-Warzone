@@ -13,8 +13,6 @@ using namespace std;
 
 class Order; 
 
-typedef shared_ptr<Order> OrderPtr; //defining a shared pointer type to not worry about destructors 
-
 /* -------------------------------------------------------------------------- */
 /*                              OrdersList Class                              */
 /* -------------------------------------------------------------------------- */
@@ -22,13 +20,14 @@ typedef shared_ptr<Order> OrderPtr; //defining a shared pointer type to not worr
 class OrdersList{
 private:
     vector<Order*> vectorOfOrders; 
-    OrdersList(OrdersList& copy); // copy constructor of OrderList is made private to not allow copying 
 public:
     OrdersList();
+    OrdersList(OrdersList& copy);
     void add(Order* o) { vectorOfOrders.push_back(o); }
     void printOrdersList();
     void remove(int i);
     void move(int from, int to);
+    ~OrdersList();
 
 };
 
@@ -42,6 +41,7 @@ protected:
     string orderEffect;
 public:
     Order();
+    ~Order();
     Order(Order& copy); // copy constructor of Order
     string getOrderEffect();
     friend ostream& operator<<(ostream &out, Order& o);
@@ -57,6 +57,7 @@ protected:
     virtual string getDescription();
 public:    
     Deploy();
+    ~Deploy();
     Deploy(Deploy& copy); // copy constructor
     Deploy& operator=(const Deploy& d); // assignment operator
     bool validate();
