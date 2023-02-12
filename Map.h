@@ -6,6 +6,8 @@ class Player;
 class Continent; 
 
 
+
+ /*                                       *************  TERRITORY CLASS  *************                                       */
 class Territory {
 private: 
     string name;
@@ -17,6 +19,7 @@ private:
     vector <Territory*> adjacentTerritories;
 
 public: 
+// GETTERS                                               
     string getName();                                    
     int getArmy();                                      
     Player* getOwner();                                   
@@ -25,8 +28,8 @@ public:
     int getTerritoryID();     
     vector <Territory*> getAdjacentTerritories();         
 
-
-    void setName(string name);                           
+// SETTERS
+    void setName(string name);                                         
     void setArmy(int army);                               
     void setOwner(Player* owner);                         
     void setContinent(Continent* inContinent);              
@@ -34,28 +37,27 @@ public:
     void setTerritoryID(int territoryID);      
     void setAdjacentTerritory(Territory* adjacentTerritory);      
 
-    Territory();                                      
+// CONSTRUCTORS
+    Territory();                                          
+    Territory(string name);                                 
     Territory(string name, Continent* inContinent);     
     Territory(string name, int territoryID);                              
-    //Territory(string name, int army, Player* owner);   
 
-    // copy constructor 
+// COPY CONSTRUCTOR
     Territory(const Territory& copy);                     
 
-    // assignment constructor 
+// ASSIGNMENT OPERATOR
     void operator =(const Territory& rhs);                
 
-    //insertion operator 
+// INSERTION OPERATOR
     friend ostream& operator<<(ostream& out, Territory& t);   
 
-    // destructor 
+// DESTRUCTOR
     ~Territory();                     
-
-
-
 
 };
 
+ /*                                       *************  CONTINENT CLASS  *************                                       */
 class Continent {
 private: 
     vector <Territory*> territories; 
@@ -64,33 +66,37 @@ private:
     int id;
 
 public: 
+// GETTERS
     vector <Territory*> getTerritories();     
     string getName();    
     int getBonus();     
     int getID();      
 
+// SETTERS
     void setTerritories(Territory* territory);      
     void setName(string name);          
     void setBonus(int bonus);      
     void setID(int id);   
 
+// CONSTRUCTORS
     Continent();       
     Continent(string name, int bonus, int id);    
 
-    //copy constructor 
+// COPY CONSTRUCTOR
     Continent(const Continent& copy);   
 
-    // assignment constructor 
+// ASSIGNMENT OPERATOR 
     void operator=(Continent& rhs);     
 
+// DESTRUCTOR
     ~Continent();     
 
-    //insertion operator 
+// INSERITON OPERATOR
     friend ostream& operator<<(ostream& output, Continent& c);     
 
 
 };
-
+ /*                                       *************  MAP CLASS  *************                                       */
 class Map {
 private:
     vector <Territory*> territories;
@@ -98,55 +104,67 @@ private:
     string name;
 
 public: 
+// FUNCTIONS
     void validate();       
     void mapTraversal(Territory* current, vector <Territory*> &visitedTerritories);          
     void mapTraversal(Territory* current, vector <Territory*> &visitedTerritories, string name); 
 
+// GETTERS
     vector <Territory*> getTeritories();        
     vector <Continent*> getContinents();        
     string getName();     
 
+// SETTERS
     void setTerritories(Territory* territory);      
     void setContinents(Continent* continent);        
     void setName(string name);     
 
+// CONSTRUCTORS
     Map();          
     Map(string name);
     Map(vector <Territory*> territories, vector <Continent*> continents);      
 
-    //copy constructor 
+// COPY CONSTRUCTOR
     Map(const Map& copy);      
 
-    //assignment constructor 
+// ASSIGNMENT OPERATOR 
     void operator= (const Map& rhs);      
 
-    //destructor 
+// DESTRUCTOR 
     ~Map();                
 
-    //insertion operator 
+// INSERTIO OPERATOR
     friend ostream& operator<< (ostream& output,  Map& m);      
 
 };
-
+  /*                                       *************  MAPLOADER CLASS  *************                                       */
 class MapLoader{
 private: 
     string name;
+
 public: 
+// FUNCTIONS
+    Map* loadMap(string file);    
+    vector <string> split(string readLine);   
 
-
+// GETTER
     string getName();
+
+// SETTER
     void setName();
+
+// CONSTRUCTOR
     MapLoader();       
 
+// COPY CONSTRUCTOR 
     MapLoader(const MapLoader& copy);   
 
-    void operator=(const MapLoader &rhs);      
+// ASSIGNMENT OPERATOR
+    void operator=(const MapLoader &rhs);    
 
-    Map* loadMap(string file);    
-
-    vector <string> split(string readLine);     
-
+// DESTRUCTOR
     ~MapLoader();      
 
+// INSERITON OPERATOR 
     friend ostream& operator<<(ostream& output, MapLoader &m);       
 };

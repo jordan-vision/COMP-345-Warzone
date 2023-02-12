@@ -51,11 +51,12 @@ for (int i = 0; i <= 3 ; i++){
     }
 }
 
-// Calling the map destructor 
+// Calling the map destructor becuase the maps have been dynamically allocated 
+
 cout<<"\nDeleting maps: "<<endl;
 vector <Map*> maps {map1, map2, map3, map4, map5};
 for (auto mapObject : maps){
-    mapObject->~Map();
+    delete(mapObject);
 }
 
 cout<< "Maps deleted. "<<endl;
