@@ -12,7 +12,7 @@ using std:: ostream;
 class OrdersList;
 class Hand;
 
-//Territory class with getName() function in order to take the name from the vector
+//Territory class with getName() function 
 class Territory 
 {
     public:
@@ -35,6 +35,8 @@ class Player
         Player(vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack);
         //Copy Constructor passing parameter p
         Player(const Player& p); 
+         //insertion operator
+        friend ostream& operator<<(ostream& output, Player&);  
         //method named toDefend() that return a list of territories that are to be defend - const so it cannot be modified
         vector<Territory*> toDefend() ;
         //method named toAttack() that returns a list of territories that are to be attacked  - const so it cannot be modified
@@ -45,8 +47,7 @@ class Player
         void issueOrder(string orderType);
         //creating a hand of cards called myHand
         Hand* myHand;
-        //insertion operator
-        friend ostream& operator<<(ostream& output, Player& );  
+       
 
     private:
         vector<Territory*> territoriesDefend;

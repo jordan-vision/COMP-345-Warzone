@@ -9,7 +9,9 @@ using namespace std;
 
 int main()
 {
+    //creating player p
     Player p;
+    //calling methods
     p.toDefend();
     p.toAttack();
     p.issueOrder("Deploy");
