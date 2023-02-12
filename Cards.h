@@ -14,6 +14,7 @@ enum class CardType { Bomb, Reinforcement, Blockade, Airlift, Diplomacy };
 
 
 // Initializes the classes for use in Card class
+class Player;
 class Deck; 
 class Hand; 
 
@@ -51,7 +52,8 @@ class Deck
 
         vector<Card*> deckCards;                                        // Contains Deck Card Pointers
         void fillDeck(int deckSize);                                    // Populates deck with cards
-        void draw(Hand* playerHand);                                    // Draws card to player hand
+
+        Card* drawCard();
         void printDeckOutput();                                         // Prints output of deck 
 };
 
@@ -66,7 +68,7 @@ class Hand
         ~Hand();                                                        // Destructor
         Hand(const Hand &hand);                                         // Copy Constructor
         Hand& operator =(const Hand &hand);                             // Assignment Operator
-        friend ostream& operator <<(ostream& out, const Hand& hand);    // Stream Operator
+        friend ostream& operator <<(ostream& out, const Hand* hand);    // Stream Operator
 
         vector<Card*> handCards;                                        // Contains Hand Card Pointers
 };  

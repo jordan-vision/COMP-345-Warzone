@@ -45,17 +45,15 @@ ostream& operator<<(std::ostream& out, const Deck& deck) {
     return out; 
 }
 
-/******************* DECK DRAW FUNCTION *******************/
-void Deck::draw(Hand* playerHand) {
+Card* Deck::drawCard() {
 
-    // DECK SHUFFLER
     auto randomSeed = std::mt19937(std::random_device{}());     // Generates random seed    (ensures each run will generate new unique shuffle)
     auto random = default_random_engine { randomSeed() };       // Generates random number  
     shuffle(deckCards.begin(), deckCards.end(), random);        // Shuffles vector according to random
 
-    Card* pCard = deckCards.back();             // Stores card pointer from back of deck
-    playerHand->handCards.push_back(pCard);     // Adds card to player hand
-    deckCards.pop_back();                       // Removes card from deck
+    Card* pCard = deckCards.back(); // Store card pointer
+    deckCards.pop_back();           // Remove pointer
+    return pCard;                   // Return card pointer
 };
 
 /******************* DECK FILL FUNCTION *******************/
@@ -135,11 +133,16 @@ ostream& operator<<(std::ostream& out, const Card* card) {
 void Card::play(Player* player, Deck* mainDeck) {
 
     // Adds order to player orders according to string value of cardtype
-    player->issueOrder(CardTypeString[static_cast<int>(*(this->cardType))]);
+    if (CardTypeString[static_cast<int>(*(this->cardType))] == "Diplomacy") {
+        player->issueOrder("Negotiate");
+    } else if (CardTypeString[static_cast<int>(*(this->cardType))] == "Reinforcement") {
+        player->issueOrder("Advance");
+    } else {
+        player->issueOrder(CardTypeString[static_cast<int>(*(this->cardType))]);
+    }
 
     auto element = find(player->myHand->handCards.begin(), player->myHand->handCards.end(), this);  // Finds element
     int elementIndex = distance(player->myHand->handCards.begin(), element);                        // Gets element index
-
     mainDeck->deckCards.push_back(move(this));  // Moves card pointer back to deck
     player->myHand->handCards.erase(element);   // Erases card pointer from hand
 };
@@ -156,8 +159,11 @@ Hand::Hand() : handCards() {
 /******************** HAND DESTRUCTOR *******************/
 Hand::~Hand() {
 
-    for (Card* card : handCards) 
-        delete card;    
+    for (Card* card : handCards)  {
+        delete card;  
+        card = nullptr;
+    }
+          
 };
 
 /***************** HAND COPY CONSTRUCTOR *****************/
@@ -175,12 +181,12 @@ Hand& Hand::operator =(const Hand &hand) {
 };
 
 /***************** HAND STREAM OPERATOR *****************/
-ostream& operator<<(std::ostream& out, const Hand& hand) {
+ostream& operator<<(std::ostream& out, const Hand* hand) {
 
     out << setw(15) << "------------------ Player Hand ------------------ \n";
     out << left << setw(15) << "Card Type" << left << setw(20)<< "Card Reference" << left << setw(20) << "Type Reference" << endl;
-    for (int i = 0; i < hand.handCards.size(); i++)
-        out << hand.handCards[i];
+    for (int i = 0; i < hand->handCards.size(); i++)
+        out << hand->handCards[i];
 
     return out; 
 };
