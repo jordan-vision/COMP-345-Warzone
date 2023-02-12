@@ -18,6 +18,7 @@ Player::~Player() {
     for (Territory* ta : territoriesAttack) 
         delete ta; 
     delete myOrders;
+    delete myHand;
 };
 
 //Constructor that initializes the player's collection of territories, hand of cards, and the list of orders
