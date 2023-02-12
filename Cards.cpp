@@ -134,9 +134,10 @@ ostream& operator<<(std::ostream& out, const Card* card) {
 void Card::play(Player* player, Deck* mainDeck) {
 
     // Adds order to player orders according to string value of cardtype
-    if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Diplomacy")) 
+    if (CardTypeString[static_cast<int>(*(this->cardType))] == "Diplomacy") {
         player->issueOrder("Negotiate");
-    else if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Reinforcement")) 
+    }
+    else if (CardTypeString[static_cast<int>(*(this->cardType))] == "Reinforcement") 
         player->issueOrder("Advance");
     else 
         player->issueOrder(CardTypeString[static_cast<int>(*(this->cardType))]);
@@ -145,6 +146,7 @@ void Card::play(Player* player, Deck* mainDeck) {
     int elementIndex = distance(player->myHand->handCards.begin(), element);                        // Gets element index
     mainDeck->deckCards.push_back(move(this));  // Moves card pointer back to deck
     player->myHand->handCards.erase(element);   // Erases card pointer from hand
+
 };
 
 /****************************************************************/
@@ -161,7 +163,6 @@ Hand::~Hand() {
 
     for (Card* card : handCards)  {
         delete card;  
-        card = nullptr;
     }
           
 };
@@ -184,9 +185,9 @@ Hand& Hand::operator =(const Hand &hand) {
 ostream& operator<<(std::ostream& out, const Hand* hand) {
 
     out << setw(15) << "------------------ Player Hand ------------------ \n";
-    out << left << setw(15) << "Card Type" << left << setw(20)<< "Card Reference" << left << setw(20) << "Type Reference" << endl;
+    out << left << setw(18) << "Card Type" << left << setw(20)<< "Card Reference" << left << setw(20) << "Type Reference" << endl;
     for (int i = 0; i < hand->handCards.size(); i++)
-        out << hand->handCards[i];
+        out << (i + 1) << ": " << hand->handCards[i];
 
     return out; 
 };
