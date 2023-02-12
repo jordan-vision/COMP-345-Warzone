@@ -15,6 +15,5 @@ int main()
     p.issueOrder("Deploy");
     p.issueOrder("Advance");
 
-
     return 0;
 };

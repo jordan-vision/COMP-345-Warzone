@@ -80,42 +80,51 @@ vector<Territory*> Player::toAttack() {
         return territoriesAttack;
 
 }
-void Player::issueOrder(string orderType)
-{ 
    // create an OrderList object
    OrdersList* ol = new OrdersList();
 
-   // create orders of all types
-   Deploy* d = new Deploy();
-   Advance* a = new Advance();
-   Blockade* bl = new Blockade();
-   Bomb* bo = new Bomb();
-   Airlift* ar = new Airlift();
-   Negotiate* n = new Negotiate();
+void Player::issueOrder(string orderType)
+{ 
 
    // check the orderType and print the appropriate order
+   
    if (orderType == "Deploy") {
+       // create orders 
+       Deploy* d = new Deploy();
       cout<< "\n" <<orderType << " order has been issued:\n" << endl;
       cout << *d << endl;
+      //add to order list
+      ol->add(d);
    } else if (orderType == "Advance") {
+    Advance* a = new Advance();
      cout<< orderType << " order has been issued:\n" << endl;
       cout << *a << endl;
+      ol->add(a);
    } else if (orderType == "Blockade") {
+     Blockade* bl = new Blockade();
       cout<< orderType << " order has been issued:\n" << endl;
       cout << *bl << endl;
+      ol->add(bl);
    } else if (orderType == "Bomb") {
+       Bomb* bo = new Bomb();
       cout<< orderType << " order has been issued:\n" << endl;
       cout << *bo << endl;
+      ol->add(bo);
    } else if (orderType == "Airlift") {
+       Airlift* ar = new Airlift();
       cout<< orderType << " order has been issued:\n" << endl;
     cout << *ar << endl;
+    ol->add(ar);
    } else if (orderType == "Negotiate") {
+       Negotiate* n = new Negotiate();
       cout<< orderType << " order has been issued:\n" << endl;
       cout << *n << endl;
+      ol->add(n);
    } else {
       cout << "Invalid order type" << endl;
    }
-}
+    cout << "\nOrders List: " << endl;
+   cout << *ol << endl;}
 
 // //Implementation of the issueOrder() method
 // void Player::issueOrder(string orderType)
