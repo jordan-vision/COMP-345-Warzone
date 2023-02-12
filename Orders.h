@@ -5,12 +5,6 @@
 #include <algorithm>
 using namespace std;
 
-/* ---------------------------------- TODO ---------------------------------- */
-// - Figure out shared pointer to not deal with destructors each time
-// - Test copy and assignment operator(s)
-// - Ask abt stream assignment operator redefinition in subclasses (unclear requirements)
-// - Add more comments to Orders.cpp
-
 class Order; 
 
 /* -------------------------------------------------------------------------- */
@@ -24,8 +18,8 @@ public:
     OrdersList();
     OrdersList(OrdersList& copy);
     OrdersList& operator=(const OrdersList& ol);
-    void add(Order* o) { vectorOfOrders.push_back(o); }
-    void printOrdersList();
+    friend ostream& operator<<(ostream &out, OrdersList& ol);
+    void add(Order* o);
     void remove(int i);
     void move(int from, int to);
     ~OrdersList();

@@ -104,7 +104,7 @@ int main()
     ordersList.add(&blockade);
     ordersList.add(&airlift);
     ordersList.add(&negotiate);
-    ordersList.printOrdersList();
+    cout << ordersList << endl;
 
 
 return 0;

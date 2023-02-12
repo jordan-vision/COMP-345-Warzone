@@ -24,16 +24,20 @@ OrdersList& OrdersList::operator=(const OrdersList& ol) {
 	return *this;
 }
 
-
-void OrdersList::printOrdersList(){ // prints vector contents 
+ostream& operator<<(ostream &out, OrdersList& o) { //displays description and effect of Order
 	int counter = 0;
 	cout << "Printing List of Orders..." << endl;
-	for (const auto o : vectorOfOrders) {
+	for (const auto o : o.vectorOfOrders) {
 		string str = typeid(*o).name();
         cout << "The order at position " << counter << " in the list of orders is : " << str.substr(1) << " " << endl;
 		counter++;
     }
 	cout << endl;
+	return out;
+}
+
+void OrdersList::add(Order* o) { 
+	vectorOfOrders.push_back(o); 
 }
 
 void OrdersList::remove(int i) // removes order at position i
@@ -290,7 +294,7 @@ Airlift::~Airlift(){
 /* -------------------------------------------------------------------------- */
 
 Negotiate::Negotiate(){
-	
+
 }
 
 Negotiate::Negotiate(Negotiate& copy){ //copy constructor 

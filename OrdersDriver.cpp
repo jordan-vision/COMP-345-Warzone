@@ -7,7 +7,6 @@ main()
    cout << "You can now enter your orders. The orders you can use are deploy, advance, bomb, blockade, airlift, negotiate." << endl;
 
    // create an OrderList object
-   //OrdersList ol;
    OrdersList* ol = new OrdersList();
 
 
@@ -26,18 +25,19 @@ main()
    ol->add(bo);
    ol->add(ar);
    ol->add(n);
-   ol->printOrdersList();
+   cout << *ol << endl;
 
 //    // demonstrate use of remove order
    cout << "***************** Remove Order demo *****************" << endl;
    ol->remove(1); 
 
-   ol->printOrdersList();
+   cout << *ol << endl;
 
    //demonstrate use of move order
+   cout << "***************** Move Orders demo *****************" << endl;
    ol->move(0, 3);
 
-   ol->printOrdersList();
+   cout << *ol << endl;
 
    // Demonstrate use of stream insertion operator of class Order, as well as changed effect when order is executed (and validated) 
    cout << *bl << endl;
