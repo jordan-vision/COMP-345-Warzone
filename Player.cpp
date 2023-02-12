@@ -43,7 +43,7 @@ return output;
 
 //Implementation of the friend insertion operator for class Player
 ostream& operator<<(ostream& output, Player& p) {
-output<<p.getName();
+
     return output;
 }
 
