@@ -45,7 +45,7 @@ ostream& operator<<(std::ostream& out, const Deck& deck) {
     return out; 
 }
 
-Card* Deck::drawCard() {
+Card* Deck::draw() {
 
     auto randomSeed = std::mt19937(std::random_device{}());     // Generates random seed    (ensures each run will generate new unique shuffle)
     auto random = default_random_engine { randomSeed() };       // Generates random number  
@@ -133,14 +133,13 @@ ostream& operator<<(std::ostream& out, const Card* card) {
 void Card::play(Player* player, Deck* mainDeck) {
 
     // Adds order to player orders according to string value of cardtype
-    if (CardTypeString[static_cast<int>(*(this->cardType))] == "Diplomacy") {
+    if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Diplomacy")) 
         player->issueOrder("Negotiate");
-    } else if (CardTypeString[static_cast<int>(*(this->cardType))] == "Reinforcement") {
+    else if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Reinforcement")) 
         player->issueOrder("Advance");
-    } else {
+    else 
         player->issueOrder(CardTypeString[static_cast<int>(*(this->cardType))]);
-    }
-
+    
     auto element = find(player->myHand->handCards.begin(), player->myHand->handCards.end(), this);  // Finds element
     int elementIndex = distance(player->myHand->handCards.begin(), element);                        // Gets element index
     mainDeck->deckCards.push_back(move(this));  // Moves card pointer back to deck

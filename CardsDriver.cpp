@@ -25,7 +25,7 @@ int main() {
 
     // Draws cards from deck into player hand
     for (int i = 0; i < HAND_SIZE; i++) 
-        myPlayer.myHand->handCards.push_back(myDeck.drawCard());
+        myPlayer.myHand->handCards.push_back(myDeck.draw());
     
     
     // Outputs player hand

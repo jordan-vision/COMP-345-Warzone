@@ -53,7 +53,7 @@ class Deck
         vector<Card*> deckCards;                                        // Contains Deck Card Pointers
         void fillDeck(int deckSize);                                    // Populates deck with cards
 
-        Card* drawCard();
+        Card* draw();
         void printDeckOutput();                                         // Prints output of deck 
 };
 
