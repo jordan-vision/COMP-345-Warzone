@@ -1,21 +1,21 @@
 #pragma once
 
 #include <vector>
-#include <iomanip>
-#include <string>
 #include <iostream>
+#include <iomanip>
 #include <algorithm> 
 #include <random>
+
 
 using namespace std;
 
 // Enum and Array for card type 
 enum class CardType { Bomb, Reinforcement, Blockade, Airlift, Diplomacy };
-const char* CardTypeString[] = { "Bomb", "Reinforcement", "Blockade", "Airlift", "Diplomacy" };
+
 
 // Initializes the classes for use in Card class
-class Hand; 
 class Deck; 
+class Hand; 
 
 /****************************************************************/
 /************************** CARD CLASS **************************/
@@ -32,7 +32,8 @@ class Card
         Card(CardType* cardType) : cardType(cardType) {}                // Constructor with parameter
 
         CardType* cardType;                                             // Card enum type pointer
-        void play(Hand* playerHand, Deck* mainDeck);                    // Uses card from hand and places in deck
+        
+        void play(Player* player, Deck* mainDeck);                    // Uses card from hand and places in deck
 };
 
 /****************************************************************/
