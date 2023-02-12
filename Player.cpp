@@ -61,6 +61,8 @@ vector<Territory*> Player::toDefend() {
     {
         cout << *t << endl;
     }
+    return territoriesDefend;
+
 }
 //Implementation of the toAttack() method
 vector<Territory*> Player::toAttack() {
@@ -75,6 +77,7 @@ vector<Territory*> Player::toAttack() {
     {
         cout << *t << endl;
     }
+    
 }
 
 //Implementation of the issueOrder() method
@@ -108,6 +111,7 @@ void Player::issueOrder(string orderType)
     {
         cout << "Invalid order type!" << endl;
     }
+    
         cout << "\nIssued orders: " << endl;
 
 }
