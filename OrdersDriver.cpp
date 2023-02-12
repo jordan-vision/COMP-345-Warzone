@@ -44,19 +44,19 @@ main()
    bl->execute();
    cout << *bl << endl;
 
-   // // Demonstrate use of copy constructor
-   // cout << "***************** Copy Constructor demo *****************" << endl;
-   // Negotiate n2;
-   // n2.execute();
-   // Negotiate n1 = n2;
-   // cout << n1 << endl;
+   // Demonstrate use of copy constructor
+   cout << "***************** Copy Constructor demo *****************" << endl;
+   Negotiate* n2 = new Negotiate();
+   n2->execute();
+   Negotiate* n1 = n2;
+   cout << *n1 << endl;
 
-   // // Demonstrate use of assignment operator
-   // cout << "***************** Assignment operator demo *****************" << endl;
-   // Blockade n3;
-   // n3 = bl;
-
-   // cout << n3 << endl;
+   // Demonstrate use of assignment operator
+   cout << "***************** Assignment operator demo *****************" << endl;
+   Blockade* operatorDemoBlockade = new Blockade();
+   cout << *operatorDemoBlockade << endl;
+   operatorDemoBlockade = bl;
+   cout << *operatorDemoBlockade << endl;
    
 
  }

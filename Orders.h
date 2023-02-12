@@ -23,6 +23,7 @@ private:
 public:
     OrdersList();
     OrdersList(OrdersList& copy);
+    OrdersList& operator=(const OrdersList& ol);
     void add(Order* o) { vectorOfOrders.push_back(o); }
     void printOrdersList();
     void remove(int i);
@@ -62,7 +63,6 @@ public:
     Deploy& operator=(const Deploy& d); // assignment operator
     bool validate();
     void execute();
-    //friend ostream& operator<<(ostream &out, Deploy& d);
 };
 
 
@@ -80,7 +80,7 @@ public:
     Advance& operator=(const Advance& a); // assignment operator
     bool validate();
     void execute();
-    //friend ostream& operator<<(ostream& out, const Advance& a);
+    ~Advance();
 };
 
 
@@ -97,7 +97,7 @@ public:
     Bomb& operator=(const Bomb& b); // assignment operator
     bool validate();
     void execute();
-    //friend ostream& operator<<(ostream &out, Bomb& b);
+    ~Bomb();
 };
 
 
@@ -114,7 +114,7 @@ public:
     Blockade& operator=(const Blockade& b); // assignment operator
     bool validate();
     void execute();
-    //friend ostream& operator<<(ostream &out, Blockade& bk);
+    ~Blockade();
 };
 
 /* -------------------------------------------------------------------------- */
@@ -130,7 +130,7 @@ public:
     Airlift& operator=(const Airlift& a); // assignment operator
     bool validate();
     void execute();
-    //friend ostream& operator<<(ostream &out, Airlift& ar);
+    ~Airlift();
 };
 
 
@@ -147,5 +147,5 @@ public:
     Negotiate& operator=(const Negotiate& n); // assignment operator
     bool validate();
     void execute();
-    //friend ostream& operator<<(ostream &out, Negotiate& n);
+    ~Negotiate();
 };

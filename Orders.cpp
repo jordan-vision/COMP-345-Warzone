@@ -17,12 +17,13 @@ OrdersList::OrdersList(OrdersList& copy){ // copy constructor
 	}
 }
 
-OrdersList& OrdersList::operator=(const OrdersList&) {
+OrdersList& OrdersList::operator=(const OrdersList& ol) {
 	for (auto order = ol.vectorOfOrders.begin(); order != ol.vectorOfOrders.end(); order++) {
 		vectorOfOrders.push_back(*order);
 	}
 	return *this;
 }
+
 
 void OrdersList::printOrdersList(){ // prints vector contents 
 	int counter = 0;
@@ -126,7 +127,6 @@ string Deploy::getDescription()
 
 Deploy::~Deploy(){
 }
-
 
 /* -------------------------------------------------------------------------- */
 /*                                Advance Class                               */
@@ -281,16 +281,16 @@ string Airlift::getDescription(){
 	return "The Airflift order advances some armies from one of the current players territories to any another territory.";
 }
 
-Airlift::~Airflift()[
+Airlift::~Airlift(){
 
-]
+}
 
 /* -------------------------------------------------------------------------- */
 /*                               Negotiate Class                              */
 /* -------------------------------------------------------------------------- */
 
 Negotiate::Negotiate(){
-
+	
 }
 
 Negotiate::Negotiate(Negotiate& copy){ //copy constructor 
@@ -320,5 +320,5 @@ string Negotiate::getDescription(){
 }
 
 Negotiate::~Negotiate(){
-	
+
 }
