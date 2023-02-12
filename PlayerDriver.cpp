@@ -12,11 +12,9 @@ int main()
     Player p;
     p.toDefend();
     p.toAttack();
-    //initialize order list
-    OrdersList ord;
-    p.myOrders = &ord;
-    p.myOrders->add(new Bomb());
-    // p.issueOrder("Deploy");
+    p.issueOrder("Deploy");
+    p.issueOrder("Advance");
+
 
     return 0;
 };
