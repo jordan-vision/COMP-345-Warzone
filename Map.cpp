@@ -5,13 +5,12 @@ using std:: cout;
 #include <fstream>
 using std::ifstream;
 #include <sstream>
-//#include "Player.h"
 
 
 
 
 
-// The player.h file should be included in order to create a new player in the copy constructor for the territory class. 
+
 
 
 
@@ -79,6 +78,10 @@ Territory:: Territory(){
     this->name = "";
 }
 
+Territory:: Territory(string name){
+    this->name = name; 
+}
+
 Territory:: Territory(string name, Continent* inContinent){
     this->name = name; 
     this->inContinent = inContinent;
@@ -92,13 +95,13 @@ Territory:: Territory(string name, int territoryID){
 Territory:: Territory(const Territory& copy){
     this->army = copy.army; 
     this->name = copy.name;
-  //  this->owner = new Player(*oldTerritory.owner);    //   remove the comment once the player.h file is included 
+  
 }
 
 void Territory:: operator =(const Territory& rhs){
     this->army = rhs.army;
     this->name = rhs.name;
-   // this->owner = new Player(*rhs.owner);     //  remove the comment once the player.h file is included 
+  
 }
 
 ostream& operator <<(ostream& output,  Territory& t){
@@ -107,7 +110,7 @@ ostream& operator <<(ostream& output,  Territory& t){
 }
 
 Territory:: ~Territory(){
-   // delete owner;        // I need to include the player class first to use its destructor 
+   
     owner = nullptr;
    
 }
@@ -278,7 +281,11 @@ void Map:: operator=(const Map& rhs){
     }
 }
 
-int count = 0;
+
+
+/* This function traverses the map as a whole from one territory as a starting point
+   The map is connected if all nodes (territories) can be reached from that starting point
+*/
 void Map:: mapTraversal(Territory* current, vector <Territory*> &visitedTerritories){
     for(auto territory: visitedTerritories){
         if(territory == current){
@@ -291,6 +298,14 @@ void Map:: mapTraversal(Territory* current, vector <Territory*> &visitedTerritor
         mapTraversal(adjTerritory, visitedTerritories);
     }
 }
+
+
+
+/* The mapTraversal method with 3 arguments checks if the map is connected as a subgraph
+   to verify that, we isolate each continent and iterate through its territories to see 
+   if we can reach the other territories that belong to the same continent
+*/
+
 
 void Map:: mapTraversal(Territory* current, vector <Territory*> &visitedTerritories, string currentContinent){
       for(auto territory: visitedTerritories){
@@ -326,11 +341,6 @@ void Map:: validate(){
             }
         }
     }
-
-
-// The mapTraversal method with 2 arguments checks if the map is connected as a whole
-// this method checks if all territories in the map can be reached from one territory (starting point)
-    
   
     vector <Territory*> visitedTerritories; 
     mapTraversal(this->territories[0], visitedTerritories);
@@ -338,10 +348,6 @@ void Map:: validate(){
         cout<<"This map is not connected: Invalid map. "<<endl;
         return;
     } 
-
-// The mapTraversal method with 3 arguments checks if the map is connected as a subgraph
-// to verify that, we isolate each continent and iterate through its territories to see 
-// if we can reach the other territories that belong to the same continent
 
     visitedTerritories.clear();
     for (auto it: continents) {
@@ -352,8 +358,9 @@ void Map:: validate(){
         }
         visitedTerritories.clear();
     }
-    cout<<"The map is connected and is a subgraph: Valid map. "<<endl;
+    cout<<"The map is connected and is a subgraph, no duplicate territories: Valid map. "<<endl;
 }
+
 
 Map:: ~Map(){
 
@@ -366,7 +373,7 @@ Map:: ~Map(){
         delete it;
         it = nullptr;
     }
-    //this = NULL;          ??????????????????? WHY???????
+  
 }
 
 ostream& operator << (ostream& output,  Map& m){
@@ -385,6 +392,7 @@ void MapLoader:: setName(){
 string MapLoader:: getName(){
     return name;
 }
+
 MapLoader:: MapLoader(){
     name = "";
 }
@@ -404,6 +412,10 @@ ostream& operator <<(ostream& output,  MapLoader & map){
 
 MapLoader:: ~MapLoader() {}
 
+
+// This function takes a line read from the .map file (readLine) and splits it by the " " delimiter,
+// Which then gets stored in the tokens vector for easy access 
+
 vector <string> MapLoader:: split(string readLine){
     vector <string> tokens;
     string token; 
@@ -413,6 +425,11 @@ vector <string> MapLoader:: split(string readLine){
     }
     return tokens; 
 }
+
+
+// The below function is responsible for reading map files and creating territory/continent objects 
+// While also adding a list of adjacent territories to a certain territory
+
 
 Map* MapLoader:: loadMap(string file){
     cout<<"\nLoading map: "<<file<<endl;
@@ -430,6 +447,9 @@ Map* MapLoader:: loadMap(string file){
     cout<<"Map file found. Generating map: "<<endl;
     
 
+
+// First, we search for the continents section in the .map file 
+
     bool continentsExist = false; 
     bool territoriesExist = false;
     string readLine;
@@ -440,6 +460,7 @@ Map* MapLoader:: loadMap(string file){
         }
     }
 
+// Map is invalid if continents do not exist 
     if (!continentsExist){
         cout<<"Map file is invalid. The Continents section does not exist."<<endl;  
         return map; 
@@ -452,6 +473,12 @@ Map* MapLoader:: loadMap(string file){
             break;
         }
 
+
+// Here is where I create the continent objects.
+// I keep track of the continent index for future use (so I can set the territories that belong to it)
+// The continent ID is just the order of appearance of the continent in the .map file 
+
+// Split is used to split the read string in order to separate the continent name and continent bonus 
         ++continentID;
         vector <string> splitVector = split(readLine);
         string continentName = splitVector[0];
@@ -459,9 +486,11 @@ Map* MapLoader:: loadMap(string file){
 
         Continent* continent = new Continent(continentName, continentBonus, continentID);
         map->setContinents(continent);
-        // I'm not sure if I should delete the continent pointer here after it has been added to the list of continents belonging to the map already
-        // ^ will review this :))
+      
     }
+
+
+// We skip to the countries (or territories) section in the block below
 
     int territoryID = 0; 
     while (getline(inputStream, readLine)){
@@ -470,6 +499,8 @@ Map* MapLoader:: loadMap(string file){
             break;
         }
     }
+
+// Map is invalid if no territories/countries exist
 
     if(!territoriesExist){
         cout<<"Map file is invalid. The Countries section does not exist."<<endl;  
@@ -481,6 +512,14 @@ Map* MapLoader:: loadMap(string file){
         if (readLine == ""){
             break;
         }
+
+// Creating the territory objects: 
+
+/* The format of the .map file is this:
+ first number is the index of the territory, second is the name of the territory, 
+ third is the index of the continent it belongs to, and the rest are the coordiantes, which are unnecessary for my implementation 
+*/
+
         ++territoryID;
         vector <string> splitvector = split(readLine);
         string territoryName = splitvector[1];
@@ -494,6 +533,9 @@ Map* MapLoader:: loadMap(string file){
         }
         map->setTerritories(territory);
     }
+
+// The borders section is responsible for setting the adjacent territories for a territory 
+// The format of this section in the map file is: first number is the territory index, and the rest are indexes of the adjacent territories to it
 
     while(getline(inputStream, readLine)){
         if(readLine == "[borders]"){
