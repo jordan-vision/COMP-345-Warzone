@@ -137,7 +137,7 @@ State::State(State& toCopy) {
 	label = toCopy.label;
 	for (Transition* trans : toCopy.transitions) {
 		Transition* newTransition = new Transition(*trans);
-		transitions.push_back(trans);
+		transitions.push_back(newTransition);
 	}
 };
 // Destructor: all transitions deleted one to one
@@ -158,7 +158,7 @@ void State::operator=(State& rhs) {
 string State::getLabel() { return label; };
 vector<Transition*> State::getAllTransitions() { return transitions; }
 Transition* State::getTransition(int index) {
-	if (index < transitions.size()) return transitions.at(index);
+	if ((unsigned)index < transitions.size()) return transitions.at(index);
 	else return NULL;
 };
 void State::setLabel(string theLabel) { label = theLabel; };

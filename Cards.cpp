@@ -1,5 +1,6 @@
 #include "Cards.h"
 #include "Player.h"
+#include <cstring>
 
 // Used to convert enum to string
 const char* CardTypeString[] = { "Bomb", "Reinforcement", "Blockade", "Airlift", "Diplomacy" };
@@ -45,7 +46,7 @@ ostream& operator<<(std::ostream& out, const Deck& deck) {
     return out; 
 }
 
-Card* Deck::drawCard() {
+Card* Deck::draw() {
 
     auto randomSeed = std::mt19937(std::random_device{}());     // Generates random seed    (ensures each run will generate new unique shuffle)
     auto random = default_random_engine { randomSeed() };       // Generates random number  
@@ -137,10 +138,9 @@ void Card::play(Player* player, Deck* mainDeck) {
         player->issueOrder("Negotiate");
     else if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Reinforcement")) 
         player->issueOrder("Advance");
-    } else {
+    else 
         player->issueOrder(CardTypeString[static_cast<int>(*(this->cardType))]);
-    }
-
+    
     auto element = find(player->myHand->handCards.begin(), player->myHand->handCards.end(), this);  // Finds element
     int elementIndex = distance(player->myHand->handCards.begin(), element);                        // Gets element index
     mainDeck->deckCards.push_back(move(this));  // Moves card pointer back to deck
