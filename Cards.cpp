@@ -1,11 +1,15 @@
 #include "Cards.h"
+#include "Player.h"
+
+// Used to convert enum to string
+const char* CardTypeString[] = { "Bomb", "Reinforcement", "Blockade", "Airlift", "Diplomacy" };
 
 /****************************************************************/
 /************************** DECK CLASS **************************/
 /****************************************************************/
 
 /******************* DECK CONSTRUCTOR *******************/
-Deck::Deck() {
+Deck::Deck() : deckCards() {
 
 };
 
@@ -45,7 +49,7 @@ ostream& operator<<(std::ostream& out, const Deck& deck) {
 void Deck::draw(Hand* playerHand) {
 
     // DECK SHUFFLER
-    auto randomSeed = std::mt19937(std::random_device{}());                          // Generates random seed    (ensures each run will generate new unique shuffle)
+    auto randomSeed = std::mt19937(std::random_device{}());     // Generates random seed    (ensures each run will generate new unique shuffle)
     auto random = default_random_engine { randomSeed() };       // Generates random number  
     shuffle(deckCards.begin(), deckCards.end(), random);        // Shuffles vector according to random
 
@@ -71,7 +75,7 @@ void Deck::fillDeck(int deckSize) {
     }
 };
 
-/******************** DECK PRINT OUTPUT *******************/
+/******************** DECK PRINT OUTPUT *******************/    // NOT IN USE CURRENTLY
 void Deck::printDeckOutput() {
 
     cout << left << setw(5) << "#" << left << setw(15) << "Card Type" << left << setw(20)<< "Type Reference" << left << setw(20) << "Card Reference" << endl;
@@ -128,15 +132,16 @@ ostream& operator<<(std::ostream& out, const Card* card) {
 }
 
 /******************* CARD PLAY FUNCTION *******************/
-void Card::play(Hand* playerHand, Deck* mainDeck) {
+void Card::play(Player* player, Deck* mainDeck) {
 
-    //add to player list of orders
+    // Adds order to player orders according to string value of cardtype
+    player->issueOrder(CardTypeString[static_cast<int>(*(this->cardType))]);
 
-    auto element = find(playerHand->handCards.begin(), playerHand->handCards.end(), this);  // Finds element
-    int elementIndex = distance(playerHand->handCards.begin(), element);                    // Gets element index
+    auto element = find(player->myHand->handCards.begin(), player->myHand->handCards.end(), this);  // Finds element
+    int elementIndex = distance(player->myHand->handCards.begin(), element);                        // Gets element index
 
     mainDeck->deckCards.push_back(move(this));  // Moves card pointer back to deck
-    playerHand->handCards.erase(element);       // Erases card pointer from hand
+    player->myHand->handCards.erase(element);   // Erases card pointer from hand
 };
 
 /****************************************************************/
@@ -144,7 +149,7 @@ void Card::play(Hand* playerHand, Deck* mainDeck) {
 /****************************************************************/
 
 /******************* HAND CONSTRUCTOR *******************/
-Hand::Hand() {
+Hand::Hand() : handCards() {
 
 };
 

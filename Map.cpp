@@ -5,14 +5,14 @@ using std:: cout;
 #include <fstream>
 using std::ifstream;
 #include <sstream>
-
+//#include "Player.h"
 
 
 
 
 
 // The player.h file should be included in order to create a new player in the copy constructor for the territory class. 
-// #include <Player.h>
+
 
 
 //////////// TERRITORY CLASS SECTION  /////////////
@@ -92,13 +92,13 @@ Territory:: Territory(string name, int territoryID){
 Territory:: Territory(const Territory& copy){
     this->army = copy.army; 
     this->name = copy.name;
-    // this->owner = new Player(*oldTerritory.owner);       remove the comment once the player.h file is included 
+  //  this->owner = new Player(*oldTerritory.owner);    //   remove the comment once the player.h file is included 
 }
 
 void Territory:: operator =(const Territory& rhs){
     this->army = rhs.army;
     this->name = rhs.name;
-    // this->owner = new Player(*rhs.owner);       remove the comment once the player.h file is included 
+   // this->owner = new Player(*rhs.owner);     //  remove the comment once the player.h file is included 
 }
 
 ostream& operator <<(ostream& output,  Territory& t){
@@ -107,9 +107,9 @@ ostream& operator <<(ostream& output,  Territory& t){
 }
 
 Territory:: ~Territory(){
-    //delete owner;         I need to include the player class first to use its destructor 
+   // delete owner;        // I need to include the player class first to use its destructor 
     owner = nullptr;
-    delete this; 
+   
 }
 
 
@@ -184,11 +184,11 @@ void Continent:: operator=(Continent& rhs){
 }
 
 Continent:: ~Continent(){
-    for (auto it: territories){
+   /* for (auto it: territories){
         delete it;
         it = nullptr;
     }
-    delete this;
+  */
 }
 
 ostream& operator<<(ostream& output,  Continent& c){
@@ -225,6 +225,12 @@ void Map:: setName(string name){
 
 Map :: Map(){
     name = "";
+    vector <Territory*> territories ();
+    vector <Continent*> continents ();
+}
+
+Map:: Map(string name){
+    this->name = name;
     vector <Territory*> territories ();
     vector <Continent*> continents ();
 }
@@ -350,6 +356,8 @@ void Map:: validate(){
 }
 
 Map:: ~Map(){
+
+   
     for (auto it : territories){
         delete it; 
         it = nullptr;
@@ -358,7 +366,7 @@ Map:: ~Map(){
         delete it;
         it = nullptr;
     }
-    delete this; 
+    //this = NULL;          ??????????????????? WHY???????
 }
 
 ostream& operator << (ostream& output,  Map& m){
@@ -394,7 +402,7 @@ ostream& operator <<(ostream& output,  MapLoader & map){
     return output;
 }
 
-MapLoader:: ~MapLoader() {delete this;}
+MapLoader:: ~MapLoader() {}
 
 vector <string> MapLoader:: split(string readLine){
     vector <string> tokens;
@@ -408,7 +416,7 @@ vector <string> MapLoader:: split(string readLine){
 
 Map* MapLoader:: loadMap(string file){
     cout<<"\nLoading map: "<<file<<endl;
-    Map* map = new Map();
+    Map* map = new Map(file);
     ifstream inputStream;
     string extension = file.substr(file.find("."), file.length());
     inputStream.open(file);
