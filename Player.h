@@ -35,6 +35,8 @@ class Player
         Player(vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack);
         //Copy Constructor passing parameter p
         Player(const Player& p);
+        //get player's name
+        string getName();                                    
         //method named toDefend() that return a list of territories that are to be defend - const so it cannot be modified
         vector<Territory*> toDefend() ;
         //method named toAttack() that returns a list of territories that are to be attacked  - const so it cannot be modified
@@ -51,5 +53,7 @@ class Player
     private:
         vector<Territory*> territoriesDefend;
         vector<Territory*> territoriesAttack;
+        string name;
+
 };
  #endif

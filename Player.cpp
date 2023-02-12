@@ -18,7 +18,6 @@ Player::~Player() {
     for (Territory* ta : territoriesAttack) 
         delete ta; 
     delete myOrders;
-    delete myHand;
 };
 
 //Constructor that initializes the player's collection of territories, hand of cards, and the list of orders
@@ -36,16 +35,6 @@ Player::Player(const Player& p)
   this->territoriesAttack = p.territoriesAttack;
 }
 
-//Implementation of the toDefend() method
-vector<Territory*> Player::toDefend() {
-return territoriesDefend;
-}
-
-//Implementation of the toAttack() method
-vector<Territory*> Player::toAttack() {
-return territoriesAttack;
-}
-
 //Implementation of the friend insertion operator for class Territory
 ostream& operator<<(ostream& output, Territory& t) {
 output << t.getName();
@@ -54,45 +43,41 @@ return output;
 
 //Implementation of the friend insertion operator for class Player
 ostream& operator<<(ostream& output, Player& p) {
-output << "Defend Territories: " << endl;
-for (int i = 0; i < p.territoriesDefend.size(); i++) {
-output << *p.territoriesDefend[i] << endl;
-}
-output << "Attack Territories: " << endl;
-for (int i = 0; i < p.territoriesAttack.size(); i++) {
-output << *p.territoriesAttack[i] << endl;
-}
-return output;
+output<<p.getName();
+    return output;
 }
 
-// //declaration of toDefend() method
-// vector<Territory*> Player::toDefend() 
-// {
-// //defendList vector is being declared and initialized as empty. 
-// vector<Territory*> defendList;
-// //The loop iterates through territoriesDefend and every time it iterates, 
-// //the name of the territory that the pointer is on gets added to the list
-//   for (int i = 0; i < territoriesDefend.size(); i++)
-//   {
-//     defendList.push_back(territoriesDefend[i]);
-//   }
-//   return defendList;
-// }
+//Implementation of the toDefend() method
+vector<Territory*> Player::toDefend() {
+ vector<Territory*> territoriesDefend;
+    territoriesDefend.push_back(new Territory("Quebec"));
+    territoriesDefend.push_back(new Territory("Ontario"));
+    territoriesDefend.push_back(new Territory("Alberta"));
+    territoriesDefend.push_back(new Territory("Alaska"));
 
-// //declaration of toAttack() method
-// vector<Territory*> Player::toAttack() 
-// {
-// //attackList vector is being declared and initialized as empty. 
-// vector<Territory*> attackList;
-// //The loop iterates through territoriesAttack and every time it iterates, 
-// //the name of the territory that the pointer is on gets added to the list
-//   for (int i = 0; i < territoriesAttack.size(); i++)
-//   {
-//     attackList.push_back(territoriesAttack[i]);
-//   }
-//   return attackList;
-// }
 
+    cout << "\nTerritories to defend: " << endl;
+    for(auto &t : territoriesDefend) 
+    {
+        cout << *t << endl;
+    }
+}
+//Implementation of the toAttack() method
+vector<Territory*> Player::toAttack() {
+    vector<Territory*> territoriesAttack;
+    territoriesAttack.push_back(new Territory("Mexico"));
+    territoriesAttack.push_back(new Territory("Argentina"));
+    territoriesAttack.push_back(new Territory("Brazil"));
+    territoriesAttack.push_back(new Territory("Venezuela"));
+
+    cout << "\nTerritories to attack: " << endl;
+    for(auto &t : territoriesAttack) 
+    {
+        cout << *t << endl;
+    }
+}
+
+//Implementation of the issueOrder() method
 void Player::issueOrder(string orderType)
 {
     if (orderType == "Deploy")
@@ -123,4 +108,6 @@ void Player::issueOrder(string orderType)
     {
         cout << "Invalid order type!" << endl;
     }
+        cout << "\nIssued orders: " << endl;
+
 }
