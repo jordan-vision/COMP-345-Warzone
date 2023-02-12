@@ -111,6 +111,7 @@ public:
     void setName(string name);     
 
     Map();          
+    Map(string name);
     Map(vector <Territory*> territories, vector <Continent*> continents);      
 
     //copy constructor 

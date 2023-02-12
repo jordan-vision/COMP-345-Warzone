@@ -1,5 +1,3 @@
-// The insertion stream operator does not work for me so I am using the getName() function to print out objects in the meantime
-// Will fix when I figure it out
 
 #include "Map.h"
 #include <iostream>
@@ -52,6 +50,15 @@ for (int i = 0; i <= 3 ; i++){
         cout<<*map5->getTeritories()[i]->getAdjacentTerritories()[j]<<endl;
     }
 }
+
+// Calling the map destructor 
+cout<<"\nDeleting maps: "<<endl;
+vector <Map*> maps {map1, map2, map3, map4, map5};
+for (auto mapObject : maps){
+    mapObject->~Map();
+}
+
+cout<< "Maps deleted. "<<endl;
 
 cout<<"\n**** MAP END ****"<<endl;
 
