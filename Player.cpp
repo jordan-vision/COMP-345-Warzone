@@ -77,7 +77,8 @@ vector<Territory*> Player::toAttack() {
     {
         cout << *t << endl;
     }
-    
+        return territoriesAttack;
+
 }
 
 //Implementation of the issueOrder() method

@@ -133,9 +133,9 @@ ostream& operator<<(std::ostream& out, const Card* card) {
 void Card::play(Player* player, Deck* mainDeck) {
 
     // Adds order to player orders according to string value of cardtype
-    if (CardTypeString[static_cast<int>(*(this->cardType))] == "Diplomacy") {
+    if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Diplomacy")) 
         player->issueOrder("Negotiate");
-    } else if (CardTypeString[static_cast<int>(*(this->cardType))] == "Reinforcement") {
+    else if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Reinforcement")) 
         player->issueOrder("Advance");
     } else {
         player->issueOrder(CardTypeString[static_cast<int>(*(this->cardType))]);

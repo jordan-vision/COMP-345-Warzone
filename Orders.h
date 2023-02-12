@@ -36,7 +36,7 @@ protected:
     string orderEffect;
 public:
     Order();
-    ~Order();
+    virtual ~Order();
     Order(Order& copy); // copy constructor of Order
     string getOrderEffect();
     friend ostream& operator<<(ostream &out, Order& o);
