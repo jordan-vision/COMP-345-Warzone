@@ -87,6 +87,7 @@ void Player::issueOrder(string orderType)
     if (orderType == "Deploy")
     {
         myOrders->add(new Deploy());
+        
     }
     else if (orderType == "Advance")
     {

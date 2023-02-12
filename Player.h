@@ -34,8 +34,7 @@ class Player
         //Constructor that initializes the player's collection of territories, hand of cards, and the list of orders
         Player(vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack);
         //Copy Constructor passing parameter p
-        Player(const Player& p);
-                                   
+        Player(const Player& p); 
         //method named toDefend() that return a list of territories that are to be defend - const so it cannot be modified
         vector<Territory*> toDefend() ;
         //method named toAttack() that returns a list of territories that are to be attacked  - const so it cannot be modified
