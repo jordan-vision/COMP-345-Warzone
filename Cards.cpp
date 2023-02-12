@@ -1,5 +1,6 @@
 #include "Cards.h"
 #include "Player.h"
+#include <cstring>
 
 // Used to convert enum to string
 const char* CardTypeString[] = { "Bomb", "Reinforcement", "Blockade", "Airlift", "Diplomacy" };
