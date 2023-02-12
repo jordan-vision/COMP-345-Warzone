@@ -17,7 +17,7 @@ OrdersList::OrdersList(OrdersList& copy){ // copy constructor
 	}
 }
 
-OrdersList& OrdersList::operator=(const OrdersList& ol) {
+OrdersList& OrdersList::operator=(const OrdersList& ol) { // assignment operator
 	for (auto order = ol.vectorOfOrders.begin(); order != ol.vectorOfOrders.end(); order++) {
 		vectorOfOrders.push_back(*order);
 	}
@@ -53,7 +53,7 @@ void OrdersList::move(int from, int to) { // moves order from position <from> to
 	swap(vectorOfOrders[from], vectorOfOrders[to]);
 }
 
-OrdersList::~OrdersList() {
+OrdersList::~OrdersList() { // destructor
     for (Order* order : vectorOfOrders){
         delete order;    
 		order = nullptr;

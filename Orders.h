@@ -15,14 +15,14 @@ class OrdersList{
 private:
     vector<Order*> vectorOfOrders; 
 public:
-    OrdersList();
-    OrdersList(OrdersList& copy);
-    OrdersList& operator=(const OrdersList& ol);
-    friend ostream& operator<<(ostream &out, OrdersList& ol);
-    void add(Order* o);
-    void remove(int i);
-    void move(int from, int to);
-    ~OrdersList();
+    OrdersList();                                               //OrdersList constructor
+    OrdersList(OrdersList& copy);                               //OrdersList copy constructor
+    OrdersList& operator=(const OrdersList& ol);                //OrdersList assignment operator
+    friend ostream& operator<<(ostream &out, OrdersList& ol);   //OrdersList stream insertion operator
+    void add(Order* o);                                         //add(..) pushes an order object to the orderslist
+    void remove(int i);                                         //remove(..) removes an order object from the orderslist
+    void move(int from, int to);                                //move(..) swaps two orders places
+    ~OrdersList();                                              //OrdersList destructor
 
 };
 
@@ -32,14 +32,14 @@ public:
 
 class Order{
 protected:
-    virtual string getDescription() = 0; //virtual + protected = can be overriden by subclasses
-    string orderEffect;
+    virtual string getDescription() = 0;                        //getDescription() returns order description. virtual + protected = can be overriden by subclasses
+    string orderEffect;                                         //order effect stored there
 public:
-    Order();
-    virtual ~Order();
-    Order(Order& copy); // copy constructor of Order
-    string getOrderEffect();
-    friend ostream& operator<<(ostream &out, Order& o);
+    Order();                                                    //Order constructor
+    virtual ~Order();                                           //Order destructor
+    Order(Order& copy);                                         //Order copy constructor            
+    string getOrderEffect();                                    //gets the effect of the order
+    friend ostream& operator<<(ostream &out, Order& o);         //Order stream insertion operator
 };
 
 
@@ -55,8 +55,8 @@ public:
     ~Deploy();
     Deploy(Deploy& copy); // copy constructor
     Deploy& operator=(const Deploy& d); // assignment operator
-    bool validate();
-    void execute();
+    bool validate(); // validate the order
+    void execute(); // execute the order
 };
 
 
@@ -72,8 +72,8 @@ public:
     Advance();
     Advance(Advance& copy); // copy constructor
     Advance& operator=(const Advance& a); // assignment operator
-    bool validate();
-    void execute();
+    bool validate(); // validate the order
+    void execute(); // execute the order
     ~Advance();
 };
 
@@ -89,8 +89,8 @@ public:
     Bomb();
     Bomb(Bomb& copy); // copy constructor
     Bomb& operator=(const Bomb& b); // assignment operator
-    bool validate();
-    void execute();
+    bool validate(); // validate the order
+    void execute(); // execute the order
     ~Bomb();
 };
 
@@ -106,8 +106,8 @@ public:
     Blockade();
     Blockade(Blockade& copy); // copy constructor
     Blockade& operator=(const Blockade& b); // assignment operator
-    bool validate();
-    void execute();
+    bool validate(); // validate the order
+    void execute(); // execute the order
     ~Blockade();
 };
 
@@ -122,8 +122,8 @@ public:
     Airlift();
     Airlift(Airlift& copy); // copy constructor
     Airlift& operator=(const Airlift& a); // assignment operator
-    bool validate();
-    void execute();
+    bool validate(); // validate the order
+    void execute(); // execute the order
     ~Airlift();
 };
 
@@ -139,7 +139,7 @@ public:
     Negotiate();
     Negotiate(Negotiate& copy); // copy constructor
     Negotiate& operator=(const Negotiate& n); // assignment operator
-    bool validate();
-    void execute();
+    bool validate(); // validate the order
+    void execute(); // execute the order
     ~Negotiate();
 };
