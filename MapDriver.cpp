@@ -19,8 +19,15 @@ Map* map2 = loader->loadMap("Chrono_Trigger.map");
 map2->validate();
 Map* map3 = loader->loadMap("periodict.map");         
 map3->validate();
+
+/*  Solar map was modified by adding a new continent containing one territory 
+    which has no adjacent territories to showcase a case where the map is not connected as a whole.
+    Explanation: having no adjacent territories means that it cannot be reached from the starting territor/node
+    therefore, map is not connected
+*/
 Map* map4 = loader->loadMap("solar.map");      
 map4->validate();
+
 Map* map5 = loader->loadMap("europe.map");      
 map5->validate();
 

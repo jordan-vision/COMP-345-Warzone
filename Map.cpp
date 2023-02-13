@@ -14,7 +14,7 @@ using std::ifstream;
 
 
 
-//////////// TERRITORY CLASS SECTION  /////////////
+//                                                  **************** TERRITORY CLASS SECTION   ****************
 
 string Territory:: getName(){
     return name; 
@@ -95,13 +95,14 @@ Territory:: Territory(string name, int territoryID){
 Territory:: Territory(const Territory& copy){
     this->army = copy.army; 
     this->name = copy.name;
-  
+    this->owner = copy.owner;
 }
 
-void Territory:: operator =(const Territory& rhs){
+Territory& Territory:: operator =(const Territory& rhs){
     this->army = rhs.army;
     this->name = rhs.name;
-  
+    this->owner = rhs.owner;
+    return *this;
 }
 
 ostream& operator <<(ostream& output,  Territory& t){
@@ -109,14 +110,10 @@ ostream& operator <<(ostream& output,  Territory& t){
     return output; 
 }
 
-Territory:: ~Territory(){
-   
-    owner = nullptr;
-   
-}
+Territory:: ~Territory(){}
 
 
-/////////////// CONTINENT CLASS SECTION  ///////////////
+//                                              **************** CONTINENT CLASS SECTION   ****************
 
 
 
@@ -158,7 +155,7 @@ Continent:: Continent(){
 }
 
 Continent:: Continent(string name, int bonus, int id){
-   // territories = vector <Territory*> ();
+    territories = vector <Territory*> ();
     this->name = name; 
     this->bonus = bonus;
     this->id = id; 
@@ -172,27 +169,14 @@ Continent:: Continent(const Continent& copy){
     }
 }
 
-void Continent:: operator=(Continent& rhs){
+Continent& Continent:: operator=(Continent& rhs){
     this->name = rhs.name; 
-    if (territories.size() > 0){
-        for(auto it: territories){
-            delete it;
-            it = nullptr;
-        }
-    }
-    this->territories = vector <Territory*> ();
-    for (auto it: rhs.territories){
-        this->territories.push_back(new Territory(*it));
-    }
+    this->territories = rhs.territories;
+    return *this;
 }
 
-Continent:: ~Continent(){
-   /* for (auto it: territories){
-        delete it;
-        it = nullptr;
-    }
-  */
-}
+Continent:: ~Continent(){}
+
 
 ostream& operator<<(ostream& output,  Continent& c){
     output << c.getName();
@@ -200,7 +184,7 @@ ostream& operator<<(ostream& output,  Continent& c){
 }
 
 
-//////////////// MAP CLASS SECTION ///////////////
+//                                                **************** MAP CLASS SECTION  ****************
 
 vector <Territory*> Map:: getTeritories(){
     return territories;
@@ -257,28 +241,11 @@ Map:: Map(const Map &copy){
     }
 }
 
-void Map:: operator=(const Map& rhs){
+Map& Map:: operator=(const Map& rhs){
     this->name = rhs.name;
-    if (territories.size() > 0){
-        for(auto it : territories){
-            delete it; 
-            it = nullptr;
-        }
-    }
-    this->territories = vector <Territory*> ();
-    for (auto it : rhs.territories){
-        this->territories.push_back(new Territory(*it));
-    }
-    if (continents.size() > 0){
-        for (auto it : continents){
-            delete it;
-            it = nullptr;
-        }
-    }
-    this->continents = vector <Continent*> ();
-    for (auto it: rhs.continents){
-        this->continents.push_back(new Continent(*it));
-    }
+    this->territories = rhs.territories;
+    this->continents = rhs.continents;
+    return *this;
 }
 
 
@@ -358,22 +325,22 @@ void Map:: validate(){
         }
         visitedTerritories.clear();
     }
-    cout<<"The map is connected and is a subgraph, no duplicate territories: Valid map. "<<endl;
+    cout<<"The map is connected and is a subgraph, with no duplicate territories: Valid map. "<<endl;
 }
 
 
 Map:: ~Map(){
 
-   
-    for (auto it : territories){
-        delete it; 
-        it = nullptr;
-    }
-    for (auto it : continents){
+   for (auto it : continents){
         delete it;
         it = nullptr;
     }
   
+    for (auto it : territories){
+        delete it; 
+        it = nullptr;
+    }
+    
 }
 
 ostream& operator << (ostream& output,  Map& m){
@@ -382,7 +349,7 @@ ostream& operator << (ostream& output,  Map& m){
 }
 
 
-////////////  MAPLOADER CLASS SECTION  /////////////
+//                                                     ****************  MAPLOADER CLASS SECTION   ****************
 
 
 void MapLoader:: setName(){
@@ -401,8 +368,9 @@ MapLoader :: MapLoader(const MapLoader& copy){
     this->name = copy.name;
 }
 
-void MapLoader:: operator=(const MapLoader & rhs) {
+MapLoader& MapLoader:: operator=(const MapLoader & rhs) {
     this-> name = rhs.name;
+    return *this;
 }
 
 ostream& operator <<(ostream& output,  MapLoader & map){

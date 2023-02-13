@@ -47,7 +47,7 @@ public:
     Territory(const Territory& copy);                     
 
 // ASSIGNMENT OPERATOR
-    void operator =(const Territory& rhs);                
+    Territory& operator =(const Territory& rhs);                
 
 // INSERTION OPERATOR
     friend ostream& operator<<(ostream& out, Territory& t);   
@@ -86,7 +86,7 @@ public:
     Continent(const Continent& copy);   
 
 // ASSIGNMENT OPERATOR 
-    void operator=(Continent& rhs);     
+    Continent& operator=(Continent& rhs);     
 
 // DESTRUCTOR
     ~Continent();     
@@ -128,7 +128,7 @@ public:
     Map(const Map& copy);      
 
 // ASSIGNMENT OPERATOR 
-    void operator= (const Map& rhs);      
+    Map& operator= (const Map& rhs);      
 
 // DESTRUCTOR 
     ~Map();                
@@ -160,7 +160,7 @@ public:
     MapLoader(const MapLoader& copy);   
 
 // ASSIGNMENT OPERATOR
-    void operator=(const MapLoader &rhs);    
+    MapLoader& operator=(const MapLoader &rhs);    
 
 // DESTRUCTOR
     ~MapLoader();      

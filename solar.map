@@ -14,6 +14,7 @@ Saturn 8 yellow
 Uranus 6 yellow   
 Neptune 6 yellow  
 Pluto 2 yellow    
+MadeUP 1
 
 [countries]
 1 Mercury-South 1 523 359
@@ -68,6 +69,7 @@ Pluto 2 yellow
 50 Neptune-North 9 103 78
 51 Pluto-East 10 80 31
 52 Pluto-West 10 61 29
+53 Imaginary 11 
 
 [borders]
 1 2 3 17
