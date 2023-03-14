@@ -12,7 +12,7 @@ int main() {
 		string input;
 		cout << "Enter a command: ";
 		cin >> input;
-		engine->acceptCommand(input);
+		engine->transition(input);
 	}
 
 	delete engine;

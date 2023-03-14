@@ -38,6 +38,7 @@ ostream& operator<<(ostream &out, OrdersList& o) { //displays description and ef
 
 void OrdersList::add(Order* o) { 
 	vectorOfOrders.push_back(o); 
+	Notify(o);
 }
 
 void OrdersList::remove(int i) // removes order at position i
@@ -59,6 +60,11 @@ OrdersList::~OrdersList() { // destructor
 		order = nullptr;
 	}
 	delete this;
+};
+
+string OrdersList::stringToLog() {
+
+	return "Order Issued: ...";
 };
 
 
@@ -94,6 +100,11 @@ Order::~Order() // default constructor
 	delete this;
 }
 
+string Order::stringToLog() {
+
+	return "Order Executed: ...";
+};
+
 /* -------------------------------------------------------------------------- */
 /*                                Deploy Class                                */
 /* -------------------------------------------------------------------------- */
@@ -114,6 +125,7 @@ void Deploy::execute(){
 	if (Deploy::validate()){ //validate the order
 		// deploy armies
 		orderEffect = "Armies have been placed on players territories"; 
+		Notify(this);
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to Deploy armies";
@@ -153,6 +165,7 @@ void Advance::execute(){
 	if (Advance::validate()){ //validate the order
 		//advance armies
 		orderEffect = "Armies have been moved to specified territory"; 
+		Notify(this);
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to Advance armies";
@@ -194,6 +207,7 @@ void Bomb::execute(){
 	if (Bomb::validate()){ //validate the order
 		//bomb area
 		orderEffect = "Destroyed half of the armies located on the opponents territory";
+		Notify(this);
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to Bomb territory";
@@ -235,6 +249,7 @@ void Blockade::execute(){
 	if (Blockade::validate()){ //validate the order
 		//put up a blockade
 		orderEffect = "Blockaded the territory. Territory is now a neutral zone";
+		Notify(this);
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to Blockade territory";
@@ -272,6 +287,7 @@ void Airlift::execute(){
 	if (Airlift::validate()){ //validate the order
 		//do an airlift
 		orderEffect = "Airlifted armies from one territory to another";
+		Notify(this);
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to perform Airlift";
@@ -310,6 +326,7 @@ void Negotiate::execute(){
 	if (Negotiate::validate()){ //validate the order
 		//negotiate with player
 		orderEffect = "Negotiations performed. Attacks have been prevented until the end of turn";
+		Notify(this);
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to Negotiate";

@@ -1,4 +1,5 @@
 #pragma once
+#include "LoggingObserver.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -11,7 +12,7 @@ class Order;
 /*                              OrdersList Class                              */
 /* -------------------------------------------------------------------------- */
 
-class OrdersList{
+class OrdersList : public ILoggable, public Subject {
 private:
     vector<Order*> vectorOfOrders; 
 public:
@@ -23,14 +24,14 @@ public:
     void remove(int i);                                         //remove(..) removes an order object from the orderslist
     void move(int from, int to);                                //move(..) swaps two orders places
     ~OrdersList();                                              //OrdersList destructor
-
+    virtual string stringToLog() override; 
 };
 
 /* -------------------------------------------------------------------------- */
 /*                                 Order Class                                */
 /* -------------------------------------------------------------------------- */
 
-class Order{
+class Order : public ILoggable, public Subject {
 protected:
     virtual string getDescription() = 0;                        //getDescription() returns order description. virtual + protected = can be overriden by subclasses
     string orderEffect;                                         //order effect stored there
@@ -40,6 +41,7 @@ public:
     Order(Order& copy);                                         //Order copy constructor            
     string getOrderEffect();                                    //gets the effect of the order
     friend ostream& operator<<(ostream &out, Order& o);         //Order stream insertion operator
+    virtual string stringToLog() override;                      
 };
 
 

@@ -1,6 +1,6 @@
 
 #pragma once
-
+#include "LoggingObserver.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -81,7 +81,7 @@ public:
 ostream& operator<<(ostream& out, Transition& transition);
 
 
-class GameEngine {
+class GameEngine : public ILoggable, public Subject {
 private:
 	bool isGameOver;
 	DirectedGraph* gameLoop;
@@ -97,7 +97,9 @@ public:
 	DirectedGraph* getGameLoop();
 	void setIsGameOver(bool isTheGameOver);
 
-	bool acceptCommand(string command);
+	bool transition(string command);
+
+	virtual string stringToLog() override;
 };
 
 ostream& operator<<(ostream& out, GameEngine& engine);

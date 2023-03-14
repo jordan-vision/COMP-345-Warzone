@@ -259,11 +259,12 @@ void GameEngine::setIsGameOver(bool isTheGameOver) { isGameOver = isTheGameOver;
 
 // Other methods
 // Executes command if valid, prints an error message otherwise. Furthermore, if the end state is achieved will delete the game engine
-bool GameEngine::acceptCommand(string command) {
+bool GameEngine::transition(string command) {
 	bool success = gameLoop->executeCommand(command);
 	if (success) {
 		cout << "Command " << command << " executed." << endl;
 		cout << "New current state: " << gameLoop->getCurrentState()->getLabel() << endl << endl;
+		Notify(this);
 		if (gameLoop->getCurrentState() == gameLoop->getEndState()) {
 			isGameOver = true;
 		}
@@ -333,4 +334,9 @@ int indexOfState(vector<State*> vec, State* element) {
 		return distance(vec.begin(), itr);
 	}
 	return -1;
+};
+
+string GameEngine::stringToLog() {
+
+	return "Game Engine New State: ...";
 };
