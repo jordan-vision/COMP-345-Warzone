@@ -56,10 +56,10 @@ ostream& operator<<(ostream& output, Player& p) {
 //Implementation of the toDefend() method
 vector<Territory*> Player::owned() {
 vector<Territory*> territoriesOwned;
-   territoriesDefend.push_back(new Territory("Territory 1"));
-    territoriesDefend.push_back(new Territory("Territory 2"));
-    territoriesDefend.push_back(new Territory("Territory 3"));
-    territoriesDefend.push_back(new Territory("Territory 4"));
+    territoriesOwned.push_back(new Territory("Territory 1"));
+    territoriesOwned.push_back(new Territory("Territory 2"));
+    territoriesOwned.push_back(new Territory("Territory 3"));
+    territoriesOwned.push_back(new Territory("Territory 4"));
 
     cout << "\nTerritories owned: " << endl;
     for(auto &t : territoriesOwned) 
