@@ -18,14 +18,17 @@ Player::~Player() {
         delete td;    
     for (Territory* ta : territoriesAttack) 
         delete ta; 
+   for (Territory* to : territoriesOwned) 
+        delete to;
     delete myOrders;
     delete myHand;
 };
 
 //Constructor that initializes the player's collection of territories, hand of cards, and the list of orders
-Player::Player(vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack)
-: territoriesDefend(territoriesDefend), territoriesAttack(territoriesAttack)
+Player::Player(vector<Territory*> territoriesOwned, vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack)
+: territoriesOwned(territoriesOwned), territoriesDefend(territoriesDefend), territoriesAttack(territoriesAttack)
  {
+  this->territoriesOwned = territoriesOwned;
   this->territoriesDefend = territoriesDefend;
   this->territoriesAttack = territoriesAttack;
  }
@@ -33,6 +36,7 @@ Player::Player(vector<Territory*> territoriesDefend, vector<Territory*> territor
 //Copy Constructor passing parameter p
 Player::Player(const Player& p)
 {
+  this->territoriesOwned = territoriesOwned;
   this->territoriesDefend = p.territoriesDefend;
   this->territoriesAttack = p.territoriesAttack;
 }
@@ -49,6 +53,22 @@ ostream& operator<<(ostream& output, Player& p) {
     return output;
 }
 
+//Implementation of the toDefend() method
+vector<Territory*> Player::owned() {
+vector<Territory*> territoriesOwned;
+   territoriesDefend.push_back(new Territory("Territory 1"));
+    territoriesDefend.push_back(new Territory("Territory 2"));
+    territoriesDefend.push_back(new Territory("Territory 3"));
+    territoriesDefend.push_back(new Territory("Territory 4"));
+
+    cout << "\nTerritories owned: " << endl;
+    for(auto &t : territoriesOwned) 
+    {
+        cout << *t << endl;
+    }
+    return territoriesOwned;
+
+}
 //Implementation of the toDefend() method
 vector<Territory*> Player::toDefend() {
  vector<Territory*> territoriesDefend;

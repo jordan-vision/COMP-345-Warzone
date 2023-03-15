@@ -31,16 +31,18 @@ class Player
         Player();
         //Destructor
         ~Player();
-        //Constructor that initializes the player's collection of territories, hand of cards, and the list of orders
-        Player(vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack);
+        //Constructor that initializes the player's collection of territories
+        Player(vector<Territory*> territoriesOwned, vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack);
         //Copy Constructor passing parameter p
         Player(const Player& p); 
          //insertion operator
         friend ostream& operator<<(ostream& output, Player&);  
-        //method named toDefend() that return a list of territories that are to be defend - const so it cannot be modified
+        //method named toDefend() that return a list of territories that are to be defend 
         vector<Territory*> toDefend() ;
-        //method named toAttack() that returns a list of territories that are to be attacked  - const so it cannot be modified
+        //method named toAttack() that returns a list of territories that are to be attacked 
         vector<Territory*> toAttack() ;
+         //method named toAttack() that returns a list of territories that are to be attacked 
+        vector<Territory*> owned() ;
         //creating an order object called myOrders
         OrdersList* myOrders;
         //method named issueOrder() 
@@ -50,6 +52,7 @@ class Player
        
 
     private:
+        vector<Territory*> territoriesOwned;
         vector<Territory*> territoriesDefend;
         vector<Territory*> territoriesAttack;
         string name;
