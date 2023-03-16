@@ -4,6 +4,9 @@
 #include <iostream>
 #include <algorithm>
 #include "GameEngine.h"
+#include "Map.h"
+// #include "Player.h"
+#include "Cards.h"
 using namespace std;
 
 /* 
@@ -264,7 +267,7 @@ bool GameEngine::transition(string command) {
 	if (success) {
 		cout << "Command " << command << " executed." << endl;
 		cout << "New current state: " << gameLoop->getCurrentState()->getLabel() << endl << endl;
-		Notify(this);
+		// Notify(this);
 		if (gameLoop->getCurrentState() == gameLoop->getEndState()) {
 			isGameOver = true;
 		}
@@ -336,7 +339,112 @@ int indexOfState(vector<State*> vec, State* element) {
 	return -1;
 };
 
-string GameEngine::stringToLog() {
+// string GameEngine::stringToLog() {
 
-	return "Game Engine New State: ...";
+// 	return "Game Engine New State: ...";
+// };
+
+
+void GameEngine::startupPhase() {
+    MapLoader* loader = new MapLoader();
+    Map* map;
+
+    cout << "\nStartup Phase:" << endl;
+	cout << "----------------\n" << endl;
+
+    cout << "1. Load Map \n" << endl;
+            int x;
+            do {
+                cout << "Please select a map by entering the number on the list:  " << endl;
+                cout << "1. Chrono Trigger" << endl;
+                cout << "2. Europe" << endl;
+                cout << "3. Solar" << endl;
+                cin >> x;
+
+                if (x == 1) {
+                    map = loader->loadMap("Chrono_Trigger.map");
+					this->transition("loadmap");
+                    break;
+                }
+                else if (x == 2) {
+                    map = loader->loadMap("europe.map");
+					this->transition("loadmap");
+                    break;
+                }
+                else if (x == 3) {
+                    map = loader->loadMap("solar.map");
+					this->transition("loadmap");
+                    break;
+                }
+                else {
+                    cout << "Invalid map selection." << endl;
+					this->transition("invalid");
+
+                }
+            } while (x < 1 || x > 3);
+        
+    cout << "2. Validate Map\n" << endl;
+            // map->validate();
+			// this->transition("validatemap");
+			if (!this->mapLoaded->validate()) {
+				cout << "Cannot transition to validatemap state, map is not valid." << endl;
+			}
+			else {
+				this->transition("validatemap");
+			}
+	
+    
+    cout << "3. Add Player\n" << endl;
+            int numPlayers;
+            do {
+                cout << "Please enter the number of players (2-6):  " << endl;
+                cin >> numPlayers;
+                if (numPlayers < 2 || numPlayers > 6) {
+                    cout << "\nInvalid number of players.\n" << endl;
+                }
+            } while (numPlayers < 2 || numPlayers > 6);
+
+            vector<string> playerNames(numPlayers);
+            for (int i = 0; i < numPlayers; i++) {
+                cout << "Please enter the name of player " << i + 1 << ": ";
+                cin >> playerNames[i];
+            }
+    		this->transition("addplayer");
+
+    
+			//fairly distribute all the territories to the players
+			
+			//determine randomly the order of play of the players in the game
+
+			//give 50 initial armies to the players, which are placed in their respective reinforcement pool
+
+			//let each player draw 2 initial cards from the deck using the deck’s draw() method
+			// Constants to store deck/hand size
+			// const int DECK_SIZE = 17;
+			// const int HAND_SIZE = 2;
+
+			// // Create deck object
+			// Deck myDeck;
+
+			// // Fill deck according to size (will round to nearest multiple of 5)
+			// myDeck.fillDeck(DECK_SIZE);
+
+			// // Create players and hands
+			// vector<Player> players(numPlayers);
+			// vector<Hand> hands(numPlayers);
+
+			// // Outputs cards in deck (not shuffled)
+			// cout << myDeck << "\n" << endl;
+
+			// // Draws cards from deck into player hand
+			// for (int i = 0; i < HAND_SIZE; i++) 
+			// 	myPlayer.myHand->handCards.push_back(myDeck.draw());
+			
+			
+			// // Outputs player hand
+			// cout << myPlayer.myHand << "\n" << endl;
+			// 		//switch the game to the play phase            
+					
+			 this->transition("gamestart");
+
 };

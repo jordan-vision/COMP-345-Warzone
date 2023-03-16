@@ -1,6 +1,6 @@
 
 #pragma once
-#include "LoggingObserver.h"
+// #include "LoggingObserver.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -81,10 +81,14 @@ public:
 ostream& operator<<(ostream& out, Transition& transition);
 
 
-class GameEngine : public ILoggable, public Subject {
+class GameEngine 
+// : public ILoggable, public Subject 
+{
 private:
 	bool isGameOver;
 	DirectedGraph* gameLoop;
+	string fileName;
+	string playerName;
 
 public:
 	GameEngine();
@@ -99,7 +103,31 @@ public:
 
 	bool transition(string command);
 
-	virtual string stringToLog() override;
+	// virtual string stringToLog() override;
+
+	//startup phase method implements a command-based user interaction mechanism 
+	//to start the game by allowing the user to proceed with the game startup phase:
+	void startupPhase();
+	//load map method: select a map from a list of map files as stored in a directory, which results in the map being loaded in the game
+	void loadMap(string fileName);
+	//validate map
+    void validateMap();
+	//add players
+    void addPlayer(string playerName);
+	//starts the game
+	void gameStart();
+	//fairly distribute all the territories to the players
+	void distributeTerritories();
+	//determine randomly the order of play of the players in the game
+	void playerOrder();
+	//give 50 initial armies to the players, which are placed in their respective reinforcement pool
+    void assignInitialArmies();
+	//let each player draw 2 initial cards from the deck using the deck’s draw() method
+    void drawInitialCards();
+	//switch the game to the play phase
+    void switchToPlayPhase();
+
+
 };
 
 ostream& operator<<(ostream& out, GameEngine& engine);
