@@ -38,7 +38,7 @@ class CommandProcessor : public ILoggable, Subject {
 
         Command* getCommand();              
         //void saveEffect();
-        bool validate();        
+        bool validate(string command);        
 
 
 

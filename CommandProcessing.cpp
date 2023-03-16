@@ -123,7 +123,10 @@ Command* CommandProcessor:: readCommand(){
     string command;
     cout<<"\n*** Reading Command ***\nEnter your command: ";
     getline(cin, command);
-    return new Command (command);
+    // Validate the command
+    Command* newCommand = new Command(command);
+    saveCommand(newCommand);
+    return newCommand;
 }
 
 Command* CommandProcessor:: getCommand(){
@@ -132,10 +135,10 @@ Command* CommandProcessor:: getCommand(){
 
     //validate method should be called here once its definition has been implemented to check the command
 
-    saveCommand(newCommand);
+    return newCommand;
 }
 
-bool CommandProcessor:: validate(){
+bool CommandProcessor:: validate(string command){
 
         // Need to access game state and stuff to validate command 
 }
