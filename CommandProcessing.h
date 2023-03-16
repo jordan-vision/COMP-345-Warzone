@@ -53,7 +53,7 @@ class CommandProcessor : public ILoggable, Subject {
 
 
     protected:
-        Command* readCommand();        
+        virtual Command* readCommand();        
         vector <Command*> commandList;
 };
 
@@ -88,7 +88,7 @@ class FileCommandProcessorAdapter : public CommandProcessor {
         friend ostream& operator <<(ostream& output, FileCommandProcessorAdapter& object);        
         FileCommandProcessorAdapter& operator = (FileCommandProcessorAdapter& rhs);        
 
-        void readCommand(string fileName); 
+        Command* readCommand(string fileName); 
 
     protected: 
         FileLineReader* flr;
