@@ -1,6 +1,9 @@
 
 #include <iostream>
 #include "GameEngine.h"
+#include "Map.h"
+#include "Player.h"
+#include "Cards.h"
 using namespace std;
 
 int main() {

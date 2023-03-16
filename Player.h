@@ -11,15 +11,16 @@ using std:: ostream;
 //defining class
 class OrdersList;
 class Hand;
+class Territory;
 
 //Territory class with getName() function 
-class Territory 
+class TerritoryPlayer 
 {
     public:
-        Territory(string territoryName) : name(territoryName) {}
+        TerritoryPlayer(string territoryName) : name(territoryName) {}
         string getName() const { return name; }
         //insertion operator
-        friend ostream& operator<<(ostream& output, Territory&  t);  
+        friend ostream& operator<<(ostream& output, TerritoryPlayer&  t);  
     private:
         string name;
 };
@@ -32,29 +33,41 @@ class Player
         //Destructor
         ~Player();
         //Constructor that initializes the player's collection of territories
-        Player(vector<Territory*> territoriesOwned, vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack);
+        Player(vector<TerritoryPlayer*> territoriesOwned, vector<TerritoryPlayer*> territoriesDefend, vector<TerritoryPlayer*> territoriesAttack, string name);
         //Copy Constructor passing parameter p
         Player(const Player& p); 
+        //constructor for name
+        Player(string name);
          //insertion operator
         friend ostream& operator<<(ostream& output, Player&);  
         //method named toDefend() that return a list of territories that are to be defend 
-        vector<Territory*> toDefend() ;
+        vector<TerritoryPlayer*> toDefend() ;
         //method named toAttack() that returns a list of territories that are to be attacked 
-        vector<Territory*> toAttack() ;
+        vector<TerritoryPlayer*> toAttack() ;
          //method named toAttack() that returns a list of territories that are to be attacked 
-        vector<Territory*> owned() ;
-        //creating an order object called myOrders
-        OrdersList* myOrders;
-        //method named issueOrder() 
-        void issueOrder(string orderType);
+        vector<TerritoryPlayer*> owned() ;
+        // //creating an order object called myOrders
+        // OrdersList* myOrders;
+        // //method named issueOrder() 
+        // void issueOrder(string orderType);
         //creating a hand of cards called myHand
         Hand* myHand;
+        //getter and setter
+         string getName();            
+         void setName(string name);
+         vector <Territory*> getPlayerTerritories();     
+         void setPlayerTerritories(Territory* territory);   
+         void addPlayerTerritories(Territory* territory);   
+         int getArmy();            
+         void setArmy(int army);
        
 
     private:
-        vector<Territory*> territoriesOwned;
-        vector<Territory*> territoriesDefend;
-        vector<Territory*> territoriesAttack;
+        vector <Territory*> territories; 
+        vector<TerritoryPlayer*> territoriesOwned;
+        vector<TerritoryPlayer*> territoriesDefend;
+        vector<TerritoryPlayer*> territoriesAttack;
+        int army;
         string name;
 
 };

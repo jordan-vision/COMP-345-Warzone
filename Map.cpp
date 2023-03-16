@@ -186,7 +186,7 @@ ostream& operator<<(ostream& output,  Continent& c){
 
 //                                                **************** MAP CLASS SECTION  ****************
 
-vector <Territory*> Map:: getTeritories(){
+vector <Territory*> Map:: getTerritories(){
     return territories;
 }
 
@@ -530,9 +530,9 @@ Map* MapLoader:: loadMap(string file){
         vector <string> splitvector = split(readLine);
         int currentTerritoryID = stoi(splitvector[0]);
         for(int i = 1; i < splitvector.size(); i++){
-            for(auto it : map->getTeritories()){
+            for(auto it : map->getTerritories()){
                 if (stoi(splitvector[i]) == it->getTerritoryID()){
-                    map->getTeritories()[currentTerritoryID - 1]->setAdjacentTerritory(it);
+                    map->getTerritories()[currentTerritoryID - 1]->setAdjacentTerritory(it);
                 }
             }
         }

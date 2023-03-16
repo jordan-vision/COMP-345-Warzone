@@ -111,7 +111,7 @@ public:
     void mapTraversal(Territory* current, vector <Territory*> &visitedTerritories, string name); 
 
 // GETTERS
-    vector <Territory*> getTeritories();        
+    vector <Territory*> getTerritories();        
     vector <Continent*> getContinents();        
     string getName();     
     bool getIsValid();
