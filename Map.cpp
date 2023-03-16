@@ -198,7 +198,7 @@ string Map:: getName(){
     return name;
 }
 
-boolean Map:: getIsValid(){
+bool Map:: getIsValid(){
     return isValid; 
 }
 
@@ -214,7 +214,7 @@ void Map:: setName(string name){
     this->name = name;
 }
 
-void Map:: setIsValid(boolean isValid){
+void Map:: setIsValid(bool isValid){
     this->isValid = isValid; 
 }
 
