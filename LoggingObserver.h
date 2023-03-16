@@ -3,12 +3,11 @@
 #include <string>
 using namespace std;
 
-class LogObserver : public Observer {
+class ILoggable {
 
     public:
-        LogObserver();
-        ~LogObserver();
-        virtual void Update(ILoggable* log) override;
+        ~ILoggable();
+        virtual string stringToLog() =0;
 };
 
 class Observer {
@@ -20,6 +19,13 @@ class Observer {
         Observer();
 };
 
+class LogObserver : public Observer {
+
+    public:
+        LogObserver();
+        ~LogObserver();
+        virtual void Update(ILoggable* log) override;
+};
 
 class Subject {
     
@@ -31,11 +37,4 @@ class Subject {
         ~Subject();
     private:
         list<Observer*> *_observers;
-};
-
-class ILoggable {
-
-    public:
-        ~ILoggable();
-        virtual string stringToLog() =0;
 };

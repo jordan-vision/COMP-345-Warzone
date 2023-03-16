@@ -41,3 +41,7 @@ void Subject::Notify(ILoggable* log) {
     for (; i != _observers->end(); ++i)
         (*i)->Update(log);
 };
+
+ILoggable::~ILoggable() {
+
+};
