@@ -102,6 +102,7 @@ private:
     vector <Territory*> territories;
     vector <Continent*> continents;
     string name;
+    boolean isValid; 
 
 public: 
 // FUNCTIONS
@@ -113,11 +114,13 @@ public:
     vector <Territory*> getTeritories();        
     vector <Continent*> getContinents();        
     string getName();     
+    boolean getIsValid();
 
 // SETTERS
     void setTerritories(Territory* territory);      
     void setContinents(Continent* continent);        
-    void setName(string name);     
+    void setName(string name);    
+    void setIsValid(boolean isValid);
 
 // CONSTRUCTORS
     Map();          

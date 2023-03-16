@@ -198,6 +198,10 @@ string Map:: getName(){
     return name;
 }
 
+boolean Map:: getIsValid(){
+    return isValid; 
+}
+
 void Map:: setTerritories(Territory* territory){
     this->territories.push_back(territory);
 }
@@ -208,6 +212,10 @@ void Map:: setContinents(Continent* continent){
 
 void Map:: setName(string name){
     this->name = name;
+}
+
+void Map:: setIsValid(boolean isValid){
+    this->isValid = isValid; 
 }
 
 Map :: Map(){
@@ -304,6 +312,7 @@ void Map:: validate(){
         for (int j = 1 + i; j < territories.size(); j++){
             if (territories[i]->getName() == territories[j]->getName()){
                 cout<<"Error. Duplicate territory ["<<territories[i]->getName()<<"] "<<"was found. Invalid map."<<endl;
+                isValid = false; 
                 return;
             }
         }
@@ -313,6 +322,7 @@ void Map:: validate(){
     mapTraversal(this->territories[0], visitedTerritories);
     if (visitedTerritories.size() != this->territories.size()) {
         cout<<"This map is not connected: Invalid map. "<<endl;
+        isValid = false; 
         return;
     } 
 
@@ -321,10 +331,12 @@ void Map:: validate(){
         mapTraversal(it->getTerritories()[0], visitedTerritories, it->getName());
         if (visitedTerritories.size() != it->getTerritories().size()){
             cout<<"This map is not a connected subgraph: Invalid map. "<<endl;
+            isValid = false; 
             return;
         }
         visitedTerritories.clear();
     }
+    isValid = true; 
     cout<<"The map is connected and is a subgraph, with no duplicate territories: Valid map. "<<endl;
 }
 
