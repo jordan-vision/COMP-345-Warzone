@@ -47,9 +47,9 @@ class Player
          //method named toAttack() that returns a list of territories that are to be attacked 
         vector<TerritoryPlayer*> owned() ;
         // //creating an order object called myOrders
-        // OrdersList* myOrders;
-        // //method named issueOrder() 
-        // void issueOrder(string orderType);
+        OrdersList* myOrders;
+        //method named issueOrder() 
+        void issueOrder(string orderType);
         //creating a hand of cards called myHand
         Hand* myHand;
         //getter and setter
