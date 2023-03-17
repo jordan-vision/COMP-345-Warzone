@@ -220,10 +220,11 @@ GameEngine::GameEngine() {
 	State* mapLoaded = new State("map loaded");
 	State* mapValidated = new State("map validated");
 	State* playersAdded = new State("players added");
-	State* assignReinforcement = new State("assign reinforcements");
+	State* assignReinforcement = new State("game start");
 	State* issueOrders = new State("issue orders");
 	State* executeOrders = new State("execute orders");
 	State* win = new State("win");
+
 
 	// Transitions and commands
 	start->connect(mapLoaded, "loadmap");
@@ -231,7 +232,7 @@ GameEngine::GameEngine() {
 	mapLoaded->connect(mapValidated, "validatemap");
 	mapValidated->connect(playersAdded, "addplayer");
 	playersAdded->connect(playersAdded, "addplayer");
-	playersAdded->connect(assignReinforcement, "assigncountries");
+	playersAdded->connect(assignReinforcement, "gamestart");
 	assignReinforcement->connect(issueOrders, "issueorder");
 	issueOrders->connect(issueOrders, "issueorder");
 	issueOrders->connect(executeOrders, "endissueorders");
@@ -409,8 +410,8 @@ cout << "3. Add Player\n" << endl;
 		}
 
 //dont know if i need this ??????????????
-		// cout << "\n" << endl;
-		// this->transition("addplayer");
+		cout << "\n" << endl;
+		this->transition("addplayer");
 
 
  cout << "4. Game Start\n" << endl;
@@ -457,9 +458,14 @@ cout << "3. Add Player\n" << endl;
 //--------------------------------------------------------------------------------
 
 			//give 50 initial armies to the players, which are placed in their respective reinforcement pool
+			cout << "Initial Armies: \n";
 			for (int i = 0; i < players.size(); i++) {
 				players[i]->setArmy(50);
+				cout << "Player " << i+1 << " ("<< players[i]->getName() << "): " << players[i]->getArmy() << "\n";
 			}
+			cout << "\n";
+
+
 //--------------------------------------------------------------------------------
 
 			//let each player draw 2 initial cards from the deck using the deck’s draw() method
@@ -489,10 +495,12 @@ cout << "3. Add Player\n" << endl;
 			}
 
 			//switch the game to the play phase
-	/*
-	NEED TO IMPLEMENT THIS
-	
-	*/
+			if (this->transition("gamestart"))
+			{
+			cout << "Game has switched to Play Phase." << endl;
+			}
+
+
 
 	};
 
