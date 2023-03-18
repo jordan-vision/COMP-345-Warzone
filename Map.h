@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <map>
+#include <set>
 using namespace std;
 class Player; 
 class Continent; 

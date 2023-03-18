@@ -25,4 +25,6 @@ int main() {
 	// delete engine;
 	// cout << "Game over!" << endl;
 	// return 0;
+
+	e.reinforcementPhase();
 };

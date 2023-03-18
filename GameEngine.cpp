@@ -345,6 +345,7 @@ int indexOfState(vector<State*> vec, State* element) {
 // 	return "Game Engine New State: ...";
 // };
 
+vector<Player*> players;
 
 void GameEngine::startupPhase() {
     MapLoader* loader = new MapLoader();
@@ -398,7 +399,7 @@ cout << "3. Add Player\n" << endl;
 			}
 		} while (numPlayers < 2 || numPlayers > 6);
 
-			vector<Player*> players;
+			//vector<Player*> players;
 			cout << "\nYou have selected " << numPlayers << " players." <<endl;
 
 		for (int i = 0; i < numPlayers; i++) {
@@ -503,4 +504,66 @@ cout << "3. Add Player\n" << endl;
 
 
 	};
+
+	
+
+void GameEngine::mainGameLoop() {
+	if (this->transition("gamestart"))
+			{
+			cout << "Game has switched to Play Phase." << endl;
+			}
+}
+
+void GameEngine::issueOrdersPhase(){
+	
+}
+
+void GameEngine::executeOrdersPhase(){
+
+}
+
+void GameEngine::reinforcementPhase(){
+for (int i = 0; i < players.size(); i++) {
+    cout << "\nPlayer " << i + 1 << "'s territories "  << "("<< players[i]->getName() << "): \n"<< endl; // output players territories
+
+	// 
+	map<string, set<Territory*>> continentTerritories;
+        
+        for (Territory* territory : players[i]->getPlayerTerritories()) {
+            cout << territory->getName() << endl;
+            
+            string continentName = territory->getContinent()->getName();
+            continentTerritories[continentName].insert(territory);
+        }
+        
+        bool sameContinent = true;
+        string firstContinentName;
+        
+        for (const auto& [continentName, territories] : continentTerritories) {
+            if (firstContinentName.empty()) {
+                firstContinentName = continentName;
+            } else if (continentName != firstContinentName) {
+                sameContinent = false;
+                break;
+            }
+        }
+		if (sameContinent) {
+            cout << "All territories are in the same continent: " << firstContinentName << endl;
+			//players[i]->getPlayerTerritories()->;
+
+        } else {
+            cout << "Territories are in different continents." << endl;
+        }
+
+
+    cout << "Player " << i + 1 <<   " (" << players[i]->getName() << ") " << "number of territories: "  << players[i]->getPlayerTerritories().size() << endl;
+	int numberTerritories = players[i]->getPlayerTerritories().size(); //get number of territories
+	int currentArmies = players[i]->getArmy();
+	players[i]->setArmy(numberTerritories/3 + currentArmies); // assign number of armies
+	cout << "Player " << i + 1 <<   " (" << players[i]->getName() << ") " << "number of armies: "  << players[i]->getArmy() << endl;
+
+
+}
+}
+
 
