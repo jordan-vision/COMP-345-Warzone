@@ -1,6 +1,6 @@
 
 #pragma once
-#include "LoggingObserver.h"
+// #include "LoggingObserver.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -81,7 +81,8 @@ public:
 ostream& operator<<(ostream& out, Transition& transition);
 
 
-class GameEngine : public ILoggable, public Subject 
+class GameEngine 
+// : public ILoggable, public Subject 
 {
 private:
 	static bool isGameOver;
@@ -101,15 +102,11 @@ public:
 
 	bool transition(string command);
 
-	virtual string stringToLog() override;
+	// virtual string stringToLog() override;
 
 	//startup phase method implements a command-based user interaction mechanism 
 	//to start the game by allowing the user to proceed with the game startup phase:
 	void startupPhase();
-	void mainGameLoop();
-	void reinforcementPhase();
-	void executeOrdersPhase();
-	void issueOrdersPhase();
 };
 
 ostream& operator<<(ostream& out, GameEngine& engine);
