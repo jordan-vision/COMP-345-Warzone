@@ -268,7 +268,7 @@ bool GameEngine::transition(string command) {
 	if (success) {
 		cout << "Command " << command << " executed." << endl;
 		cout << "New current state: " << gameLoop->getCurrentState()->getLabel() << endl << endl;
-		// Notify(this);
+		Notify(this);
 		if (gameLoop->getCurrentState() == gameLoop->getEndState()) {
 			isGameOver = true;
 		}
@@ -340,10 +340,10 @@ int indexOfState(vector<State*> vec, State* element) {
 	return -1;
 };
 
-// string GameEngine::stringToLog() {
+string GameEngine::stringToLog() {
 
-// 	return "Game Engine New State: ...";
-// };
+	return "Game Engine New State: ...";
+};
 
 
 void GameEngine::startupPhase() {
