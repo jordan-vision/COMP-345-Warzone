@@ -52,9 +52,9 @@ for(auto continent: map5->getContinents()){
 // Prints adjacent territories of some territories in map 5 - europe.map
 
 for (int i = 0; i <= 3 ; i++){
-    cout<<"\nTerritory "<<*map5->getTerritories()[i]<<" has these adjacent territories: "<<endl;
-    for(int j = 0; j < map5->getTerritories()[i]->getAdjacentTerritories().size(); j++){
-        cout<<*map5->getTerritories()[i]->getAdjacentTerritories()[j]<<endl;
+    cout<<"\nTerritory "<<*map5->getTeritories()[i]<<" has these adjacent territories: "<<endl;
+    for(int j = 0; j < map5->getTeritories()[i]->getAdjacentTerritories().size(); j++){
+        cout<<*map5->getTeritories()[i]->getAdjacentTerritories()[j]<<endl;
     }
 }
 
