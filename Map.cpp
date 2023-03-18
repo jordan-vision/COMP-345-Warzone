@@ -220,14 +220,14 @@ void Map:: setIsValid(bool isValid){
 
 Map :: Map(){
     name = "";
-    vector <Territory*> territories ();
-    vector <Continent*> continents ();
+    vector <Territory*> territories;
+    vector <Continent*> continents;
 }
 
 Map:: Map(string name){
     this->name = name;
-    vector <Territory*> territories ();
-    vector <Continent*> continents ();
+    vector <Territory*> territories;
+    vector <Continent*> continents;
 }
 
 Map:: Map(vector <Territory*> territories, vector <Continent*> continents){
@@ -364,7 +364,7 @@ ostream& operator << (ostream& output,  Map& m){
 //                                                     ****************  MAPLOADER CLASS SECTION   ****************
 
 
-void MapLoader:: setName(){
+void MapLoader:: setName(string name){
     this->name = name;
 }
 

@@ -155,7 +155,7 @@ public:
     string getName();
 
 // SETTER
-    void setName();
+    void setName(string name);
 
 // CONSTRUCTOR
     MapLoader();       
