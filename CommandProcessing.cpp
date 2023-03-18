@@ -46,12 +46,13 @@ void Command:: setCommandEffect(string effect){
 }
 
 ostream& operator <<(ostream& output, Command& command){
-    output<<command.commandName<<endl;
+   return output<<command.commandName<<endl;
 }
 
 Command& Command:: operator=(const Command& rhs){
     this->commandName = rhs.commandName; 
     this->effect = rhs.effect;
+    return *this; 
 }
 
 
@@ -110,7 +111,7 @@ CommandProcessor& CommandProcessor:: operator = (const CommandProcessor& rhs){
 }
 
 ostream& operator <<(ostream& output, CommandProcessor& command){
-    output<<"Command Processor"<<endl;
+    return output<<"Command Processor"<<endl;
 }
 
 void CommandProcessor::saveCommand(Command* command) {
@@ -163,10 +164,10 @@ FileLineReader:: FileLineReader(){}
 
 FileLineReader:: FileLineReader(const FileLineReader& copy){}
 
-FileLineReader&  FileLineReader :: operator =(FileLineReader& rhs){}
+FileLineReader&  FileLineReader :: operator =(FileLineReader& rhs) {return *this;}
 
 ostream& operator << (ostream& output, const FileLineReader& reader){
-    cout<<"This is a file line reader object"<<endl;
+    return cout<<"This is a file line reader object"<<endl;
 }
 
 
@@ -202,7 +203,7 @@ FileCommandProcessorAdapter:: FileCommandProcessorAdapter(const FileCommandProce
 }
 
 ostream& operator <<(ostream& output, FileCommandProcessorAdapter& adapter){
-    output<<"\nThis is a file command processor adapter object"<<endl;
+    return output<<"\nThis is a file command processor adapter object"<<endl;
 }
 
 Command* FileCommandProcessorAdapter:: readCommand(string fileName){

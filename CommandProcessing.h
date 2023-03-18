@@ -3,7 +3,7 @@
 #include "LoggingObserver.h"
 class FileLineReader;
 
-class Command : public ILoggable, Subject {
+class Command : public ILoggable, public Subject {
     public:
         void saveEffect(string effect);        
         virtual string stringToLog() override;
@@ -31,7 +31,7 @@ class Command : public ILoggable, Subject {
 
 };
 
-class CommandProcessor : public ILoggable, Subject {
+class CommandProcessor : public ILoggable, public Subject {
     public:
         void saveCommand(Command* command);     
         virtual string stringToLog() override;     
