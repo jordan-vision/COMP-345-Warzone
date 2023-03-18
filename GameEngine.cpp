@@ -516,7 +516,11 @@ void GameEngine::mainGameLoop() {
 			{
 			cout << "Game has switched to Play Phase." << endl;
 			}
-}
+
+	reinforcementPhase();
+	issueOrdersPhase();
+	executeOrdersPhase();
+	}
 
 void GameEngine::issueOrdersPhase(){
 	
