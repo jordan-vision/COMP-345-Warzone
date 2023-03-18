@@ -88,7 +88,7 @@ class FileCommandProcessorAdapter : public CommandProcessor {
         friend ostream& operator <<(ostream& output, FileCommandProcessorAdapter& object);        
         FileCommandProcessorAdapter& operator = (FileCommandProcessorAdapter& rhs);        
 
-        Command* readCommand(string fileName); 
+        void readCommand(string fileName); 
 
     protected: 
         FileLineReader* flr;
