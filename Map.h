@@ -21,7 +21,8 @@ private:
 public: 
 // GETTERS                                               
     string getName();                                    
-    int getArmy();                                      
+    int getArmy();     
+    void addArmy(int units);                                 
     Player* getOwner();                                   
     Continent* getContinent();                          
     int getContinentID();                                

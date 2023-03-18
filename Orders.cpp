@@ -2,7 +2,7 @@
 #include <iostream>
 #include <typeinfo>
 #include "Orders.h"
-
+#include <limits>
 /* -------------------------------------------------------------------------- */
 /*                              OrdersList Class                              */
 /* -------------------------------------------------------------------------- */
@@ -105,6 +105,11 @@ string Order::stringToLog() {
 	return "Order Executed: ...";
 };
 
+void Order::execute(Player* player, Territory* Target) {
+
+    Notify(this);
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                Deploy Class                                */
 /* -------------------------------------------------------------------------- */
@@ -121,19 +126,48 @@ Deploy& Deploy::operator=(const Deploy& d){ //assignment operator
 	return *this;
 }
 
-void Deploy::execute(){
-	if (Deploy::validate()){ //validate the order
-		// deploy armies
+void Deploy::execute(Player* player, Territory* target){
+
+	if (Deploy::validate(player, target)) { 
+
+		int reinforcementAmount = 0;
+    	while (true) {
+
+    	    cout << "How many reinforcements do you wish to send ( 1 - " << player->getArmy() << " )?";
+
+    	    if (!(cin >> reinforcementAmount)) {
+
+    	        cin.clear();
+    	        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    	        cout << "Invalid input: Please try again!" << endl;
+
+    	    } else if (reinforcementAmount < 1 || reinforcementAmount > player->getArmy()) 
+    	        cout << "Invalid Input: Please try again!" << endl;
+    	    else 
+    	        break;
+    	} // end of while loop
+
+		target->addArmy(reinforcementAmount);
 		orderEffect = "Armies have been placed on players territories"; 
-		Notify(this);
-	}else{
-		//display error message or whatever has to happen
+
+    } else 
 		orderEffect = "Unable to Deploy armies";
-	}
+	
 }
 
-bool Deploy::validate(){
-	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
+bool Deploy::validate(Player* player, Territory* target){
+	
+	// Check ownership of target territory
+	if (target->getOwner()->getName() == player->getName()) {
+		
+		if (player->getArmy() != 0) // Check if reinforcement pool is empty
+			return true;
+		else 
+			cout << "There are no reinforcements available!";
+	} else 
+		cout << "Invalid Order: Player does not own target territory!";
+	
+	return false;
 }
 
 string Deploy::getDescription() 
@@ -161,19 +195,29 @@ Advance& Advance::operator=(const Advance& a){ //assignment operator
 	return *this;
 }
 
-void Advance::execute(){
-	if (Advance::validate()){ //validate the order
+void Advance::execute(Player* player, Territory* target){
+
+	if (Advance::validate(player, target)) { //validate the order
+
+
+
+
 		//advance armies
 		orderEffect = "Armies have been moved to specified territory"; 
 		Notify(this);
+
+
+
+		
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to Advance armies";
 	}
 }
 
-bool Advance::validate(){
-	return true; // TODO: logic to be implemented, currrently returning true for testing purposes  
+bool Advance::validate(Player* player, Territory* target){
+
+	
 }
 
 string Advance::getDescription()
@@ -203,19 +247,35 @@ Bomb& Bomb::operator=(const Bomb& b){ //assignment operator
 	return *this;
 }
 
-void Bomb::execute(){
-	if (Bomb::validate()){ //validate the order
+void Bomb::execute(Player* player, Territory* target){
+
+	if (Bomb::validate(player, target)){ //validate the order
+
+		target->setArmy(target->getArmy() / 2);
+		cout << "The target territory has been bombed (half the army is gone)"; 
 		//bomb area
 		orderEffect = "Destroyed half of the armies located on the opponents territory";
 		Notify(this);
-	}else{
-		//display error message or whatever has to happen
-		orderEffect = "Unable to Bomb territory";
-	}
+
+	} else 
+		orderEffect = "Invalid Order: Player owns target territory!";
+	
 }
 
-bool Bomb::validate(){
-	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
+bool Bomb::validate(Player* player, Territory* target) {
+
+	// Check ownership of target territory
+	if (target->getOwner()->getName() != player->getName()) {
+		// Iterate through owned territories
+		for (Territory* pTerritory : player->getPlayerTerritories()) 
+			// Iterate through adjacent territories 
+			for (Territory* adjTerritory : pTerritory->getAdjacentTerritories()) 
+				// Check target territory is adjacent
+				if (adjTerritory->getName() == target->getName()) 
+					return true;
+	}
+
+	return false;
 }
 
 string Bomb::getDescription(){
@@ -245,18 +305,30 @@ Blockade& Blockade::operator=(const Blockade& b){ //assignment operator
 	return *this;
 }
 
-void Blockade::execute(){
-	if (Blockade::validate()){ //validate the order
-		//put up a blockade
+void Blockade::execute(Player* player, Territory* target){
+
+	if (Blockade::validate(player, target)) { 
+
+		target->addArmy(target->getArmy() * 2);
+
+		// IMPLEMENT: give ownership to neutralPlayer
+		//target->setOwner(); 
+
 		orderEffect = "Blockaded the territory. Territory is now a neutral zone";
 		Notify(this);
-	}else{
-		//display error message or whatever has to happen
-		orderEffect = "Unable to Blockade territory";
-	}
+
+
+
+	} else
+		orderEffect = "Invalid Order: Player does not own target territory!";
+	
 }
-bool Blockade::validate(){
-	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
+bool Blockade::validate(Player* player, Territory* target){
+
+	if (target->getOwner()->getName() == player->getName()) 
+		return true;
+	
+	return false; 
 }
 
 string Blockade::getDescription(){
@@ -283,8 +355,8 @@ Airlift& Airlift::operator=(const Airlift& a){ //assignment operator
 	return *this;
 }
 
-void Airlift::execute(){
-	if (Airlift::validate()){ //validate the order
+void Airlift::execute(Player* player, Territory* target){
+	if (Airlift::validate(player, target)){ //validate the order
 		//do an airlift
 		orderEffect = "Airlifted armies from one territory to another";
 		Notify(this);
@@ -293,7 +365,7 @@ void Airlift::execute(){
 		orderEffect = "Unable to perform Airlift";
 	}
 }
-bool Airlift::validate(){
+bool Airlift::validate(Player* player, Territory* target){
 	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
 }
 
@@ -322,8 +394,8 @@ Negotiate& Negotiate::operator=(const Negotiate& n){ //assignment operator
 	return *this;
 }
 
-void Negotiate::execute(){
-	if (Negotiate::validate()){ //validate the order
+void Negotiate::execute(Player* player, Territory* target){
+	if (Negotiate::validate(player, target)){ //validate the order
 		//negotiate with player
 		orderEffect = "Negotiations performed. Attacks have been prevented until the end of turn";
 		Notify(this);
@@ -332,7 +404,7 @@ void Negotiate::execute(){
 		orderEffect = "Unable to Negotiate";
 	}
 }
-bool Negotiate::validate(){
+bool Negotiate::validate(Player* player, Territory* target){
 	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
 }
 

@@ -60,6 +60,7 @@ class Player
          void addPlayerTerritories(Territory* territory);   
          int getArmy();            
          void setArmy(int army);
+
        
 
     private:
@@ -69,6 +70,7 @@ class Player
         vector<TerritoryPlayer*> territoriesAttack;
         int army;
         string name;
+        int reinforcements;
 
 };
  #endif
