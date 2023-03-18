@@ -450,11 +450,12 @@ void GameEngine::startupPhase() {
 		auto randomSeed = std::mt19937(std::random_device{}());
 		std::shuffle(territories.begin(), territories.end(), randomSeed);
 
+		//distribute variable calculates how many territories to give each player
+		// total number of territories divided by total number of players = how many territories each player recieves 
+		int distribute = territories.size() / players.size();
+
 		//for loop to iterate through each player
 		for (int i = 0; i < players.size(); i++) {
-			//distribute variable calculates how many territories to give each player
-			// total number of territories divided by total number of players = how many territories each player recieves 
-			int distribute = territories.size() / players.size();
 			//the loop will add random territories evenly between the players 
 			//i * distribute is the index of the first territory that the player should receive
 			//(i + 1) * distribute trepresents the end index of the range of territories that will be assigned to the player.
@@ -463,6 +464,7 @@ void GameEngine::startupPhase() {
 				players[i]->addPlayerTerritories(territories[j]);
 			}
 		}
+		cout << "Each player will have: " << distribute << " territories." << endl;
 
 		// print each player's territories
 		for (int i = 0; i < players.size(); i++) {
