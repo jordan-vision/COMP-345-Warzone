@@ -1,8 +1,14 @@
 
 #pragma once
 #include "LoggingObserver.h"
+#include "Map.h"
+#include "Player.h"
+#include "Cards.h"
+#include "Orders.h"
 #include <string>
 #include <vector>
+#include <map>
+#include <set>
 #include <iostream>
 using namespace std;
 
