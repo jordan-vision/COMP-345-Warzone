@@ -147,7 +147,7 @@ void Deploy::execute(Player* player, Territory* target){
     	        break;
     	} // end of while loop
 
-		target->addArmy(reinforcementAmount);
+		target->setArmy(target->getArmy() + reinforcementAmount);
 		orderEffect = "Armies have been placed on players territories"; 
 
     } else 
@@ -217,7 +217,7 @@ void Advance::execute(Player* player, Territory* target){
 
 bool Advance::validate(Player* player, Territory* target){
 
-	
+	return false;
 }
 
 string Advance::getDescription()
@@ -309,7 +309,8 @@ void Blockade::execute(Player* player, Territory* target){
 
 	if (Blockade::validate(player, target)) { 
 
-		target->addArmy(target->getArmy() * 2);
+		target->setArmy(target->getArmy() * 2);
+
 
 		// IMPLEMENT: give ownership to neutralPlayer
 		//target->setOwner(); 

@@ -57,7 +57,7 @@ public:
 
 class Deploy : public Order{
 protected:
-    virtual string getDescription();
+    virtual string getDescription() override;
 public:    
     Deploy();
     ~Deploy();
@@ -74,7 +74,7 @@ public:
 
 class Advance : public Order{
 protected:
-    virtual string getDescription();
+    virtual string getDescription() override;
 
 public:
     Advance();
@@ -92,7 +92,7 @@ public:
 
 class Bomb : public Order{
 protected:
-    virtual string getDescription();
+    virtual string getDescription() override;
 public:
     Bomb();
     Bomb(Bomb& copy); // copy constructor
@@ -109,7 +109,7 @@ public:
 
 class Blockade : public Order{
 protected:
-    virtual string getDescription();
+    virtual string getDescription() override;
 public:
     Blockade();
     Blockade(Blockade& copy); // copy constructor
@@ -125,7 +125,7 @@ public:
 
 class Airlift : public Order{
 protected:
-    virtual string getDescription();
+    virtual string getDescription() override;
 public:
     Airlift();
     Airlift(Airlift& copy); // copy constructor
@@ -142,7 +142,7 @@ public:
 
 class Negotiate : public Order{
 protected:
-    virtual string getDescription();
+    virtual string getDescription() override;
 public:
     Negotiate();
     Negotiate(Negotiate& copy); // copy constructor
