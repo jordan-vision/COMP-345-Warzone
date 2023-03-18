@@ -349,57 +349,67 @@ string GameEngine::stringToLog() {
 return "Game Engine New State: ...";
 };
 
-vector<Player*> players;
+	//										    ********************** STARTUP PHASE ********************** 
 
+vector<Player*> players;
 void GameEngine::startupPhase() {
     MapLoader* loader = new MapLoader();
     Map* map;
     int x;
     bool validMap = false;
 
-	//while loop to check if a valid map was chosen
-    while (!validMap) {
-        cout << "\nStartup Phase:" << endl;
-        cout << "--------------\n" << endl;
-		//load map selection menu
-        cout << "1. Load Map \n" << endl;
-        cout << "Please select a map by entering the number on the list:  " << endl;
-        cout << "1. Chrono Trigger Map" << endl;
-        cout << "2. Europe Map" << endl;
-        cout << "3. Solar Map" << endl;
-        cin >> x;
 
-		//loads specific map depending on which one user choses
-        if (x == 1) {
-            map = loader->loadMap("Chrono_Trigger.map");
-        } else if (x == 2) {
-            map = loader->loadMap("europe.map");
-        } else if (x == 3) {
-            map = loader->loadMap("solar.map");
-        } else {
-            cout << "\nInvalid map selection." << endl;
-			//invalid command
-            this->transition("invalid");
-			// re-prompt the selection if invalid choice
-            continue; 
+		//while loop to check if a valid map was chosen
+    	while (!validMap) {
+			cout << "\nStartup Phase:" << endl;
+			cout << "--------------\n" << endl;
+
+		//										********************** LOAD MAP COMMAND ********************** 
+
+			//load map selection menu
+			cout << "1. Load Map \n" << endl;
+			cout << "Please select a map by entering the number on the list:  " << endl;
+			cout << "1. Chrono Trigger Map" << endl;
+			cout << "2. Europe Map" << endl;
+			cout << "3. Solar Map" << endl;
+			cin >> x;
+
+			//loads specific map depending on which one user choses
+			if (x == 1) {
+				map = loader->loadMap("Chrono_Trigger.map");
+			} else if (x == 2) {
+				map = loader->loadMap("europe.map");
+			} else if (x == 3) {
+				map = loader->loadMap("solar.map");
+			} else {
+				cout << "\nInvalid map selection." << endl;
+				//invalid command
+				this->transition("invalid");
+				// re-prompt the selection if invalid choice
+				continue; 
+			}
+
+			//loadmap state 
+			this->transition("loadmap");
+
+		//										********************** VALIDATE MAP COMMAND ********************** 
+
+			cout << "\n2. Validate Map\n" << endl;
+			//if map is valid, transition to validate map state, if not the user is prompted to chose a valid map
+			map->validate();
+			if (map->getIsValid()) {
+				validMap = true;
+				this->transition("validatemap");
+			} else {
+				validMap = false;
+				this->transition("invalid");
+				cout << "Please choose a valid map.\n" << endl;
+			}
         }
 
-		//loadmap state 
-        this->transition("loadmap");
-        cout << "\n2. Validate Map\n" << endl;
-		//if map is valid, transition to validate map state, if not the user is prompted to chose a valid map
-        map->validate();
-        if (map->getIsValid()) {
-            validMap = true;
-            this->transition("validatemap");
-        } else {
-            validMap = false;
-            this->transition("invalid");
-            cout << "Please choose a valid map.\n" << endl;
-        }
-    }
-	
-cout << "3. Add Player\n" << endl;
+		//										********************** ADD PLAYER COMMAND ********************** 
+
+ 		cout << "3. Add Player\n" << endl;
 		int numPlayers;
 		do {
 			//prompt user to chose how many players there are
@@ -422,13 +432,17 @@ cout << "3. Add Player\n" << endl;
 			Player* player = new Player(name);
 			players.push_back(player);
 		}
-		
+
 		//transition state
 		cout << "\n" << endl;
 		this->transition("addplayer");
 
+		//										********************** GAME START COMMAND ********************** 
+		
+	    cout << "4. Game Start\n" << endl;
 
- cout << "4. Game Start\n" << endl;
+	// a) airly distribute all the territories to the players
+
 		// get all territories from the map and put them into the vector
 		vector<Territory*> territories = map->getTerritories();
 
@@ -459,9 +473,8 @@ cout << "3. Add Player\n" << endl;
 			cout << endl;
 		}
 
-//--------------------------------------------------------------------------------
+	// b) determine randomly the order of play of the players in the games 
 
-			//determine randomly the order of play of the players in the game
 			// randomize the order of the territories
 			vector<Player*> order(players.size());
 			// Shuffle the order of players randomly
@@ -475,9 +488,8 @@ cout << "3. Add Player\n" << endl;
 			cout << endl;
 
 			
-//--------------------------------------------------------------------------------
+	// c) give 50 initial armies to the players, which are placed in their respective reinforcement pool 
 
-			//give 50 initial armies to the players, which are placed in their respective reinforcement pool
 			cout << "Initial Armies: \n";
 			for (int i = 0; i < players.size(); i++) {
 				players[i]->setArmy(50);
@@ -486,9 +498,8 @@ cout << "3. Add Player\n" << endl;
 			cout << "\n";
 
 
-//--------------------------------------------------------------------------------
-
-			//let each player draw 2 initial cards from the deck using the deck’s draw() method
+	// d) et each player draw 2 initial cards from the deck using the deck’s draw() method 
+	
 			//set hand size to 2
 			const int HAND_SIZE = 2;
 			//initialize and fill deck
@@ -520,7 +531,7 @@ cout << "3. Add Player\n" << endl;
 				cout << endl;
 			}
 
-			//switch the game to the play phase
+	// e) switch the game to the play phase
 			if (this->transition("gamestart"))
 			{
 			cout << "Game has switched to Play Phase." << endl;
