@@ -357,9 +357,11 @@ void GameEngine::startupPhase() {
     int x;
     bool validMap = false;
 
+	//while loop to check if a valid map was chosen
     while (!validMap) {
         cout << "\nStartup Phase:" << endl;
         cout << "--------------\n" << endl;
+		//load map selection menu
         cout << "1. Load Map \n" << endl;
         cout << "Please select a map by entering the number on the list:  " << endl;
         cout << "1. Chrono Trigger Map" << endl;
@@ -367,6 +369,7 @@ void GameEngine::startupPhase() {
         cout << "3. Solar Map" << endl;
         cin >> x;
 
+		//loads specific map depending on which one user choses
         if (x == 1) {
             map = loader->loadMap("Chrono_Trigger.map");
         } else if (x == 2) {
@@ -375,19 +378,23 @@ void GameEngine::startupPhase() {
             map = loader->loadMap("solar.map");
         } else {
             cout << "\nInvalid map selection." << endl;
-            transition("invalid");
-            continue; // re-prompt the selection
+			//invalid command
+            this->transition("invalid");
+			// re-prompt the selection if invalid choice
+            continue; 
         }
 
-        transition("loadmap");
+		//loadmap state 
+        this->transition("loadmap");
         cout << "\n2. Validate Map\n" << endl;
+		//if map is valid, transition to validate map state, if not the user is prompted to chose a valid map
         map->validate();
         if (map->getIsValid()) {
             validMap = true;
-            transition("validatemap");
+            this->transition("validatemap");
         } else {
             validMap = false;
-            transition("invalid");
+            this->transition("invalid");
             cout << "Please choose a valid map.\n" << endl;
         }
     }
@@ -395,17 +402,19 @@ void GameEngine::startupPhase() {
 cout << "3. Add Player\n" << endl;
 		int numPlayers;
 		do {
+			//prompt user to chose how many players there are
 			cout << "Please enter the number of players (2-6):  " << endl;
 			cin >> numPlayers;
+			//if they chose a number out of the limits they must chose again  
 			if (numPlayers < 2 || numPlayers > 6) {
 				cout << "\nInvalid number of players.\n" << endl;
-				transition("invalid");
+				this->transition("invalid");
 			}
 		} while (numPlayers < 2 || numPlayers > 6);
 
-			//vector<Player*> players;
 			cout << "\nYou have selected " << numPlayers << " players." <<endl;
 
+		//loops for the amount of players so that the user can give each player a name
 		for (int i = 0; i < numPlayers; i++) {
 			cout << "Please enter the name of a player: " << endl;
 			string name;
@@ -413,24 +422,30 @@ cout << "3. Add Player\n" << endl;
 			Player* player = new Player(name);
 			players.push_back(player);
 		}
-
-//dont know if i need this ??????????????
+		
+		//transition state
 		cout << "\n" << endl;
-		transition("addplayer");
+		this->transition("addplayer");
 
 
  cout << "4. Game Start\n" << endl;
-			// get all territories from the map
+		// get all territories from the map and put them into the vector
 		vector<Territory*> territories = map->getTerritories();
 
-		// randomize the order of the territories
+		// shuffle the vector to randomize the order of the territories
 		auto randomSeed = std::mt19937(std::random_device{}());
 		std::shuffle(territories.begin(), territories.end(), randomSeed);
 
-		// distribute the territories evenly to the players
+		//for loop to iterate through each player
 		for (int i = 0; i < players.size(); i++) {
+			//distribute variable calculates how many territories to give each player
+			// total number of territories divided by total number of players = how many territories each player recieves 
 			int distribute = territories.size() / players.size();
+			//the loop will add random territories evenly between the players 
+			//i * distribute is the index of the first territory that the player should receive
+			//(i + 1) * distribute trepresents the end index of the range of territories that will be assigned to the player.
 			for (int j = i * distribute; j < (i + 1) * distribute; j++) {
+				//adds territory to player
 				players[i]->addPlayerTerritories(territories[j]);
 			}
 		}
@@ -452,7 +467,7 @@ cout << "3. Add Player\n" << endl;
 			// Shuffle the order of players randomly
 			std::shuffle(players.begin(), players.end(), randomSeed);
 
-			// Print the order of play
+			// Print the player order
 			cout << "Player Order: \n";
 			for (int i = 0; i < players.size(); i++) {
 				cout << "Player " << i+1 << ": "<< players[i]->getName() << "\n";
@@ -474,21 +489,27 @@ cout << "3. Add Player\n" << endl;
 //--------------------------------------------------------------------------------
 
 			//let each player draw 2 initial cards from the deck using the deck’s draw() method
+			//set hand size to 2
 			const int HAND_SIZE = 2;
+			//initialize and fill deck
 			Deck myDeck;
 			myDeck.fillDeck(20);
 		
+			//for loop to iterate through player.size
 			for (int i = 0; i < players.size(); i++) 
 			{
 				//create a new hand for each player
     			Hand* hand = new Hand();
 				players[i]->myHand = hand;
 
+			//for loop to iterate through hand.size
     			for (int j = 0; j < HAND_SIZE; j++)
 				{
+					//draws card from the deck and gives it to the player's hand
        			players[i]->myHand->handCards.push_back(myDeck.draw());
 				}
 			}
+			//loop to print out player's hand
 			for (int i = 0; i < players.size(); i++) 
 			{
 				cout << "Player " << i + 1 << "'s hand " << "("<< players[i]->getName() << "): \n" << endl;
@@ -500,7 +521,7 @@ cout << "3. Add Player\n" << endl;
 			}
 
 			//switch the game to the play phase
-			if (transition("gamestart"))
+			if (this->transition("gamestart"))
 			{
 			cout << "Game has switched to Play Phase." << endl;
 			}
