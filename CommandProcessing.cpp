@@ -206,7 +206,7 @@ ostream& operator <<(ostream& output, FileCommandProcessorAdapter& adapter){
     return output<<"\nThis is a file command processor adapter object"<<endl;
 }
 
-Command* FileCommandProcessorAdapter:: readCommand(string fileName){
+void FileCommandProcessorAdapter:: readCommand(string fileName){
     Command* command = flr->readLineFromFile(fileName);
 
     // after validate method has been implemented, call it here on the command returned from above to check it 
