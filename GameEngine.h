@@ -106,6 +106,10 @@ public:
 	//startup phase method implements a command-based user interaction mechanism 
 	//to start the game by allowing the user to proceed with the game startup phase:
 	void startupPhase();
+	void mainGameLoop();
+	void reinforcementPhase();
+	void executeOrdersPhase();
+	void issueOrdersPhase();
 };
 
 ostream& operator<<(ostream& out, GameEngine& engine);
