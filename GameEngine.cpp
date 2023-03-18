@@ -340,10 +340,10 @@ int indexOfState(vector<State*> vec, State* element) {
 	return -1;
 };
 
-// string GameEngine::stringToLog() {
+string GameEngine::stringToLog() {
 
-// 	return "Game Engine New State: ...";
-// };
+return "Game Engine New State: ...";
+};
 
 vector<Player*> players;
 
