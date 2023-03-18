@@ -523,6 +523,10 @@ void GameEngine::mainGameLoop() {
 	}
 
 void GameEngine::issueOrdersPhase(){
+	for (int i = 0; i < players.size(); i++) {
+    	cout << "\nPlayer " << i + 1 << "'s territories "  << "("<< players[i]->getName() << "): \n"<< endl; // output players territories
+		//players[i]->issueOrder();
+	}
 	
 }
 
