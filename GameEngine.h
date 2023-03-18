@@ -85,8 +85,8 @@ class GameEngine
 // : public ILoggable, public Subject 
 {
 private:
-	bool isGameOver;
-	DirectedGraph* gameLoop;
+	static bool isGameOver;
+	static DirectedGraph* gameLoop;
 	
 
 public:
@@ -96,9 +96,9 @@ public:
 
 	void operator=(GameEngine& rhs);
 
-	bool getIsGameOver();
-	DirectedGraph* getGameLoop();
-	void setIsGameOver(bool isTheGameOver);
+	static bool getIsGameOver();
+	static DirectedGraph* getGameLoop();
+	static void setIsGameOver(bool isTheGameOver);
 
 	bool transition(string command);
 

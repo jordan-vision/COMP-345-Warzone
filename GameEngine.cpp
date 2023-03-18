@@ -371,19 +371,19 @@ void GameEngine::startupPhase() {
             map = loader->loadMap("solar.map");
         } else {
             cout << "\nInvalid map selection." << endl;
-            this->transition("invalid");
+            transition("invalid");
             continue; // re-prompt the selection
         }
 
-        this->transition("loadmap");
+        transition("loadmap");
         cout << "\n2. Validate Map\n" << endl;
         map->validate();
         if (map->getIsValid()) {
             validMap = true;
-            this->transition("validatemap");
+            transition("validatemap");
         } else {
             validMap = false;
-            this->transition("invalid");
+            transition("invalid");
             cout << "Please choose a valid map.\n" << endl;
         }
     }
@@ -395,7 +395,7 @@ cout << "3. Add Player\n" << endl;
 			cin >> numPlayers;
 			if (numPlayers < 2 || numPlayers > 6) {
 				cout << "\nInvalid number of players.\n" << endl;
-				this->transition("invalid");
+				transition("invalid");
 			}
 		} while (numPlayers < 2 || numPlayers > 6);
 
@@ -412,7 +412,7 @@ cout << "3. Add Player\n" << endl;
 
 //dont know if i need this ??????????????
 		cout << "\n" << endl;
-		this->transition("addplayer");
+		transition("addplayer");
 
 
  cout << "4. Game Start\n" << endl;
@@ -496,7 +496,7 @@ cout << "3. Add Player\n" << endl;
 			}
 
 			//switch the game to the play phase
-			if (this->transition("gamestart"))
+			if (transition("gamestart"))
 			{
 			cout << "Game has switched to Play Phase." << endl;
 			}

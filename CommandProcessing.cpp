@@ -123,7 +123,11 @@ Command* CommandProcessor:: readCommand(){
     string command;
     cout<<"\n*** Reading Command ***\nEnter your command: ";
     getline(cin, command);
-    // Validate the command
+    
+    if (!validate(command)) {
+        return NULL;
+    }
+
     Command* newCommand = new Command(command);
     saveCommand(newCommand);
     return newCommand;
@@ -132,15 +136,12 @@ Command* CommandProcessor:: readCommand(){
 Command* CommandProcessor:: getCommand(){
     cout<<"\nGetting command "<<endl;
     Command* newCommand = readCommand();
-
-    //validate method should be called here once its definition has been implemented to check the command
-
     return newCommand;
 }
 
 bool CommandProcessor:: validate(string command){
-
-        // Need to access game state and stuff to validate command 
+    State *nextState = GameEngine::getGameLoop()->getCurrentState()->executeCommand(command);
+    return (nextState != NULL);
 }
 
 string CommandProcessor::stringToLog() {
