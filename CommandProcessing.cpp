@@ -169,9 +169,9 @@ ostream& operator << (ostream& output, const FileLineReader& reader){
     cout<<"This is a file line reader object"<<endl;
 }
 
-int count = 1;
-Command* FileLineReader:: readLineFromFile(string fileName){
 
+Command* FileLineReader:: readLineFromFile(string fileName){
+    static int count; 
     string commandString;
     ifstream inputFile;
     inputFile.open(fileName);
