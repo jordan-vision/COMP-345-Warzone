@@ -543,14 +543,17 @@ for (int i = 0; i < players.size(); i++) {
         bool sameContinent = true;
         string firstContinentName;
         
-        for (const auto& [continentName, territories] : continentTerritories) {
+     for (auto it = continentTerritories.begin(); it != continentTerritories.end(); ++it) {
+            const auto& continentName = it->first;
+            const auto& t = it->second;
+
             if (firstContinentName.empty()) {
                 firstContinentName = continentName;
             } else if (continentName != firstContinentName) {
                 sameContinent = false;
                 break;
             }
-        }
+}
 		if (sameContinent) {
             cout << "All territories are in the same continent: " << firstContinentName << endl;
 			//players[i]->getPlayerTerritories()->;
