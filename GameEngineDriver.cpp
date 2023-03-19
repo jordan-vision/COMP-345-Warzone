@@ -13,10 +13,11 @@ int main() {
 	// cout << "Game engine created!" << endl << endl;
 	// cout << *engine << endl;
 
-	GameEngine e;
-	e.startupPhase();
+	// GameEngine e;
+	// e.startupPhase();
 
-
+	GameEngine::reset();
+	GameEngine::mainGameLoop();
 	// while (!engine->getIsGameOver()) {
 	// 	string input;
 	// 	cout << "Enter a command: ";
@@ -28,5 +29,5 @@ int main() {
 	// cout << "Game over!" << endl;
 	// return 0;
 
-	e.mainGameLoop();
+	//e.mainGameLoop();
 };
