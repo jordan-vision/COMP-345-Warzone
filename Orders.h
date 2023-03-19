@@ -45,8 +45,8 @@ public:
     string getOrderEffect();                                    //gets the effect of the order
     friend ostream& operator<<(ostream &out, Order& o);         //Order stream insertion operator
     virtual string stringToLog() override;                      
-    virtual void execute(Player* player, Territory* target) =0;
-    virtual bool validate(Player* player, Territory* target) =0;
+    virtual void execute(Player* player) =0;
+    virtual bool validate(Player* player) =0;
 };
 
 
@@ -62,8 +62,8 @@ public:
     ~Deploy();
     Deploy(Deploy& copy); // copy constructor
     Deploy& operator=(const Deploy& d); // assignment operator
-    virtual bool validate(Player* player, Territory* target) override; // validate the order
-    virtual void execute(Player* player, Territory* target) override; // execute the order
+    virtual bool validate(Player* player) override; // validate the order
+    virtual void execute(Player* player) override; // execute the order
 
     Territory* target;
 };
@@ -80,8 +80,8 @@ public:
     Advance(Territory* target, Territory* source);
     Advance(Advance& copy); // copy constructor
     Advance& operator=(const Advance& a); // assignment operator
-    virtual bool validate(Player* player, Territory* target) override; // validate the order
-    virtual void execute(Player* player, Territory* target) override; // execute the order
+    virtual bool validate(Player* player) override; // validate the order
+    virtual void execute(Player* player) override; // execute the order
     ~Advance();
 
     Territory* target;
@@ -100,8 +100,8 @@ public:
     Bomb(Territory* target);
     Bomb(Bomb& copy); // copy constructor
     Bomb& operator=(const Bomb& b); // assignment operator
-    virtual bool validate(Player* player, Territory* target) override; // validate the order
-    virtual void execute(Player* player, Territory* target) override; // execute the order
+    virtual bool validate(Player* player) override; // validate the order
+    virtual void execute(Player* player) override; // execute the order
     ~Bomb();
     
     Territory* target;
@@ -119,8 +119,8 @@ public:
     Blockade(Territory* target);
     Blockade(Blockade& copy); // copy constructor
     Blockade& operator=(const Blockade& b); // assignment operator
-    virtual bool validate(Player* player, Territory* target) override; // validate the order
-    virtual void execute(Player* player, Territory* target) override; // execute the order
+    virtual bool validate(Player* player) override; // validate the order
+    virtual void execute(Player* player) override; // execute the order
     ~Blockade();
     Territory* target;
 };
@@ -136,8 +136,8 @@ public:
     Airlift(Territory* target, Territory* source);
     Airlift(Airlift& copy); // copy constructor
     Airlift& operator=(const Airlift& a); // assignment operator
-    virtual bool validate(Player* player, Territory* target) override; // validate the order
-    virtual void execute(Player* player, Territory* target) override; // execute the order
+    virtual bool validate(Player* player) override; // validate the order
+    virtual void execute(Player* player) override; // execute the order
     ~Airlift();
 
     Territory* target;
@@ -156,8 +156,8 @@ public:
     Negotiate(Territory* target);
     Negotiate(Negotiate& copy); // copy constructor
     Negotiate& operator=(const Negotiate& n); // assignment operator
-    virtual bool validate(Player* player, Territory* target) override; // validate the order
-    virtual void execute(Player* player, Territory* target) override; // execute the order
+    virtual bool validate(Player* player) override; // validate the order
+    virtual void execute(Player* player) override; // execute the order
     ~Negotiate();
 
     Territory* target;

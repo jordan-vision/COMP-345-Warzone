@@ -1,31 +1,31 @@
 #include "LoggingObserver.h"
 #include <fstream>
 
-LogObserver::LogObserver() {
+// LogObserver::LogObserver() {
 
-};
+// };
 
 LogObserver::~LogObserver() {
 
 };
 
-/***************** ILOGGABLE COPY CONSTRUCTOR *****************/
-LogObserver::LogObserver(const LogObserver &logobserver) {
+// /***************** ILOGGABLE COPY CONSTRUCTOR *****************/
+// LogObserver::LogObserver(const LogObserver &logobserver) {
 
-};
+// };
 
 /**************** SUBJECT ASSIGNMENT OPERATOR ***************/
-LogObserver& LogObserver::operator =(const LogObserver &logobserver) {
+// LogObserver& LogObserver::operator =(const LogObserver &logobserver) {
 
-    return *this;
-};
+//     return *this;
+// };
 
 /***************** SUBJECT STREAM OPERATOR *****************/
-ostream& operator<<(std::ostream& out, const LogObserver& logobserver) {
+// ostream& operator<<(std::ostream& out, const LogObserver& logobserver) {
 
-    out << "LogObserver";                              
-    return out; 
-}
+//     out << "LogObserver";                              
+//     return out; 
+// }
 
 void LogObserver::Update(ILoggable* log) {
 
@@ -36,31 +36,31 @@ void LogObserver::Update(ILoggable* log) {
     output.close();
 };
 
-Observer::Observer() {
+// Observer::Observer() {
 
-};
+// };
 
 Observer::~Observer() {
 
 };
 
 /***************** Observer COPY CONSTRUCTOR *****************/
-Observer::Observer(const Observer &observer) {
+// Observer::Observer(const Observer &observer) {
 
-};
+// };
 
 /**************** Observer ASSIGNMENT OPERATOR ***************/
-Observer& Observer::operator =(const Observer &observer) {
+// Observer& Observer::operator =(const Observer &observer) {
 
-    return *this;
-};
+//     return *this;
+// };
 
-/***************** Observer STREAM OPERATOR *****************/
-ostream& operator<<(std::ostream& out, const Observer& observer) {
+// /***************** Observer STREAM OPERATOR *****************/
+// ostream& operator<<(std::ostream& out, const Observer& observer) {
 
-    out << "OBSERVER";                                  
-    return out; 
-}
+//     out << "OBSERVER";                                  
+//     return out; 
+// }
 
 Subject::Subject() {
     _observers = new list<Observer*>;
@@ -71,15 +71,15 @@ Subject::~Subject() {
 };
 
 /***************** SUBJECT COPY CONSTRUCTOR *****************/
-Subject::Subject(const Subject &subject) {
+// Subject::Subject(const Subject &subject) {
 
-};
+// };
 
-/**************** SUBJECT ASSIGNMENT OPERATOR ***************/
-Subject& Subject::operator =(const Subject &subject) {
+// /**************** SUBJECT ASSIGNMENT OPERATOR ***************/
+// Subject& Subject::operator =(const Subject &subject) {
 
-    return *this;
-};
+//     return *this;
+// };
 
 /***************** SUBJECT STREAM OPERATOR *****************/
 ostream& operator<<(std::ostream& out, const Subject& subject) {
@@ -109,15 +109,15 @@ ILoggable::~ILoggable() {
 };
 
 /**************** SUBJECT ASSIGNMENT OPERATOR ***************/
-ILoggable& ILoggable::operator =(const ILoggable &ilog) {
+// ILoggable& ILoggable::operator =(const ILoggable &ilog) {
 
-    return *this;
-};
+//     return *this;
+// };
 
-/***************** SUBJECT STREAM OPERATOR *****************/
-ostream& operator<<(std::ostream& out, const ILoggable& ilog) {
+// /***************** SUBJECT STREAM OPERATOR *****************/
+// ostream& operator<<(std::ostream& out, const ILoggable& ilog) {
 
-    out << "ILOGGABLE";                              
-    return out; 
-}
+//     out << "ILOGGABLE";                              
+//     return out; 
+// }
 

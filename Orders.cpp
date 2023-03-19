@@ -105,7 +105,7 @@ string Order::stringToLog() {
 	return "Order Executed: ...";
 };
 
-void Order::execute(Player* player, Territory* Target) {
+void Order::execute(Player* player) {
 
     Notify(this);
 }
@@ -127,9 +127,9 @@ Deploy& Deploy::operator=(const Deploy& d){ //assignment operator
 	return *this;
 }
 
-void Deploy::execute(Player* player, Territory* target){
+void Deploy::execute(Player* player){
 
-	if (Deploy::validate(player, target)) { 
+	if (Deploy::validate(player)) { 
 
 		int reinforcementAmount = 0;
     	while (true) {
@@ -156,7 +156,7 @@ void Deploy::execute(Player* player, Territory* target){
 	
 }
 
-bool Deploy::validate(Player* player, Territory* target){
+bool Deploy::validate(Player* player){
 	
 	// Check ownership of target territory
 	if (target->getOwner()->getName() == player->getName()) {
@@ -197,9 +197,9 @@ Advance& Advance::operator=(const Advance& a){ //assignment operator
 	return *this;
 }
 
-void Advance::execute(Player* player, Territory* target){
+void Advance::execute(Player* player){
 
-	if (Advance::validate(player, target)) { //validate the order
+	if (Advance::validate(player)) { //validate the order
 
 
 
@@ -217,7 +217,7 @@ void Advance::execute(Player* player, Territory* target){
 	}
 }
 
-bool Advance::validate(Player* player, Territory* target){
+bool Advance::validate(Player* player){
 
 	return false;
 }
@@ -249,9 +249,9 @@ Bomb& Bomb::operator=(const Bomb& b){ //assignment operator
 	return *this;
 }
 
-void Bomb::execute(Player* player, Territory* target){
+void Bomb::execute(Player* player){
 
-	if (Bomb::validate(player, target)){ //validate the order
+	if (Bomb::validate(player)){ //validate the order
 
 		target->setArmy(target->getArmy() / 2);
 		cout << "The target territory has been bombed (half the army is gone)"; 
@@ -264,7 +264,7 @@ void Bomb::execute(Player* player, Territory* target){
 	
 }
 
-bool Bomb::validate(Player* player, Territory* target) {
+bool Bomb::validate(Player* player) {
 
 	// Check ownership of target territory
 	if (target->getOwner()->getName() != player->getName()) {
@@ -307,9 +307,9 @@ Blockade& Blockade::operator=(const Blockade& b){ //assignment operator
 	return *this;
 }
 
-void Blockade::execute(Player* player, Territory* target){
+void Blockade::execute(Player* player){
 
-	if (Blockade::validate(player, target)) { 
+	if (Blockade::validate(player)) { 
 
 		target->setArmy(target->getArmy() * 2);
 
@@ -326,7 +326,7 @@ void Blockade::execute(Player* player, Territory* target){
 		orderEffect = "Invalid Order: Player does not own target territory!";
 	
 }
-bool Blockade::validate(Player* player, Territory* target){
+bool Blockade::validate(Player* player){
 
 	if (target->getOwner()->getName() == player->getName()) 
 		return true;
@@ -359,8 +359,8 @@ Airlift& Airlift::operator=(const Airlift& a){ //assignment operator
 	return *this;
 }
 
-void Airlift::execute(Player* player, Territory* target){
-	if (Airlift::validate(player, target)){ //validate the order
+void Airlift::execute(Player* player){
+	if (Airlift::validate(player)){ //validate the order
 		//do an airlift
 		orderEffect = "Airlifted armies from one territory to another";
 		Notify(this);
@@ -369,7 +369,7 @@ void Airlift::execute(Player* player, Territory* target){
 		orderEffect = "Unable to perform Airlift";
 	}
 }
-bool Airlift::validate(Player* player, Territory* target){
+bool Airlift::validate(Player* player){
 	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
 }
 
@@ -398,8 +398,8 @@ Negotiate& Negotiate::operator=(const Negotiate& n){ //assignment operator
 	return *this;
 }
 
-void Negotiate::execute(Player* player, Territory* target){
-	if (Negotiate::validate(player, target)){ //validate the order
+void Negotiate::execute(Player* player){
+	if (Negotiate::validate(player)){ //validate the order
 		//negotiate with player
 		orderEffect = "Negotiations performed. Attacks have been prevented until the end of turn";
 		Notify(this);
@@ -408,7 +408,7 @@ void Negotiate::execute(Player* player, Territory* target){
 		orderEffect = "Unable to Negotiate";
 	}
 }
-bool Negotiate::validate(Player* player, Territory* target){
+bool Negotiate::validate(Player* player){
 	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
 }
 

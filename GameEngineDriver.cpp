@@ -16,7 +16,7 @@ int main() {
 	// GameEngine e;
 	// e.startupPhase();
 
-	GameEngine::reset();
+	//GameEngine::reset();
 	GameEngine::mainGameLoop();
 	// while (!engine->getIsGameOver()) {
 	// 	string input;
