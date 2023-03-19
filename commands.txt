@@ -1,0 +1,10 @@
+loadmap <solar.map>
+validatemap
+addplayer <Ally>
+addplayer <Victoria>
+addplayer <Parker> 
+addplayer <Jordan> 
+addplayer <Afaf>
+gamestart 
+replay 
+quit 

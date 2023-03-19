@@ -115,7 +115,7 @@ ostream& operator <<(ostream& output, CommandProcessor& command){
 }
 
 void CommandProcessor::saveCommand(Command* command) {
-    cout<<"\nSaving command";
+    cout<<"Saving command \" "<<command->getCommandName()<<" \"\nCommand saved"<<endl;
     commandList.push_back(command);
     Notify(this);
 }
@@ -172,13 +172,13 @@ ostream& operator << (ostream& output, const FileLineReader& reader){
 
 
 Command* FileLineReader:: readLineFromFile(string fileName){
-    static int count; 
+    static int count = 1; 
     string commandString;
     ifstream inputFile;
     inputFile.open(fileName);
 
     getline(inputFile, commandString);
-    cout<<"Reading command line "<<count<<" : "<<commandString<<endl;
+    cout<<"\nReading command line "<<count<<" : "<<commandString<<endl;
     ++count;
     return new Command (commandString);
 }

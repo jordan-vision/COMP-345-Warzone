@@ -94,18 +94,63 @@ vector<Territory*> Player::toDefend(vector<Territory*> t) {
     return territoriesDefend;  
 }
 
+
+
 //Implementation of the toAttack() method 
+// vector<Territory*> Player::toAttack() {
+
+//    //bool push = false; 
+//     vector<Territory*> territoriesAttack;
+//     for (int j = 0; j < territoriesOwned.size(); j++){
+//     vector<Territory*> adjacentTerritories = territoriesOwned[j]->getAdjacentTerritories();
+//     for (int i = 0; i < adjacentTerritories.size(); i++)
+//      {
+//         if (adjacentTerritories[i] != )
+       
+//          for(int k = 0; k < territoriesAttack.size(); k++){
+//              for(int z; z < )
+//         if((adjacentTerritories[i]->getOwner()->getName() != this->getName()) && (adjacentTerritories[i] != territoriesAttack[k])){
+//            territoriesAttack.push_back(adjacentTerritories[i]);
+//         }   
+//         }
+     
+//      }
+//     }
+//      return territoriesAttack;
+// }
+
+
+
+
+
 vector<Territory*> Player::toAttack() {
+
     vector<Territory*> territoriesAttack;
 
-    for (int j = 0; j < territoriesOwned.size(); j++){
-    vector<Territory*> adjacentTerritories = territoriesOwned[j]->getAdjacentTerritories();
-    for (int i = 0; i < adjacentTerritories.size(); i++)
-     {
-        territoriesAttack.push_back(adjacentTerritories[i]);
-     }
-        return territoriesAttack;
+    for (int j = 0; j < territoriesOwned.size(); j++)
+    {
+        vector<Territory*> adjacentTerritories = territoriesOwned[j]->getAdjacentTerritories();
+        for (int i = 0; i < adjacentTerritories.size(); i++)
+        { 
+            if(!(adjacentTerritories[i]->getOwner()->getName() == this->getName()))
+            {
+                bool foundDuplicate = false;
+                for(int k = 0; k < territoriesAttack.size(); k++)
+                {
+                    if(adjacentTerritories[i] == territoriesAttack[k])
+                    {
+                        foundDuplicate = true;
+                        break;
+                    }
+                }
+                if(!foundDuplicate)
+                {
+                    territoriesAttack.push_back(adjacentTerritories[i]);
+                }
+            }
+        }
     }
+    return territoriesAttack;
 }
 
 //Implementation of getPlayerTerritories() method
