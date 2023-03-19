@@ -154,7 +154,7 @@ class Negotiate : public Order{
 protected:
     virtual string getDescription() override;
 public:
-    Negotiate(Territory* target);
+    Negotiate(Player* player);
     Negotiate(Negotiate& copy); // copy constructor
     Negotiate& operator=(const Negotiate& n); // assignment operator
     virtual bool validate(Player* player) override; // validate the order

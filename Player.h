@@ -52,6 +52,7 @@ class Player
        
         Territory* getValidTarget(vector<Territory*>& tToAttack); //validate target inputted by user
         Territory* getValidTerritory(vector<Territory*>& territory, string msg);//validate territory inputted by user
+        Player* getValidPlayer(vector<Player*>players, int index); // validates the player inputted by user
        
 
     private:

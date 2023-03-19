@@ -242,16 +242,20 @@ void Player::issueOrder(vector<Player*> player, int index)
             case 4:
 
                 if (player[index]->myHand->containsCardType("Airlift")) {
-                    int maxUnitAmount = player[index]->getArmy();
-                    cout << "Enter the amount of units you wish to Airlift: ";
-                    cout << "You currently have " << maxUnitAmount << " armies";
+
+                    Territory* source = getValidTerritory(tToDefend, "Please select the territory you would like to Airlift from:");
+                    Territory* target = getValidTerritory(tToDefend, "Please select the territory you would like to Airlift to:");
+
+                    int maxUnitAmount = source->getArmy();
+                    cout << "Enter the amount of units you wish to Airlift (territory " << source->getName()<< " currently has "<< maxUnitAmount << " armies (units)):";
                     int unitAmount = 0;
-                    while (unitAmount=0 || unitAmount > maxUnitAmount){
+                    cin >> unitAmount;
+                    while (unitAmount<1 || unitAmount > maxUnitAmount){
                         cout << "invalid units amount. Please enter a value higher than 0 and lower than " << maxUnitAmount<< endl;
                         cin >> unitAmount;
                     }
                     
-                    Airlift* airlift = new Airlift(getValidTerritory(tToDefend, "Please select the territory you would like to Airlift from:"), getValidTerritory(tToDefend, "Please select the territory you would like to Airlift to:"), unitAmount);
+                    Airlift* airlift = new Airlift(source, target, unitAmount);
                     player[index]->myOrders->vectorOfOrders.push_back(airlift);
 
                 } else {
@@ -262,26 +266,21 @@ void Player::issueOrder(vector<Player*> player, int index)
                 break;
 
             // Negotiate
-            // case 5:
+            case 5:
 
-            //     if (player->myHand->containsCardType("Diplomacy")) {
+                if (player[index]->myHand->containsCardType("Diplomacy")) {
 
-            //         // Display enemy players
+                    Negotiate* negotiate = new Negotiate(getValidPlayer(player, index));
+                    player[index]->myOrders->vectorOfOrders.push_back(negotiate);
 
-            //         cout << "Enter the integer of the enemy player you wish to Negotiate with: ";
-            //         // validate input
+                } else {
+                    cout << "Invalid Request: You do not have this card!";
+                    continue;
+                }
 
-            //         Negotiate* negotiate = new Negotiate(/* target player */);
-            //         player->myOrders->vectorOfOrders.push_back(negotiate);
+                break;
 
-            //     } else {
-            //         cout << "Invalid Request: You do not have this card!";
-            //         continue;
-            //     }
-
-            //     break;
-
-            // Exit
+            //Exit
             case 6:
                 addingOrders = false;
                 break;
@@ -351,4 +350,38 @@ Territory* Player::getValidTerritory(vector<Territory*>& territory, string descr
     return target; //return a valid territory to be defended
 }
 
-//Player* Player::getValidPlayer()
+Player* Player::getValidPlayer(vector<Player*>players, int index){
+    cout << "Here are all the players currently in the game: " << endl;
+    for (auto player : players) {
+        if (player != this) {
+            cout << player->getName() << endl;
+        }
+    }
+
+    string playerName;
+    bool validName = false;
+    Player* validPlayer = nullptr;
+    while (!validName) {
+        cout << "Please enter the name of the player you wish to select: ";
+        if (!(cin >> playerName)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a valid player name." << endl;
+        } else {
+            transform(playerName.begin(), playerName.end(), playerName.begin(), ::tolower);
+            for (auto p : players) {
+                string name = p->getName();
+                transform(name.begin(), name.end(), name.begin(), ::tolower);
+                if (name == playerName && p != this) {
+                    validName = true;
+                    validPlayer = p;
+                    break;
+                }
+            }
+            if (!validName) {
+                cout << "Invalid player name. Please enter a valid name." << endl;
+            }
+        }
+    }
+    return validPlayer;
+}
