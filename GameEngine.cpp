@@ -557,13 +557,31 @@ void GameEngine::mainGameLoop() {
 
 void GameEngine::issueOrdersPhase(){
 	for (int i = 0; i < players.size(); i++) {
-    	cout << "\nPlayer " << i + 1 << "'s territories "  << "("<< players[i]->getName() << "): \n"<< endl; // output players territories
-		//players[i]->issueOrder();
+    	cout << "Enter your order: " << endl; // get order from user
+		string order;
+		cin >> order;
+		players[i]->issueOrder(order);
 	}
-	
 }
 
 void GameEngine::executeOrdersPhase(){
+	int max = 0;    // Stores highest order count among players
+
+    // Find player with most orders
+    for (int i = 0; i < players.size() - 1; i++) 
+        if (players[i]->myOrders->vectorOfOrders.size() >= players[i + 1]->myOrders->vectorOfOrders.size())
+            max = players[i]->myOrders->vectorOfOrders.size();
+        else 
+            max = players[i + 1]->myOrders->vectorOfOrders.size();
+    
+
+    // Iterate through highest order count
+    for (int j = 0; j < max; j++) 
+        // Iterate through player count
+        for (int i = 0; i < players.size(); i++) 
+            // Execute highest priority order (if not empty)
+            if (players[i]->myOrders->vectorOfOrders.size() != 0) 
+                players[i]->myOrders->vectorOfOrders[0]->execute(players[i], new Territory());    // WILL NEED TO BE CHANGED FOR PART 3/4
 
 }
 

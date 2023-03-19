@@ -17,9 +17,8 @@ class Territory;
 /* -------------------------------------------------------------------------- */
 
 class OrdersList : public ILoggable, public Subject {
-private:
-    vector<Order*> vectorOfOrders; 
 public:
+    vector<Order*> vectorOfOrders; 
     OrdersList();                                               //OrdersList constructor
     OrdersList(OrdersList& copy);                               //OrdersList copy constructor
     OrdersList& operator=(const OrdersList& ol);                //OrdersList assignment operator
