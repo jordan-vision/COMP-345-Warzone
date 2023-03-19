@@ -484,7 +484,7 @@ void GameEngine::startupPhase() {
 			// Shuffle the order of players randomly
 			std::shuffle(players.begin(), players.end(), randomSeed);
 
-			// Print the player order
+			// print the player order
 			cout << "Player Order: \n";
 			for (int i = 0; i < players.size(); i++) {
 				cout << "Player " << i+1 << ": "<< players[i]->getName() << "\n";
@@ -502,7 +502,7 @@ void GameEngine::startupPhase() {
 			cout << "\n";
 
 
-	// d) et each player draw 2 initial cards from the deck using the deck’s draw() method 
+	// d) get each player draw 2 initial cards from the deck using the deck’s draw() method 
 	
 			//set hand size to 2
 			const int HAND_SIZE = 2;
