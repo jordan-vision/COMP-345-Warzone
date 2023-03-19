@@ -1,4 +1,5 @@
 #include "CommandProcessing.h"
+#include "GameEngine.h"
 #include <iostream>
 using std:: cout; 
 using std:: endl;
@@ -9,6 +10,8 @@ using namespace std;
 using std:: ifstream;
 
 int main(){
+
+GameEngine:: reset();
 
     string answer;
     cout<<"\nIf you want to enter commands to the console, type \"-console\". Otherwise, type \"-file <filename>\" to read commands from the file."<<endl;

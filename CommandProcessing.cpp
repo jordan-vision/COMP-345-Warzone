@@ -57,7 +57,7 @@ Command& Command:: operator=(const Command& rhs){
 
 
 
-void Command:: saveEffect(string effect){
+void Command:: saveEffect(string commandName){
 
     if (effect.substr(0,7) == "loadmap"){
         this->setCommandEffect("map loaded");
@@ -76,10 +76,12 @@ void Command:: saveEffect(string effect){
 
     } else if (effect == "quit"){
         this->setCommandEffect("exiting program");
+
+    } else if (effect == "error") {
+        this->setCommandEffect("command not valid in current state");
     }
-     Notify(this);
+    Notify(this);
     }
- 
 
 string Command::stringToLog() {
 
@@ -132,15 +134,19 @@ Command* CommandProcessor:: readCommand(){
     cout<<"\n*** Reading Command ***\nEnter your command: ";
     getline(cin, command);
     
+    Command* newCommand = new Command(command);
     cout<<"Validating command\n";
+
     if (!validate(command)) {
-        cout<<"\nError. Command not valid.";
+        cout<<"NO";
+        newCommand->saveEffect("error");
+        cout<<newCommand->getCommandEffect();
         return NULL;
     }
-
     cout<<"command is valid. Saving command\n";
-    Command* newCommand = new Command(command);
+    newCommand->saveEffect(command);
     saveCommand(newCommand);
+    
     return newCommand;
 }
 
