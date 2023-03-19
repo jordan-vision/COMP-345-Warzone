@@ -361,13 +361,15 @@ void GameEngine::startupPhase() {
 
 		//while loop to check if a valid map was chosen
     	while (!validMap) {
-			cout << "\nStartup Phase:" << endl;
+			cout << "\n--------------" << endl;
+			cout << "Startup Phase: " << endl;
 			cout << "--------------\n" << endl;
 
 		//										********************** LOAD MAP COMMAND ********************** 
 
 			//load map selection menu
-			cout << "1. Load Map \n" << endl;
+			cout << "**************************************" << endl;
+			cout << "\n1. Load Map \n" << endl;
 			cout << "Please select a map by entering the number on the list:  " << endl;
 			cout << "1. Chrono Trigger Map" << endl;
 			cout << "2. Europe Map" << endl;
@@ -393,8 +395,9 @@ void GameEngine::startupPhase() {
 			this->transition("loadmap");
 
 		//										********************** VALIDATE MAP COMMAND ********************** 
-
+			cout << "**************************************" << endl;
 			cout << "\n2. Validate Map\n" << endl;
+
 			//if map is valid, transition to validate map state, if not the user is prompted to chose a valid map
 			map->validate();
 			if (map->getIsValid()) {
@@ -408,8 +411,9 @@ void GameEngine::startupPhase() {
         }
 
 		//										********************** ADD PLAYER COMMAND ********************** 
+		cout << "**************************************" << endl;
+ 		cout << "\n3. Add Player\n" << endl;
 
- 		cout << "3. Add Player\n" << endl;
 		int numPlayers;
 		do {
 			//prompt user to chose how many players there are
@@ -438,8 +442,8 @@ void GameEngine::startupPhase() {
 		this->transition("addplayer");
 
 		//										********************** GAME START COMMAND ********************** 
-		
-	    cout << "4. Game Start\n" << endl;
+		cout << "**************************************" << endl;
+	    cout << "\n4. Game Start\n" << endl;
 
 	// a) fairly distribute all the territories to the players
 
@@ -477,6 +481,7 @@ void GameEngine::startupPhase() {
 			}
 			cout << endl;
 		}
+			cout << "----------------------------------------------\n" << endl;
 
 		    // print each player's territories to attack
 			cout << "List of territories to attack: " << endl;
@@ -487,6 +492,7 @@ void GameEngine::startupPhase() {
 			}
 			cout << endl;
 		}
+			cout << "----------------------------------------------\n" << endl;
 
 		   // print each player's territories to defend
 			cout << "List of territories to defend: " << endl;
@@ -498,6 +504,7 @@ void GameEngine::startupPhase() {
 			cout << endl;
 		}
 	// b) determine randomly the order of play of the players in the games 
+			cout << "----------------------------------------------\n" << endl;
 
 			// randomize the order of the territories
 			vector<Player*> order(players.size());
@@ -513,6 +520,7 @@ void GameEngine::startupPhase() {
 
 			
 	// c) give 50 initial armies to the players, which are placed in their respective reinforcement pool 
+			cout << "----------------------------------------------\n" << endl;
 
 			cout << "Initial Armies: \n";
 			for (int i = 0; i < players.size(); i++) {
@@ -523,7 +531,8 @@ void GameEngine::startupPhase() {
 
 
 	// d) get each player draw 2 initial cards from the deck using the deck’s draw() method 
-	
+			cout << "----------------------------------------------\n" << endl;
+
 			//set hand size to 2
 			const int HAND_SIZE = 2;
 			//initialize and fill deck
