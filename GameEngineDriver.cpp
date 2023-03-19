@@ -28,6 +28,6 @@ int main() {
 	// cout << "Game over!" << endl;
 	// return 0;
 
-	// e.reinforcementPhase();
-	e.issueOrdersPhase();
+	e.reinforcementPhase();
+
 };

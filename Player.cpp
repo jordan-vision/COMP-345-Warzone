@@ -160,136 +160,203 @@ vector <Territory*> Player:: getPlayerTerritories(){
    // create an OrderList object
    OrdersList* ol = new OrdersList();
 
+
 void Player::issueOrder(Player* player)
 { 
-//     bool addingOrders = true;
-//     int choice = 0;
+    bool addingOrders = true;
+    int choice = 0;
 
-//     while (addingOrders) {
+    vector<Territory*> tToAttack = player->toAttack(); //get list of territories to be attacked
+    vector<Territory*> tToDefend = player->toDefend(player->getPlayerTerritories()); //get list of territories to be defended
 
-//         cout << "-- Orders --\n";
-//         cout << "1. Advance\n";
-//         cout << "2. Bomb\n";
-//         cout << "3. Blockade\n";
-//         cout << "4. Airlift\n";
-//         cout << "5. Negotiate\n";
-//         cout << "6. End Ordering Phase\n";
+    while (addingOrders) {
 
-//          // Prompt the user for input
-//         cout << "Enter a choice (1 - 6): ";
+        cout << "\n-- Orders --\n";
+        cout << "1. Advance\n";
+        cout << "2. Bomb\n";
+        cout << "3. Blockade\n";
+        cout << "4. Airlift\n";
+        cout << "5. Negotiate\n";
+        cout << "6. End Ordering Phase\n";
 
-//         // Read input from the user
-//         cin >> choice;
+         // Prompt the user for input
+        cout << "Enter a choice (1 - 6): ";
 
-//         if (cin.fail()) {
+        // Read input from the user
+        cin >> choice;
 
-//             cin.clear();
-//             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-//             cout << "\nInvalid input: Please enter an integer (1-6)" << endl;
-//         }
+        if (cin.fail()) {
 
-
-//         switch (choice) {
-
-//             // Advance
-//             case 1:
-
-//                 // move form source to target (adj)
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "\nInvalid input: Please enter an integer (1-6)" << endl;
+        }
 
 
+        switch (choice) {
 
-//                 break;
+            // Advance
+            case 1:
+
+                // move form source to target (adj)
+
+
+
+                break;
             
-//             // Bomb
-//             case 2:
+            // Bomb
+            case 2:
 
-//                 if (player->myHand->containsCardType("Bomb")) {
+                if (player->myHand->containsCardType("Bomb")) {
 
-//                     // Display adjacent enemy territories
-//                     player->toAttack();
+                    // Display adjacent enemy territories
                     
-//                     cout << "Enter the integer of the territory you wish to Bomb: ";
-//                     // validate input
-
-//                     Bomb* bomb = new Bomb(/* enter territory to be bombed */);
-//                     player->myOrders->vectorOfOrders.push_back(bomb);
-
-//                 } else {
-//                     cout << "Invalid Request: You do not have this card!";
-//                     continue;
-//                 }
-
-//                 break;
-
-//             // Blockade
-//             case 3:
-
-//                 if (player->myHand->containsCardType("Blockade")) {
                     
-//                     // Display owned territories
-//                     cout << "Enter the integer of the territory you wish to Blockade: ";
-//                     // validate input
+                    cout << "Enter the integer of the territory you wish to Bomb: ";
+                    // validate input
 
-//                     Blockade* blockade = new Blockade(/* enter owned territory */);
-//                     player->myOrders->vectorOfOrders.push_back(blockade);
+                    Bomb* bomb = new Bomb(getValidTarget(tToAttack));
+                    player->myOrders->vectorOfOrders.push_back(bomb);
+
+                 } 
+            else {
+                    cout << "Invalid Request: You do not have this card! Try again";
+                    continue;
+                }
+
+                break;
+
+            // Blockade
+            case 3:
+
+                if (player->myHand->containsCardType("Blockade")) {
+                    
+                    // Display owned territories
+                    cout << "Enter the integer of the territory you wish to Blockade: ";
+                    // validate input
+
+                    Blockade* blockade = new Blockade(getValidTerritory(tToDefend));
+                    player->myOrders->vectorOfOrders.push_back(blockade);
                     
 
-//                 } else {
-//                     cout << "Invalid Request: You do not have this card!";
-//                     continue;
-//                 }
+                } else {
+                    cout << "Invalid Request: You do not have this card!";
+                    continue;
+                }
 
-//                 break;
+                break;
 
-//             // Airlift
-//             case 4:
+            // // Airlift
+            // case 4:
 
-//                 if (player->myHand->containsCardType("Airlift")) {
+            //     if (player->myHand->containsCardType("Airlift")) {
 
-//                     // Display owned territories and armies in each
+            //         // Display owned territories and armies in each
 
-//                     cout << "Enter the integer of the territory you wish to Airlift: ";
-//                     // validate input
+            //         cout << "Enter the integer of the territory you wish to Airlift: ";
+            //         // validate input
 
-//                     cout << "Enter the amount of units you wish to Airlift: ";
+            //         cout << "Enter the amount of units you wish to Airlift: ";
                     
-//                     int unitAmount = 0;
-//                     cin >> unitAmount;
+            //         int unitAmount = 0;
+            //         cin >> unitAmount;
 
-//                     Airlift* airlift = new Airlift(/* source, target */);
-//                     player->myOrders->vectorOfOrders.push_back(airlift);
+            //         Airlift* airlift = new Airlift(/* source, target */);
+            //         player->myOrders->vectorOfOrders.push_back(airlift);
 
-//                 } else {
-//                     cout << "Invalid Request: You do not have this card!";
-//                     continue;
-//                 }
+            //     } else {
+            //         cout << "Invalid Request: You do not have this card!";
+            //         continue;
+            //     }
 
-//                 break;
+            //     break;
 
-//             // Negotiate
-//             case 5:
+            // // Negotiate
+            // case 5:
 
-//                 if (player->myHand->containsCardType("Diplomacy")) {
+            //     if (player->myHand->containsCardType("Diplomacy")) {
 
-//                     // Display enemy players
+            //         // Display enemy players
 
-//                     cout << "Enter the integer of the enemy player you wish to Negotiate with: ";
-//                     // validate input
+            //         cout << "Enter the integer of the enemy player you wish to Negotiate with: ";
+            //         // validate input
 
-//                     Negotiate* negotiate = new Negotiate(/* target player */);
-//                     player->myOrders->vectorOfOrders.push_back(negotiate);
+            //         Negotiate* negotiate = new Negotiate(/* target player */);
+            //         player->myOrders->vectorOfOrders.push_back(negotiate);
 
-//                 } else {
-//                     cout << "Invalid Request: You do not have this card!";
-//                     continue;
-//                 }
+            //     } else {
+            //         cout << "Invalid Request: You do not have this card!";
+            //         continue;
+            //     }
 
-//                 break;
+            //     break;
 
-//             // Exit
-//             case 6:
-//                 addingOrders = false;
-//                 break;
-//         }
-//     }
- }
+            // Exit
+            case 6:
+                addingOrders = false;
+                break;
+        }
+    }
+}
+
+
+// checks if the user is trying to attack a valid territory i.e. if the entered integer corresponds to a territory id present in the vector returned by toAttack()
+Territory* Player::getValidTarget(vector<Territory*>& tToAttack) { 
+    cout << "\nThis is the list of available territories to attack:" << endl;
+    for (auto t : tToAttack) {
+        cout << t->getName() << " (" << t->getTerritoryID() << ")\n";
+    }
+
+    int territoryId;
+    bool validId = false;
+    Territory* target = nullptr;
+    while (!validId) {
+        if (!(cin >> territoryId) || cin.peek() != '\n') {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter an integer.\n";
+        } else {
+            for (auto t : tToAttack) {
+                if (t->getTerritoryID() == territoryId) {
+                    validId = true;
+                    target = t;
+                    break;
+                }
+            }
+            if (!validId) {
+                cout << "Invalid territory ID. Please enter a valid ID.\n";
+            }
+        }
+    }
+    return target;
+}
+
+Territory* Player::getValidTerritory(vector<Territory*>& territory) {
+    cout << "\nThis is the list of available territories to :" << endl;
+    for (auto t : territory) {
+        cout << t->getName() << " (" << t->getTerritoryID() << ")\n";
+    }
+
+    int territoryId;
+    bool validId = false;
+    Territory* target = nullptr;
+    while (!validId) {
+        if (!(cin >> territoryId) || cin.peek() != '\n') {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter an integer.\n";
+        } else {
+            for (auto t : territory) {
+                if (t->getTerritoryID() == territoryId) {
+                    validId = true;
+                    target = t;
+                    break;
+                }
+            }
+            if (!validId) {
+                cout << "Invalid territory ID. Please enter a valid ID.\n";
+            }
+        }
+    }
+    return target;
+}
