@@ -115,8 +115,15 @@ ostream& operator <<(ostream& output, CommandProcessor& command){
 }
 
 void CommandProcessor::saveCommand(Command* command) {
-    cout<<"Saving command \" "<<command->getCommandName()<<" \"\nCommand saved"<<endl;
+    //cout<<"Saving command \" "<<command->getCommandName()<<" \"
+    cout<<"Command saved"<<endl;
     commandList.push_back(command);
+    cout<<"Currently in command list: \n\n";
+    int lineNumber = 1;
+    for (auto it: commandList){
+        cout<<lineNumber<<": "<<*it;
+        ++lineNumber;
+    }
     Notify(this);
 }
 
@@ -125,10 +132,13 @@ Command* CommandProcessor:: readCommand(){
     cout<<"\n*** Reading Command ***\nEnter your command: ";
     getline(cin, command);
     
+    cout<<"Validating command\n";
     if (!validate(command)) {
+        cout<<"\nError. Command not valid.";
         return NULL;
     }
 
+    cout<<"command is valid. Saving command\n";
     Command* newCommand = new Command(command);
     saveCommand(newCommand);
     return newCommand;
@@ -171,16 +181,24 @@ ostream& operator << (ostream& output, const FileLineReader& reader){
 }
 
 
-Command* FileLineReader:: readLineFromFile(string fileName){
-    static int count = 1; 
+vector <Command*> FileLineReader:: readLineFromFile(string fileName){
+    //static int count = 1; 
     string commandString;
+    vector <Command*> commandsFromFile; 
     ifstream inputFile;
     inputFile.open(fileName);
-
-    getline(inputFile, commandString);
-    cout<<"\nReading command line "<<count<<" : "<<commandString<<endl;
-    ++count;
-    return new Command (commandString);
+    if(!inputFile){
+        cout<<"\nError. Commands file does not exist."<<endl;
+        return commandsFromFile;
+    }
+    while(getline(inputFile, commandString)){
+        //cout<<"Reading command line "<<count<<" : "<<commandString<<"\n";
+        Command* lineCommand = new Command(commandString);
+        commandsFromFile.push_back(lineCommand);
+       // ++count;
+    }
+    return commandsFromFile;
+   
 }
 
 FileLineReader:: ~FileLineReader(){}
@@ -207,13 +225,17 @@ ostream& operator <<(ostream& output, FileCommandProcessorAdapter& adapter){
 }
 
 void FileCommandProcessorAdapter:: readCommand(string fileName){
-    Command* command = flr->readLineFromFile(fileName);
+    vector <Command*> readCommands = flr->readLineFromFile(fileName);
 
     // after validate method has been implemented, call it here on the command returned from above to check it 
     // if (validate(command))
     // then continue to save command function 
-
-    saveCommand(command);
+    int count = 1;
+    for (auto it: readCommands){
+        cout<<"\nReading command line "<<count<<" : "<<*it;
+        saveCommand(it);
+        ++count;
+    }
 }
 
 FileCommandProcessorAdapter:: ~FileCommandProcessorAdapter(){
