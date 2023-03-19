@@ -161,6 +161,7 @@ bool CommandProcessor:: validate(string command){
     string firstWord = command + " ";
     firstWord = firstWord.substr(0, command.find(" "));
     State *nextState = GameEngine::getGameLoop()->getCurrentState()->executeCommand(command);
+    State *nextState = GameEngine::getGameLoop()->getCurrentState()->executeCommand(firstWord);
     return (nextState != NULL);
 }
 
@@ -216,20 +217,20 @@ FileLineReader:: ~FileLineReader(){}
 
 //                  FILE COMMAND PROCESSOR ADAPTER CLASS SECTION
 
-FileCommandProcessorAdapter:: FileCommandProcessorAdapter(){
-    flr = nullptr;
-    lineNumber = 0;
-}
+FileCommandProcessorAdapter:: FileCommandProcessorAdapter(){}
 
 FileCommandProcessorAdapter::FileCommandProcessorAdapter(string theFileName) {
-    flr = nullptr;
+    flr = new FileLineReader();
     lineNumber = 0;
     fileName = theFileName;
+    commandList = flr->readLineFromFile(theFileName);
 }
 
 FileCommandProcessorAdapter& FileCommandProcessorAdapter:: operator =(FileCommandProcessorAdapter& rhs){
     this->flr = rhs.flr;
     this->lineNumber = rhs.lineNumber;
+    this->fileName = rhs.fileName;
+    this->commandList = rhs.commandList;
     return *this;
 }
 
@@ -240,16 +241,33 @@ FileCommandProcessorAdapter:: FileCommandProcessorAdapter(const FileCommandProce
 string FileCommandProcessorAdapter::getFileName() {
     return fileName;
 }
+FileLineReader *FileCommandProcessorAdapter::getflr() {
+    return flr;
+}
+void FileCommandProcessorAdapter::setFileName(string theFileName) {
+    fileName = theFileName;
+}
+void FileCommandProcessorAdapter::setFlr(FileLineReader* theflr) {
+    flr = theflr;
+}
+
+Command* FileCommandProcessorAdapter::getCommandAt(int i) {
+    return commandList[i];
+}
+
+bool FileCommandProcessorAdapter::isEntireFileRead() {
+    return (lineNumber >= commandList.size());
+}
 
 ostream& operator <<(ostream& output, FileCommandProcessorAdapter& adapter){
     return output<<"\nThis is a file command processor adapter object"<<endl;
 }
 
 Command* FileCommandProcessorAdapter:: readCommand(){
-    vector <Command*> readCommands = flr->readLineFromFile(getFileName());
-    Command* newCommand = readCommands[lineNumber];
+    Command* newCommand = commandList[lineNumber];
     string commandString = newCommand->getCommandName();
-    cout<<"\nReading command line "<<lineNumber<<" : "<< commandString;
+    cout<<"\nReading command line "<<lineNumber + 1<<" : "<< commandString;
+    ++lineNumber;
 
     cout << "Validating command\n";
     if (!validate(commandString)) {
@@ -259,7 +277,6 @@ Command* FileCommandProcessorAdapter:: readCommand(){
 
     cout << "command is valid. Saving command\n";
     saveCommand(newCommand);
-    ++lineNumber;
     return newCommand;
 }
 

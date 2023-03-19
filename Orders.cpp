@@ -397,7 +397,7 @@ Airlift::~Airlift(){
 /*                               Negotiate Class                              */
 /* -------------------------------------------------------------------------- */
 
-Negotiate::Negotiate(Territory* target){
+Negotiate::Negotiate(Player* player){
 	this->target = target;
 }
 

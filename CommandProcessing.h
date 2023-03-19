@@ -77,6 +77,7 @@ class FileCommandProcessorAdapter : public CommandProcessor {
     private:
         int lineNumber;
         string fileName;
+        vector<Command*> commandList;
 
     public: 
         FileCommandProcessorAdapter();
@@ -84,9 +85,12 @@ class FileCommandProcessorAdapter : public CommandProcessor {
         FileCommandProcessorAdapter(const FileCommandProcessorAdapter& copy);           
 
         string getFileName();         
-        FileLineReader* getflr();   
-        void setFlr(FileLineReader* flr);      
-        void setFileName();           
+        FileLineReader* getflr();
+        void setFileName(string theFileName);
+        void setFlr(FileLineReader* theflr); 
+
+        Command* getCommandAt(int i);
+        bool isEntireFileRead();
 
         ~FileCommandProcessorAdapter();        
 
