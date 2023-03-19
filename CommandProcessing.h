@@ -60,7 +60,7 @@ class CommandProcessor : public ILoggable, public Subject {
 
 class FileLineReader {
     public: 
-        Command* readLineFromFile(string file);     
+        vector <Command*> readLineFromFile(string file);     
 
         FileLineReader();          
 
