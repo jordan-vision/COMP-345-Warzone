@@ -148,7 +148,7 @@ void Deploy::execute(Player* player){
     	        break;
     	} // end of while loop
 
-		target->setArmy(target->getArmy() + reinforcementAmount);
+		this->target->setArmy(this->target->getArmy() + reinforcementAmount);
 		orderEffect = "Armies have been placed on players territories"; 
 
     } else 
@@ -159,7 +159,7 @@ void Deploy::execute(Player* player){
 bool Deploy::validate(Player* player){
 	
 	// Check ownership of target territory
-	if (target->getOwner()->getName() == player->getName()) {
+	if (this->target->getOwner()->getName() == player->getName()) {
 		
 		if (player->getArmy() != 0) // Check if reinforcement pool is empty
 			return true;
@@ -202,7 +202,7 @@ void Advance::execute(Player* player){
 	if (Advance::validate(player)) { //validate the order
 
 
-
+		// CHECK HOW MANY ARMIES MOVING IN ISSUE ORDER
 
 		//advance armies
 		orderEffect = "Armies have been moved to specified territory"; 
@@ -219,6 +219,10 @@ void Advance::execute(Player* player){
 
 bool Advance::validate(Player* player){
 
+	if (this->source->getOwner()->getName() == player->getName()) 
+		for (Territory* ter : this->source->getAdjacentTerritories()) 
+			if (ter->getOwner()->getName() == this->target->getOwner()->getName())
+				return true;
 	return false;
 }
 
@@ -253,7 +257,7 @@ void Bomb::execute(Player* player){
 
 	if (Bomb::validate(player)){ //validate the order
 
-		target->setArmy(target->getArmy() / 2);
+		this->target->setArmy(this->target->getArmy() / 2);
 		cout << "The target territory has been bombed (half the army is gone)"; 
 		//bomb area
 		orderEffect = "Destroyed half of the armies located on the opponents territory";
@@ -267,16 +271,14 @@ void Bomb::execute(Player* player){
 bool Bomb::validate(Player* player) {
 
 	// Check ownership of target territory
-	if (target->getOwner()->getName() != player->getName()) {
+	if (this->target->getOwner()->getName() != player->getName()) 
 		// Iterate through owned territories
 		for (Territory* pTerritory : player->getPlayerTerritories()) 
 			// Iterate through adjacent territories 
 			for (Territory* adjTerritory : pTerritory->getAdjacentTerritories()) 
 				// Check target territory is adjacent
-				if (adjTerritory->getName() == target->getName()) 
+				if (adjTerritory->getName() == this->target->getName()) 
 					return true;
-	}
-
 	return false;
 }
 
@@ -311,7 +313,7 @@ void Blockade::execute(Player* player){
 
 	if (Blockade::validate(player)) { 
 
-		target->setArmy(target->getArmy() * 2);
+		this->target->setArmy(this->target->getArmy() * 2);
 
 
 		// IMPLEMENT: give ownership to neutralPlayer
@@ -328,7 +330,7 @@ void Blockade::execute(Player* player){
 }
 bool Blockade::validate(Player* player){
 
-	if (target->getOwner()->getName() == player->getName()) 
+	if (this->target->getOwner()->getName() == player->getName()) 
 		return true;
 	
 	return false; 
@@ -359,18 +361,27 @@ Airlift& Airlift::operator=(const Airlift& a){ //assignment operator
 	return *this;
 }
 
-void Airlift::execute(Player* player){
-	if (Airlift::validate(player)){ //validate the order
-		//do an airlift
+void Airlift::execute(Player* player) {
+
+	if (Airlift::validate(player)){ 
+
+		this->source->setArmy(this->source->getArmy() - this->units);
+		this->target->setArmy(this->target->getArmy() + this->units);
+
 		orderEffect = "Airlifted armies from one territory to another";
 		Notify(this);
+
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to perform Airlift";
 	}
 }
 bool Airlift::validate(Player* player){
-	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
+
+	if (this->target->getOwner()->getName() == player->getName())
+		if (this->source->getOwner()->getName() == player->getName())
+			return true; 
+	return false;
 }
 
 string Airlift::getDescription(){
@@ -399,8 +410,10 @@ Negotiate& Negotiate::operator=(const Negotiate& n){ //assignment operator
 }
 
 void Negotiate::execute(Player* player){
+
 	if (Negotiate::validate(player)){ //validate the order
-		//negotiate with player
+	
+		// CREATE TRUCE VARIABLE FOR PLAYERS
 		orderEffect = "Negotiations performed. Attacks have been prevented until the end of turn";
 		Notify(this);
 	}else{
@@ -409,7 +422,10 @@ void Negotiate::execute(Player* player){
 	}
 }
 bool Negotiate::validate(Player* player){
-	return true; // TODO: logic to be implemented, currrently returning true for testing purposes 
+
+	if (this->target->getOwner()->getName() != player->getName())
+		return true;
+	return false; 
 }
 
 string Negotiate::getDescription(){
