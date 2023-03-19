@@ -161,7 +161,6 @@ bool CommandProcessor:: validate(string command){
     string firstWord = command + " ";
     firstWord = firstWord.substr(0, command.find(" "));
     State *nextState = GameEngine::getGameLoop()->getCurrentState()->executeCommand(command);
-    State *nextState = GameEngine::getGameLoop()->getCurrentState()->executeCommand(firstWord);
     return (nextState != NULL);
 }
 
