@@ -56,29 +56,28 @@ Command& Command:: operator=(const Command& rhs){
 }
 
 
-
-void Command:: saveEffect(string commandName){
-
+void Command:: saveEffect(string effect){
+    
     if (effect.substr(0,7) == "loadmap"){
-        this->setCommandEffect("map loaded");
+        this->setCommandEffect("loadmap");
 
     } else if (effect.substr(0,9) == "addplayer") {
-        this->setCommandEffect("players added");
+        this->setCommandEffect("addplayer");
 
     } else if (effect == "validatemap"){
-        this->setCommandEffect("map validated");
+        this->setCommandEffect("validatemap");
 
     } else if (effect == "gamestart"){
-        this->setCommandEffect("starting game");
+        this->setCommandEffect("gamestart");
 
     } else if (effect == "replay"){
-        this->setCommandEffect("replaying game");
+        this->setCommandEffect("replay");
 
     } else if (effect == "quit"){
-        this->setCommandEffect("exiting program");
+        this->setCommandEffect("quit");
 
     } else if (effect == "error") {
-        this->setCommandEffect("command not valid in current state");
+        this->setCommandEffect("error");
     }
     Notify(this);
     }
@@ -120,7 +119,7 @@ void CommandProcessor::saveCommand(Command* command) {
     //cout<<"Saving command \" "<<command->getCommandName()<<" \"
     cout<<"Command saved"<<endl;
     commandList.push_back(command);
-    cout<<"Currently in command list: \n\n";
+    cout<<"\nCurrently in command list: \n";
     int lineNumber = 1;
     for (auto it: commandList){
         cout<<lineNumber<<": "<<*it;
@@ -133,30 +132,34 @@ Command* CommandProcessor:: readCommand(){
     string command;
     cout<<"\n*** Reading Command ***\nEnter your command: ";
     getline(cin, command);
-    
-    Command* newCommand = new Command(command);
-    cout<<"Validating command\n";
+    string first = command.substr(0, command.find(" "));
+    // string validateString = "validatemap";
 
-    if (!validate(command)) {
-        cout<<"NO";
+    Command* newCommand = new Command(command);
+    cout<<"\nValidating command...\n";
+
+    if (!validate(first)) {
+        cout<<"NOT A COMMAND\n";
         newCommand->saveEffect("error");
         cout<<newCommand->getCommandEffect();
         return NULL;
     }
-    cout<<"command is valid. Saving command\n";
+    cout<<"Command is valid. Saving command\n";
     newCommand->saveEffect(command);
     saveCommand(newCommand);
-    
+        
     return newCommand;
 }
 
 Command* CommandProcessor:: getCommand(){
-    cout<<"\nGetting command "<<endl;
+    cout<<"Getting command "<<endl;
     Command* newCommand = readCommand();
     return newCommand;
 }
 
 bool CommandProcessor:: validate(string command){
+    string firstWord = command + " ";
+    firstWord = firstWord.substr(0, command.find(" "));
     State *nextState = GameEngine::getGameLoop()->getCurrentState()->executeCommand(command);
     return (nextState != NULL);
 }
