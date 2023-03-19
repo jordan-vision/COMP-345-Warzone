@@ -348,9 +348,10 @@ Blockade::~Blockade(){
 /*                                Airlift Class                               */
 /* -------------------------------------------------------------------------- */
 
-Airlift::Airlift(Territory* target, Territory* source){
+Airlift::Airlift(Territory* target, Territory* source, int units){
 	this->target = target;
 	this->source = source;
+	this->units = units;
 }
 Airlift::Airlift(Airlift& copy){ // copy constructor
 	orderEffect = copy.orderEffect;
