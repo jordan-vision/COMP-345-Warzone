@@ -111,7 +111,7 @@ public:
 
 	//startup phase method implements a command-based user interaction mechanism 
 	//to start the game by allowing the user to proceed with the game startup phase:
-	void startupPhase();
+	static void startupPhase();
 	static void mainGameLoop();
 	static void reinforcementPhase();
 	static void executeOrdersPhase();

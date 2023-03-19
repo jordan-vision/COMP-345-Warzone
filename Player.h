@@ -40,7 +40,7 @@ class Player
         //creating an order object called myOrderss
         OrdersList* myOrders;
         //method named issueOrder() 
-        void issueOrder(Player* player);
+        void issueOrder(vector <Player*> player, int index);
         //creating a hand of cards called myHand
         Hand* myHand;
         //army

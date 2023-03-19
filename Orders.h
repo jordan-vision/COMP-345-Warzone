@@ -133,7 +133,7 @@ class Airlift : public Order{
 protected:
     virtual string getDescription() override;
 public:
-    Airlift(Territory* target, Territory* source);
+    Airlift(Territory* target, Territory* source, int units);
     Airlift(Airlift& copy); // copy constructor
     Airlift& operator=(const Airlift& a); // assignment operator
     virtual bool validate(Player* player) override; // validate the order
@@ -142,6 +142,7 @@ public:
 
     Territory* target;
     Territory* source;
+    int units;
 };
 
 
