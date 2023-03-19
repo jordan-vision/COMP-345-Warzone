@@ -441,7 +441,7 @@ void GameEngine::startupPhase() {
 		
 	    cout << "4. Game Start\n" << endl;
 
-	// a) airly distribute all the territories to the players
+	// a) fairly distribute all the territories to the players
 
 		// get all territories from the map and put them into the vector
 		vector<Territory*> territories = map->getTerritories();
@@ -461,16 +461,18 @@ void GameEngine::startupPhase() {
 			//(i + 1) * distribute trepresents the end index of the range of territories that will be assigned to the player.
 			for (int j = i * distribute; j < (i + 1) * distribute; j++) {
 				//adds territory to player
-				players[i]->addPlayerTerritories(territories[j]);
+				players[i]->owned(territories[j]);
 			}
 		}
-		cout << "Each player will have: " << distribute << " territories." << endl;
+		cout << "Number of territories: " << territories.size() << endl;
+		cout << "Number of Players: " << players.size() << endl;
+		cout << "When equally distributing the territories, each player will have: " << distribute << " territories." << endl;
 
 		// print each player's territories
 		for (int i = 0; i < players.size(); i++) {
 			cout << "\nPlayer " << i + 1 << "'s territories "  << "("<< players[i]->getName() << "): \n"<< endl;
 			for (int j = 0; j < players[i]->getPlayerTerritories().size(); j++) {
-				cout << players[i]->getPlayerTerritories()[j]->getName() << endl;
+				cout << j+1 << ". " << players[i]->getPlayerTerritories()[j]->getName() << endl;
 			}
 			cout << endl;
 		}
@@ -538,9 +540,6 @@ void GameEngine::startupPhase() {
 			{
 			cout << "Game has switched to Play Phase." << endl;
 			}
-
-
-
 	};
 
 	

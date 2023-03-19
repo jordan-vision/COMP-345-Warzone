@@ -15,21 +15,20 @@ Player::Player()
 
 //Destructor
 Player::~Player() {
-    for (TerritoryPlayer* td : territoriesDefend) 
+    for (Territory* td : territoriesDefend) 
         delete td;    
-    for (TerritoryPlayer* ta : territoriesAttack) 
+    for (Territory* ta : territoriesAttack) 
         delete ta; 
-   for (TerritoryPlayer* to : territoriesOwned) 
+   for (Territory* to : territoriesOwned) 
         delete to;
    
-    // delete myOrders;
-    
+    delete myOrders;
     delete myHand;
    
 };
 
 //Constructor that initializes the player's collection of territories (owned, defend, attack) and the player name
-Player::Player(vector<TerritoryPlayer*> territoriesOwned, vector<TerritoryPlayer*> territoriesDefend, vector<TerritoryPlayer*> territoriesAttack, string name)
+Player::Player(vector<Territory*> territoriesOwned, vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack, string name)
 : territoriesOwned(territoriesOwned), territoriesDefend(territoriesDefend), territoriesAttack(territoriesAttack)
  {
   this->myHand = new Hand();
@@ -59,16 +58,7 @@ int Player:: getArmy(){
 void Player:: setArmy(int army){
     this->army = army; 
 }
-vector <Territory*> Player:: getPlayerTerritories(){
-    return territories;
-}
 
-void Player:: setPlayerTerritories(Territory* territory){
-    this->territories.push_back(territory);
-}
-void Player:: addPlayerTerritories(Territory* territory){
-    this->territories.push_back(territory);
-}
 //Copy Constructor passing parameter p
 Player::Player(const Player& p)
 {
@@ -79,69 +69,36 @@ Player::Player(const Player& p)
   this->territoriesAttack = p.territoriesAttack;
 }
 
-
-//Implementation of the friend insertion operator for class Territory
-ostream& operator<<(ostream& output, TerritoryPlayer& t) {
-output << t.getName();
-return output;
-}
-
 //Implementation of the friend insertion operator for class Player
 ostream& operator<<(ostream& output, Player& p) {
     output << p.getName();
     return output;
 }
 
-//Implementation of the toDefend() method
-vector<TerritoryPlayer*> Player::owned() {
-vector<TerritoryPlayer*> territoriesOwned;
-    territoriesOwned.push_back(new TerritoryPlayer("Territory 1"));
-    territoriesOwned.push_back(new TerritoryPlayer("Territory 2"));
-    territoriesOwned.push_back(new TerritoryPlayer("Territory 3"));
-    territoriesOwned.push_back(new TerritoryPlayer("Territory 4"));
-
-    cout << "\nTerritories owned: " << endl;
-    for(auto &t : territoriesOwned) 
-    {
-        cout << *t << endl;
-    }
-    return territoriesOwned;
-
+//Implementation of the owned() method
+void Player::owned(Territory* t) {
+    vector<Territory*> territoriesOwned;
+    this->territoriesOwned.push_back(t);
+    
 }
+
 //Implementation of the toDefend() method
-vector<TerritoryPlayer*> Player::toDefend() {
- vector<TerritoryPlayer*> territoriesDefend;
-    territoriesDefend.push_back(new TerritoryPlayer("Quebec"));
-    territoriesDefend.push_back(new TerritoryPlayer("Ontario"));
-    territoriesDefend.push_back(new TerritoryPlayer("Alberta"));
-    territoriesDefend.push_back(new TerritoryPlayer("Alaska"));
-
-
-    cout << "\nTerritories to defend: " << endl;
-    for(auto &t : territoriesDefend) 
-    {
-        cout << *t << endl;
-    }
+vector<Territory*> Player::toDefend(Territory* t) {
+    vector<Territory*> territoriesDefend;
+    territoriesDefend.push_back(t);
     return territoriesDefend;
-
 }
+
 //Implementation of the toAttack() method 
-vector<TerritoryPlayer*> Player::toAttack() {
-    vector<TerritoryPlayer*> territoriesAttack;
-    territoriesAttack.push_back(new TerritoryPlayer("Mexico"));
-    territoriesAttack.push_back(new TerritoryPlayer("Argentina"));
-    territoriesAttack.push_back(new TerritoryPlayer("Brazil"));
-    territoriesAttack.push_back(new TerritoryPlayer("Venezuela"));
-
-    cout << "\nTerritories to attack: " << endl;
-    for(auto &t : territoriesAttack) 
-    {
-        cout << *t << endl;
-    }
-        return territoriesAttack;
-
+vector<Territory*> Player::toAttack(Territory* t) {
+    vector<Territory*> territoriesAttack;
+    territoriesAttack.push_back(t);
+    return territoriesAttack;
 }
-
+//Implementation of getPlayerTerritories() method
+vector <Territory*> Player:: getPlayerTerritories(){
+    return territoriesOwned;
+}
    // create an OrderList object
    OrdersList* ol = new OrdersList();
 

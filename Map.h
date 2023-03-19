@@ -42,7 +42,8 @@ public:
     Territory();                                          
     Territory(string name);                                 
     Territory(string name, Continent* inContinent);     
-    Territory(string name, int territoryID);                              
+    Territory(string name, int territoryID);  
+    Territory(vector<Territory*> territoriesOwned, vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack, string name);              
 
 // COPY CONSTRUCTOR
     Territory(const Territory& copy);                     

@@ -13,7 +13,7 @@ int main()
 {
     //creating player p
     Player p;
-    //calling methods'
+    //calling methods
     p.owned();
     p.toDefend();
     p.toAttack();
