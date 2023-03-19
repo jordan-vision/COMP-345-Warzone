@@ -10,7 +10,8 @@ int main() {
     Command* myCommand = new Command();
     CommandProcessor* myCommandProcessor = new CommandProcessor();
     OrdersList* myOrders = new OrdersList();
-    GameEngine* myEngine = new GameEngine();
+    // GameEngine* myEngine = new GameEngine();
+    GameEngine::reset()
 
     MapLoader* loader = new MapLoader();
     Map* map5 = loader->loadMap("europe.map");      
@@ -49,11 +50,11 @@ int main() {
     // ar->execute();
     // n->execute();
 
-    while (!myEngine->getIsGameOver()) {
+    while (!GameEngine::getIsGameOver()) {
 		string input;
 		cout << "Enter a command: ";
 		cin >> input;
-		myEngine->transition(input);
+		GameEngine::transition(input);
 	}
 
 	return 0;

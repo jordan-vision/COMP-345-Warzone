@@ -92,20 +92,20 @@ class GameEngine : public ILoggable, public Subject
 private:
 	static bool isGameOver;
 	static DirectedGraph* gameLoop;
-	
 
-public:
 	GameEngine();
 	GameEngine(GameEngine& toCopy);
 	~GameEngine();
 
 	void operator=(GameEngine& rhs);
 
+public:
 	static bool getIsGameOver();
 	static DirectedGraph* getGameLoop();
 	static void setIsGameOver(bool isTheGameOver);
 
-	bool transition(string command);
+	static void reset();
+	static bool transition(string command);
 
 	virtual string stringToLog() override;
 

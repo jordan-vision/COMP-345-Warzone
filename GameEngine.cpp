@@ -266,6 +266,45 @@ DirectedGraph* GameEngine::getGameLoop() { return gameLoop; };
 void GameEngine::setIsGameOver(bool isTheGameOver) { isGameOver = isTheGameOver; };
 
 // Other methods
+// Resets static components of GameEngine without having to instatiate it again
+void GameEngine::reset(){
+	if (gameLoop != NULL) {
+		delete gameLoop;
+	}
+
+	// Start and end states
+	isGameOver = false;
+	State* start = new State("start");
+	State* end = new State("end");
+	gameLoop = new DirectedGraph(start, end);
+
+	// All other states
+	State* mapLoaded = new State("map loaded");
+	State* mapValidated = new State("map validated");
+	State* playersAdded = new State("players added");
+	State* assignReinforcement = new State("game start");
+	State* issueOrders = new State("issue orders");
+	State* executeOrders = new State("execute orders");
+	State* win = new State("win");
+
+
+	// Transitions and commands
+	start->connect(mapLoaded, "loadmap");
+	mapLoaded->connect(mapLoaded, "loadmap");
+	mapLoaded->connect(mapValidated, "validatemap");
+	mapValidated->connect(playersAdded, "addplayer");
+	playersAdded->connect(playersAdded, "addplayer");
+	playersAdded->connect(assignReinforcement, "gamestart");
+	assignReinforcement->connect(issueOrders, "issueorder");
+	issueOrders->connect(issueOrders, "issueorder");
+	issueOrders->connect(executeOrders, "endissueorders");
+	executeOrders->connect(executeOrders, "execorder");
+	executeOrders->connect(assignReinforcement, "endexecorders");
+	executeOrders->connect(win, "win");
+	win->connect(start, "play");
+	win->connect(end, "end");
+}
+
 // Executes command if valid, prints an error message otherwise. Furthermore, if the end state is achieved will delete the game engine
 bool GameEngine::transition(string command) {
 	bool success = gameLoop->executeCommand(command);
@@ -386,13 +425,13 @@ void GameEngine::startupPhase() {
 			} else {
 				cout << "\nInvalid map selection." << endl;
 				//invalid command
-				this->transition("invalid");
+				transition("invalid");
 				// re-prompt the selection if invalid choice
 				continue; 
 			}
 
 			//loadmap state 
-			this->transition("loadmap");
+			transition("loadmap");
 
 		//										********************** VALIDATE MAP COMMAND ********************** 
 			cout << "**************************************" << endl;
@@ -402,10 +441,10 @@ void GameEngine::startupPhase() {
 			map->validate();
 			if (map->getIsValid()) {
 				validMap = true;
-				this->transition("validatemap");
+				transition("validatemap");
 			} else {
 				validMap = false;
-				this->transition("invalid");
+				transition("invalid");
 				cout << "Please choose a valid map.\n" << endl;
 			}
         }
@@ -422,7 +461,7 @@ void GameEngine::startupPhase() {
 			//if they chose a number out of the limits they must chose again  
 			if (numPlayers < 2 || numPlayers > 6) {
 				cout << "\nInvalid number of players.\n" << endl;
-				this->transition("invalid");
+				transition("invalid");
 			}
 		} while (numPlayers < 2 || numPlayers > 6);
 
@@ -439,7 +478,7 @@ void GameEngine::startupPhase() {
 
 		//transition state
 		cout << "\n" << endl;
-		this->transition("addplayer");
+		transition("addplayer");
 
 		//										********************** GAME START COMMAND ********************** 
 		cout << "**************************************" << endl;
@@ -565,7 +604,7 @@ void GameEngine::startupPhase() {
 			}
 
 	// e) switch the game to the play phase
-			if (this->transition("gamestart"))
+			if (transition("gamestart"))
 			{
 			cout << "Game has switched to Play Phase." << endl;
 			}
@@ -573,7 +612,7 @@ void GameEngine::startupPhase() {
 
 
 void GameEngine::mainGameLoop() {
-	if (this->transition("gamestart"))
+	if (transition("gamestart"))
 			{
 			cout << "Game has switched to Play Phase." << endl;
 			}
