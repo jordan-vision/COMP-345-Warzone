@@ -114,7 +114,8 @@ void Order::execute(Player* player, Territory* Target) {
 /*                                Deploy Class                                */
 /* -------------------------------------------------------------------------- */
 
-Deploy::Deploy(){ //contructor
+Deploy::Deploy(Territory* target){ //contructor
+	this->target = target;
 }
 
 Deploy::Deploy(Deploy& copy){ //copy constructor
@@ -182,8 +183,9 @@ Deploy::~Deploy(){
 /*                                Advance Class                               */
 /* -------------------------------------------------------------------------- */
 
-Advance::Advance(){
-
+Advance::Advance(Territory* target, Territory* source){
+	this->target = target;
+	this->source = source; 
 }
 
 Advance::Advance(Advance& copy){ // copy constructor 
@@ -234,8 +236,8 @@ Advance::~Advance(){
 /*                                 Bomb Class                                 */
 /* -------------------------------------------------------------------------- */
 
-Bomb::Bomb(){
-
+Bomb::Bomb(Territory* target){
+	this->target = target;
 }
 
 Bomb::Bomb(Bomb& copy){ // copy constructor
@@ -291,8 +293,8 @@ Bomb::~Bomb(){
 /*                               Blockade Class                               */
 /* -------------------------------------------------------------------------- */
 
-Blockade::Blockade(){
-
+Blockade::Blockade(Territory* target){
+	this->target=target;
 }
 
 Blockade::Blockade(Blockade& copy){ // copy constructor
@@ -344,8 +346,9 @@ Blockade::~Blockade(){
 /*                                Airlift Class                               */
 /* -------------------------------------------------------------------------- */
 
-Airlift::Airlift(){
-
+Airlift::Airlift(Territory* target, Territory* source){
+	this->target = target;
+	this->source = source;
 }
 Airlift::Airlift(Airlift& copy){ // copy constructor
 	orderEffect = copy.orderEffect;
@@ -382,8 +385,8 @@ Airlift::~Airlift(){
 /*                               Negotiate Class                              */
 /* -------------------------------------------------------------------------- */
 
-Negotiate::Negotiate(){
-
+Negotiate::Negotiate(Territory* target){
+	this->target = target;
 }
 
 Negotiate::Negotiate(Negotiate& copy){ //copy constructor 

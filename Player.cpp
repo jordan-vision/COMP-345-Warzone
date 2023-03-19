@@ -115,54 +115,135 @@ vector <Territory*> Player:: getPlayerTerritories(){
    // create an OrderList object
    OrdersList* ol = new OrdersList();
 
-void Player::issueOrder(string orderType)
+void Player::issueOrder(Player* player)
 { 
-   // checking the orderType and then printing the order
-   if (orderType == "Deploy") {
-      // create order 
-      Deploy* d = new Deploy();
-      cout<< "\n" <<orderType << " order has been issued:\n" << endl;
-      cout << *d << endl;
-      //add to order list
-      ol->add(d);
-   } else if (orderType == "Advance") {
-     // create order 
-     Advance* a = new Advance();
-     cout<< orderType << " order has been issued:\n" << endl;
-      cout << *a << endl;
-      //add to order list
-      ol->add(a);
-   } else if (orderType == "Blockade") {
-      // create order 
-      Blockade* bl = new Blockade();
-      cout<< orderType << " order has been issued:\n" << endl;
-      cout << *bl << endl;
-      //add to order list
-      ol->add(bl);
-   } else if (orderType == "Bomb") {
-      // create order 
-      Bomb* bo = new Bomb();
-      cout<< orderType << " order has been issued:\n" << endl;
-      cout << *bo << endl;
-      //add to order list
-      ol->add(bo);
-   } else if (orderType == "Airlift") {
-      // create order 
-      Airlift* ar = new Airlift();
-      cout<< orderType << " order has been issued:\n" << endl;
-      cout << *ar << endl;
-      //add to order list
-      ol->add(ar);
-   } else if (orderType == "Negotiate") {
-      // create order 
-      Negotiate* n = new Negotiate();
-      cout<< orderType << " order has been issued:\n" << endl;
-      cout << *n << endl;
-      //add to order list
-      ol->add(n);
-   } else {
-      cout << "Invalid order type" << endl;
-   }
-    cout << "\nOrders List: " << endl;
-    cout << *ol << endl;
+    bool addingOrders = true;
+    int choice = 0;
+
+    while (addingOrders) {
+
+        cout << "-- Orders --\n";
+        cout << "1. Advance\n";
+        cout << "2. Bomb\n";
+        cout << "3. Blockade\n";
+        cout << "4. Airlift\n";
+        cout << "5. Negotiate\n";
+        cout << "6. End Ordering Phase\n";
+
+         // Prompt the user for input
+        cout << "Enter a choice (1 - 6): ";
+
+        // Read input from the user
+        cin >> choice;
+
+        if (cin.fail()) {
+
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "\nInvalid input: Please enter an integer (1-6)" << endl;
+        }
+
+
+        switch (choice) {
+
+            // Advance
+            case 1:
+
+                // move form source to target (adj)
+
+
+
+                break;
+            
+            // Bomb
+            case 2:
+
+                if (player->myHand->containsCardType("Bomb")) {
+
+                    // Display adjacent enemy territories
+                    
+                    cout << "Enter the integer of the territory you wish to Bomb: ";
+                    // validate input
+
+                    Bomb* bomb = new Bomb(/* enter territory to be bombed */);
+                    player->myOrders->vectorOfOrders.push_back(bomb);
+
+                } else {
+                    cout << "Invalid Request: You do not have this card!";
+                    continue;
+                }
+
+                break;
+
+            // Blockade
+            case 3:
+
+                if (player->myHand->containsCardType("Blockade")) {
+                    
+                    // Display owned territories
+                    cout << "Enter the integer of the territory you wish to Blockade: ";
+                    // validate input
+
+                    Blockade* blockade = new Blockade(/* enter owned territory */);
+                    player->myOrders->vectorOfOrders.push_back(blockade);
+                    
+
+                } else {
+                    cout << "Invalid Request: You do not have this card!";
+                    continue;
+                }
+
+                break;
+
+            // Airlift
+            case 4:
+
+                if (player->myHand->containsCardType("Airlift")) {
+
+                    // Display owned territories and armies in each
+
+                    cout << "Enter the integer of the territory you wish to Airlift: ";
+                    // validate input
+
+                    cout << "Enter the amount of units you wish to Airlift: ";
+                    
+                    int unitAmount = 0;
+                    cin >> unitAmount;
+
+                    Airlift* airlift = new Airlift(/* source, target */);
+                    player->myOrders->vectorOfOrders.push_back(airlift);
+
+                } else {
+                    cout << "Invalid Request: You do not have this card!";
+                    continue;
+                }
+
+                break;
+
+            // Negotiate
+            case 5:
+
+                if (player->myHand->containsCardType("Diplomacy")) {
+
+                    // Display enemy players
+
+                    cout << "Enter the integer of the enemy player you wish to Negotiate with: ";
+                    // validate input
+
+                    Negotiate* negotiate = new Negotiate(/* target player */);
+                    player->myOrders->vectorOfOrders.push_back(negotiate);
+
+                } else {
+                    cout << "Invalid Request: You do not have this card!";
+                    continue;
+                }
+
+                break;
+
+            // Exit
+            case 6:
+                addingOrders = false;
+                break;
+        }
+    }
 }

@@ -585,10 +585,12 @@ void GameEngine::mainGameLoop() {
 
 void GameEngine::issueOrdersPhase(){
 	for (int i = 0; i < players.size(); i++) {
-    	cout << "Enter your order: " << endl; // get order from user
-		string order;
-		cin >> order;
-		players[i]->issueOrder(order);
+		// cout << "\nPlayer " << i + 1 << "'s "  << "("<< players[i]->getName() << ") turn to issue Order."<< endl;
+    	// cout << "Enter your order: " << endl; // get order from user
+		// string order;
+		// cin >> order;
+		players[i]->issueOrder(players[i]);
+
 	}
 }
 

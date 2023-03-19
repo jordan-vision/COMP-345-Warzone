@@ -130,24 +130,24 @@ ostream& operator<<(std::ostream& out, const Card* card) {
     return out;
 }
 
-/******************* CARD PLAY FUNCTION *******************/
-void Card::play(Player* player, Deck* mainDeck) {
+// /******************* CARD PLAY FUNCTION *******************/
+// void Card::play(Player* player, Deck* mainDeck) {
 
-    // Adds order to player orders according to string value of cardtype
-    if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Diplomacy") == 0) {
-        player->issueOrder("Negotiate");
-    }
-    else if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Reinforcement") == 0) 
-        player->issueOrder("Advance");
-    else 
-        player->issueOrder(CardTypeString[static_cast<int>(*(this->cardType))]);
+//     // Adds order to player orders according to string value of cardtype
+//     if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Diplomacy") == 0) {
+//         player->issueOrder("Negotiate");
+//     }
+//     else if (strcmp(CardTypeString[static_cast<int>(*(this->cardType))], "Reinforcement") == 0) 
+//         player->issueOrder("Advance");
+//     else 
+//         player->issueOrder(CardTypeString[static_cast<int>(*(this->cardType))]);
     
-    auto element = find(player->myHand->handCards.begin(), player->myHand->handCards.end(), this);  // Finds element
-    int elementIndex = distance(player->myHand->handCards.begin(), element);                        // Gets element index
-    mainDeck->deckCards.push_back(move(this));  // Moves card pointer back to deck
-    player->myHand->handCards.erase(element);   // Erases card pointer from hand
+//     auto element = find(player->myHand->handCards.begin(), player->myHand->handCards.end(), this);  // Finds element
+//     int elementIndex = distance(player->myHand->handCards.begin(), element);                        // Gets element index
+//     mainDeck->deckCards.push_back(move(this));  // Moves card pointer back to deck
+//     player->myHand->handCards.erase(element);   // Erases card pointer from hand
 
-};
+// };
 
 /****************************************************************/
 /************************** HAND CLASS **************************/
@@ -191,3 +191,12 @@ ostream& operator<<(std::ostream& out, const Hand* hand) {
 
     return out; 
 };
+
+bool Hand::containsCardType(string type) {
+
+    for (int i = 0; i < this->handCards.size(); i++) {
+        if (type == CardTypeString[static_cast<int>(*(this->handCards[i]->cardType))])
+            return true;
+    }
+    return false;
+}

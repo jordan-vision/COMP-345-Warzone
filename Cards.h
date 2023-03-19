@@ -71,4 +71,5 @@ class Hand
         friend ostream& operator <<(ostream& out, const Hand* hand);    // Stream Operator
 
         vector<Card*> handCards;                                        // Contains Hand Card Pointers
+        bool containsCardType(string type);                             // checks if contains card 
 };  
