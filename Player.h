@@ -51,7 +51,7 @@ class Player
          void setName(string name);
        
         Territory* getValidTarget(vector<Territory*>& tToAttack); //validate target inputted by user
-        Territory* getValidTerritory(vector<Territory*>& territory);//validate territory inputted by user
+        Territory* getValidTerritory(vector<Territory*>& territory, string msg);//validate territory inputted by user
        
 
     private:

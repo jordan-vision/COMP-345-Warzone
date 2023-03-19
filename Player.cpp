@@ -208,19 +208,15 @@ void Player::issueOrder(Player* player)
             case 2:
 
                 if (player->myHand->containsCardType("Bomb")) {
-
-                    // Display adjacent enemy territories
-                    
-                    
-                    cout << "Enter the integer of the territory you wish to Bomb: ";
+                        
+                    cout << "Enter the integer of the territory you wish to Bomb: "<<endl;
                     // validate input
-
                     Bomb* bomb = new Bomb(getValidTarget(tToAttack));
                     player->myOrders->vectorOfOrders.push_back(bomb);
 
                  } 
             else {
-                    cout << "Invalid Request: You do not have this card! Try again";
+                    cout << "Invalid Request: You do not have this card! Try again"<<endl;
                     continue;
                 }
 
@@ -230,14 +226,29 @@ void Player::issueOrder(Player* player)
             case 3:
 
                 if (player->myHand->containsCardType("Blockade")) {
-                    
-                    // Display owned territories
-                    cout << "Enter the integer of the territory you wish to Blockade: ";
                     // validate input
-
-                    Blockade* blockade = new Blockade(getValidTerritory(tToDefend));
+                    Blockade* blockade = new Blockade(getValidTerritory(tToDefend, "\nPlease select the territory you would like to Blockade:"));
                     player->myOrders->vectorOfOrders.push_back(blockade);
                     
+
+                } else {
+                    cout << "Invalid Request: You do not have this card!"<<endl;
+                    continue;
+                }
+
+                break;
+
+            // Airlift
+            case 4:
+
+                if (player->myHand->containsCardType("Airlift")) {
+
+                    cout << "Enter the amount of units you wish to Airlift: ";
+                    
+                    int unitAmount = 0;
+                    cin >> unitAmount;
+                    Airlift* airlift = new Airlift(getValidTerritory(tToDefend, "Please select the territory you would like to Airlift from:"), getValidTerritory(tToDefend, "Please select the territory you would like to Airlift to:"));
+                    player->myOrders->vectorOfOrders.push_back(airlift);
 
                 } else {
                     cout << "Invalid Request: You do not have this card!";
@@ -246,32 +257,7 @@ void Player::issueOrder(Player* player)
 
                 break;
 
-            // // Airlift
-            // case 4:
-
-            //     if (player->myHand->containsCardType("Airlift")) {
-
-            //         // Display owned territories and armies in each
-
-            //         cout << "Enter the integer of the territory you wish to Airlift: ";
-            //         // validate input
-
-            //         cout << "Enter the amount of units you wish to Airlift: ";
-                    
-            //         int unitAmount = 0;
-            //         cin >> unitAmount;
-
-            //         Airlift* airlift = new Airlift(/* source, target */);
-            //         player->myOrders->vectorOfOrders.push_back(airlift);
-
-            //     } else {
-            //         cout << "Invalid Request: You do not have this card!";
-            //         continue;
-            //     }
-
-            //     break;
-
-            // // Negotiate
+            // Negotiate
             // case 5:
 
             //     if (player->myHand->containsCardType("Diplomacy")) {
@@ -302,11 +288,11 @@ void Player::issueOrder(Player* player)
 
 // checks if the user is trying to attack a valid territory i.e. if the entered integer corresponds to a territory id present in the vector returned by toAttack()
 Territory* Player::getValidTarget(vector<Territory*>& tToAttack) { 
-    cout << "\nThis is the list of available territories to attack:" << endl;
+    cout << "\nThis is the list of available territories to attack:" << endl; // display available territories to attack
     for (auto t : tToAttack) {
         cout << t->getName() << " (" << t->getTerritoryID() << ")\n";
     }
-
+    cout << "\nPlease select the territory you would like to attack:" << endl;
     int territoryId;
     bool validId = false;
     Territory* target = nullptr;
@@ -328,15 +314,15 @@ Territory* Player::getValidTarget(vector<Territory*>& tToAttack) {
             }
         }
     }
-    return target;
+    return target; //return a valid territory to attack
 }
 
-Territory* Player::getValidTerritory(vector<Territory*>& territory) {
-    cout << "\nThis is the list of available territories to :" << endl;
+Territory* Player::getValidTerritory(vector<Territory*>& territory, string descriptiveMsg) {
+    cout << "\nThis is the list of available territories:" << endl; //display the territories that can be defended
     for (auto t : territory) {
         cout << t->getName() << " (" << t->getTerritoryID() << ")\n";
     }
-
+    cout << descriptiveMsg << endl;
     int territoryId;
     bool validId = false;
     Territory* target = nullptr;
@@ -358,5 +344,7 @@ Territory* Player::getValidTerritory(vector<Territory*>& territory) {
             }
         }
     }
-    return target;
+    return target; //return a valid territory to be defended
 }
+
+//Player* Player::getValidPlayer()
