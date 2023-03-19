@@ -83,18 +83,31 @@ void Player::owned(Territory* t) {
 }
 
 //Implementation of the toDefend() method
-vector<Territory*> Player::toDefend(Territory* t) {
+vector<Territory*> Player::toDefend(vector<Territory*> t) {
     vector<Territory*> territoriesDefend;
-    territoriesDefend.push_back(t);
-    return territoriesDefend;
+
+    for (int i = 0; i < t.size(); i++){
+        if (t[i]->getOwner() == nullptr || t[i]->getOwner()->getName() == this->getName()){
+        territoriesDefend.push_back(t[i]);
+        }
+    }
+    return territoriesDefend;  
 }
 
 //Implementation of the toAttack() method 
-vector<Territory*> Player::toAttack(Territory* t) {
+vector<Territory*> Player::toAttack() {
     vector<Territory*> territoriesAttack;
-    territoriesAttack.push_back(t);
-    return territoriesAttack;
+
+    for (int j = 0; j < territoriesOwned.size(); j++){
+    vector<Territory*> adjacentTerritories = territoriesOwned[j]->getAdjacentTerritories();
+    for (int i = 0; i < adjacentTerritories.size(); i++)
+     {
+        territoriesAttack.push_back(adjacentTerritories[i]);
+     }
+        return territoriesAttack;
+    }
 }
+
 //Implementation of getPlayerTerritories() method
 vector <Territory*> Player:: getPlayerTerritories(){
     return territoriesOwned;

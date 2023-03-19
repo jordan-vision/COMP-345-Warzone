@@ -30,9 +30,9 @@ class Player
          //insertion operator
         friend ostream& operator<<(ostream& output, Player&);  
         //method named toDefend() that return a list of territories that are to be defend 
-        vector<Territory*> toDefend(Territory* t) ;
+        vector<Territory*> toDefend(vector<Territory*> t);
         //method named toAttack() that returns a list of territories that are to be attacked 
-        vector<Territory*> toAttack(Territory* t) ;
+        vector<Territory*> toAttack();
          //method named toAttack() that returns a list of territories that are to be attacked 
         void owned(Territory* t);   
         //method to get player territories
@@ -46,7 +46,7 @@ class Player
         //army
          int getArmy();            
          void setArmy(int army);
-        //getter and setter
+        //name
          string getName();            
          void setName(string name);
        

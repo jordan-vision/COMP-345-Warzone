@@ -462,6 +462,7 @@ void GameEngine::startupPhase() {
 			for (int j = i * distribute; j < (i + 1) * distribute; j++) {
 				//adds territory to player
 				players[i]->owned(territories[j]);
+				territories[j]->setOwner(players[i]);
 			}
 		}
 		cout << "Number of territories: " << territories.size() << endl;
@@ -477,6 +478,25 @@ void GameEngine::startupPhase() {
 			cout << endl;
 		}
 
+		    // print each player's territories to attack
+			cout << "List of territories to attack: " << endl;
+			for (int i = 0; i < players.size(); i++) {
+			cout << "\nPlayer " << i + 1 << "'s territories "  << "("<< players[i]->getName() << "): \n"<< endl;
+			for (int j = 0; j < players[i]->toAttack().size(); j++) {
+				cout << j+1 << ". " << players[i]->toAttack()[j]->getName() << endl;
+			}
+			cout << endl;
+		}
+
+		   // print each player's territories to defend
+			cout << "List of territories to defend: " << endl;
+			for (int i = 0; i < players.size(); i++) {
+			cout << "\nPlayer " << i + 1 << "'s territories "  << "("<< players[i]->getName() << "): \n"<< endl;
+			for (int j = 0; j < players[i]->toDefend(territories).size(); j++) {
+				cout << j+1 << ". " << players[i]->toDefend(territories)[j]->getName() << endl;
+			}
+			cout << endl;
+		}
 	// b) determine randomly the order of play of the players in the games 
 
 			// randomize the order of the territories
@@ -520,7 +540,7 @@ void GameEngine::startupPhase() {
 			//for loop to iterate through hand.size
     			for (int j = 0; j < HAND_SIZE; j++)
 				{
-					//draws card from the deck and gives it to the player's hand
+				//draws card from the deck and gives it to the player's hand
        			players[i]->myHand->handCards.push_back(myDeck.draw());
 				}
 			}
@@ -542,7 +562,6 @@ void GameEngine::startupPhase() {
 			}
 	};
 
-	
 
 void GameEngine::mainGameLoop() {
 	if (this->transition("gamestart"))
