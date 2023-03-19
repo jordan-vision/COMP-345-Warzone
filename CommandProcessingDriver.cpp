@@ -29,11 +29,13 @@ GameEngine:: reset();
         cout<<"\nUser has chosen to read commands from file \""<<fileName<<"\""<<endl;
         ifstream input;
         input.open(fileName);
-        FileCommandProcessorAdapter* fileCommand = new FileCommandProcessorAdapter();
+        FileCommandProcessorAdapter* fileCommand = new FileCommandProcessorAdapter(fileName);
         cout<<"Beginnning to read from file:\n"<<endl;
 
         // Reading from the commands.txt file 
-        fileCommand->readCommand(fileName);
+        while (!fileCommand->isEntireFileRead()) {
+            fileCommand->getCommand();
+        }
         cout<<"\nEnd of file reached."<<endl;
 
     } 
