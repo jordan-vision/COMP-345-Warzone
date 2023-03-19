@@ -650,7 +650,7 @@ void GameEngine::executeOrdersPhase(){
         for (int i = 0; i < players.size(); i++) 
             // Execute highest priority order (if not empty)
             if (players[i]->myOrders->vectorOfOrders.size() != 0) 
-                players[i]->myOrders->vectorOfOrders[0]->execute(players[i], new Territory());    // WILL NEED TO BE CHANGED FOR PART 3/4
+                players[i]->myOrders->vectorOfOrders[0]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
 
 }
 
