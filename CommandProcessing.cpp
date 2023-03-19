@@ -215,10 +215,18 @@ FileLineReader:: ~FileLineReader(){}
 
 FileCommandProcessorAdapter:: FileCommandProcessorAdapter(){
     flr = nullptr;
+    lineNumber = 0;
+}
+
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(string theFileName) {
+    flr = nullptr;
+    lineNumber = 0;
+    fileName = theFileName;
 }
 
 FileCommandProcessorAdapter& FileCommandProcessorAdapter:: operator =(FileCommandProcessorAdapter& rhs){
     this->flr = rhs.flr;
+    this->lineNumber = rhs.lineNumber;
     return *this;
 }
 
@@ -226,22 +234,30 @@ FileCommandProcessorAdapter:: FileCommandProcessorAdapter(const FileCommandProce
     this->flr = copy.flr;
 }
 
+string FileCommandProcessorAdapter::getFileName() {
+    return fileName;
+}
+
 ostream& operator <<(ostream& output, FileCommandProcessorAdapter& adapter){
     return output<<"\nThis is a file command processor adapter object"<<endl;
 }
 
-void FileCommandProcessorAdapter:: readCommand(string fileName){
-    vector <Command*> readCommands = flr->readLineFromFile(fileName);
+Command* FileCommandProcessorAdapter:: readCommand(){
+    vector <Command*> readCommands = flr->readLineFromFile(getFileName());
+    Command* newCommand = readCommands[lineNumber];
+    string commandString = newCommand->getCommandName();
+    cout<<"\nReading command line "<<lineNumber<<" : "<< commandString;
 
-    // after validate method has been implemented, call it here on the command returned from above to check it 
-    // if (validate(command))
-    // then continue to save command function 
-    int count = 1;
-    for (auto it: readCommands){
-        cout<<"\nReading command line "<<count<<" : "<<*it;
-        saveCommand(it);
-        ++count;
+    cout << "Validating command\n";
+    if (!validate(commandString)) {
+        cout << "\nError. Command not valid.";
+        return NULL;
     }
+
+    cout << "command is valid. Saving command\n";
+    saveCommand(newCommand);
+    ++lineNumber;
+    return newCommand;
 }
 
 FileCommandProcessorAdapter:: ~FileCommandProcessorAdapter(){

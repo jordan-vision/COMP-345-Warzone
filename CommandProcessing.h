@@ -74,8 +74,13 @@ class FileLineReader {
 
 
 class FileCommandProcessorAdapter : public CommandProcessor {
+    private:
+        int lineNumber;
+        string fileName;
+
     public: 
-        FileCommandProcessorAdapter();         
+        FileCommandProcessorAdapter();
+        FileCommandProcessorAdapter(string theFileName);
         FileCommandProcessorAdapter(const FileCommandProcessorAdapter& copy);           
 
         string getFileName();         
@@ -86,11 +91,9 @@ class FileCommandProcessorAdapter : public CommandProcessor {
         ~FileCommandProcessorAdapter();        
 
         friend ostream& operator <<(ostream& output, FileCommandProcessorAdapter& object);        
-        FileCommandProcessorAdapter& operator = (FileCommandProcessorAdapter& rhs);        
-
-        void readCommand(string fileName); 
+        FileCommandProcessorAdapter& operator = (FileCommandProcessorAdapter& rhs);         
 
     protected: 
-        FileLineReader* flr;
-
+        Command* readCommand();
+        FileLineReader* flr;      
 };
