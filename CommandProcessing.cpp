@@ -57,14 +57,24 @@ Command& Command:: operator=(const Command& rhs){
 }
 
 
+
+// The string effect is the command name that is passed to this function as a parameter 
+// This command name (string effect) is then set to be the effect of this command
 void Command:: saveEffect(string effect){
     
+    // We only need to account for two special cases, the loadmap and addplayer commands
+    // That is because only these two have a format of the < > brackets 
+    // So in here we make sure that only the first keyword is passed on to the effect
+    // In order to not pass the player or file name, which is unnecessary 
+
     if (effect.substr(0,7) == "loadmap"){
         this->setCommandEffect("loadmap");
 
     } else if (effect.substr(0,9) == "addplayer") {
         this->setCommandEffect("addplayer");
 
+
+    // This is for all other effect messages 
     } else {
         this->setCommandEffect(effect);
   
@@ -81,6 +91,8 @@ Command:: ~Command(){}
 
 
 //                                      COMMAND PROCESSOR CLASS SECTION 
+
+
 
 CommandProcessor:: CommandProcessor(){
     commandList = vector <Command*> ();
@@ -105,6 +117,10 @@ ostream& operator <<(ostream& output, CommandProcessor& command){
     return output<<"Command Processor"<<endl;
 }
 
+
+// This saves the command object which is passed in the vector list of command objects 
+// which the commandprocessor object possesses 
+
 void CommandProcessor::saveCommand(Command* command) {
     //cout<<"Saving command \" "<<command->getCommandName()<<" \"
     commandList.push_back(command);
@@ -118,15 +134,21 @@ void CommandProcessor::saveCommand(Command* command) {
     Notify(this);
 }
 
+
+// This function allows the command processor object to read user input 
+// This function then saves the command by first checking if it's valid or not 
+// Then, it saves the effect 
+
 Command* CommandProcessor:: readCommand(){
     string command;
     cout<<"\n*** Reading Command ***\nEnter your command: ";
     getline(cin, command);
     string first = command.substr(0, command.find(" "));
-    // string validateString = "validatemap";
+   
 
     Command* newCommand = new Command(command);
     
+    // If command is invalid, an error message will be saved as its effect
     if (!validate(first)) {
         cout<<"Command not valid\n";
         newCommand->saveEffect("error");
@@ -140,13 +162,20 @@ Command* CommandProcessor:: readCommand(){
     return newCommand;
 }
 
+
+// This function calls the readCommand function
 Command* CommandProcessor:: getCommand(){
     Command* newCommand = readCommand();
     return newCommand;
 }
 
+
+// This validates the command string passed which is the name of the command object 
 bool CommandProcessor:: validate(string command){
     string firstWord = command + " ";
+
+    // In here we are separating the command string to just take the keyword
+    // the game engine checks if the current state allows for this command to be executed
     firstWord = firstWord.substr(0, command.find(" "));
     State *nextState = GameEngine::getGameLoop()->getCurrentState()->executeCommand(command);
     return (nextState != NULL);
@@ -177,6 +206,10 @@ ostream& operator << (ostream& output, const FileLineReader& reader){
     return cout<<"This is a file line reader object"<<endl;
 }
 
+
+
+// reads line from file 
+// This method is called by another function to read the lines form the file
 
 vector <Command*> FileLineReader:: readLineFromFile(string fileName){
     //static int count = 1; 
@@ -250,6 +283,9 @@ ostream& operator <<(ostream& output, FileCommandProcessorAdapter& adapter){
     return output<<"\nThis is a file command processor adapter object"<<endl;
 }
 
+
+// The readCommand is used to read and then save both the effect and command
+// The command is saved in the vector list 
 Command* FileCommandProcessorAdapter:: readCommand(){
     Command* newCommand = commandList[lineNumber];
     string commandString = newCommand->getCommandName();

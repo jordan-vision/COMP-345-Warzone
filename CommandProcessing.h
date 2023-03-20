@@ -3,6 +3,8 @@
 #include "LoggingObserver.h"
 class FileLineReader;
 
+
+//                      COMMAND CLASS SECTION 
 class Command : public ILoggable, public Subject {
     public:
         void saveEffect(string effect);        
@@ -31,13 +33,14 @@ class Command : public ILoggable, public Subject {
 
 };
 
+
+//                  COMMAND PROCESSOR CLASS SECTION 
 class CommandProcessor : public ILoggable, public Subject {
     public:
         void saveCommand(Command* command);     
         virtual string stringToLog() override;     
 
         Command* getCommand();              
-        //void saveEffect();
         bool validate(string command);        
 
 
@@ -58,6 +61,7 @@ class CommandProcessor : public ILoggable, public Subject {
 };
 
 
+//                      File LINE READER CLASS SECTION 
 class FileLineReader {
     public: 
         vector <Command*> readLineFromFile(string file);     
@@ -73,6 +77,7 @@ class FileLineReader {
 
 
 
+//                   FILE COMMAND PROCESSOR ADAPTER CLASS SECTION 
 class FileCommandProcessorAdapter : public CommandProcessor {
     private:
         int lineNumber;

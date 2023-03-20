@@ -532,7 +532,7 @@ void GameEngine::startupPhase() {
 					// randomize the order of the territories
 					vector<Player*> order(players.size());
 					// Shuffle the order of players randomly
-					// std::shuffle(players.begin(), players.end(), randomSeed);
+					
 
 					// print the player order
 					cout << "Player Order: \n";
