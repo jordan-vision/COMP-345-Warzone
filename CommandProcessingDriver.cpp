@@ -19,13 +19,19 @@ GameEngine:: reset();
 
     // Letting the user use commands by console 
     if (answer.substr(0, answer.find(" ")) == "-console"){
+        bool answer = true;
         cout<<"\nUser has chosen to use commands through the console."<<endl;
         CommandProcessor* console = new CommandProcessor();
-        console->getCommand();
-        console->getCommand();
+        while(answer){
+            console->getCommand();
+            if (console->getCommand()->getCommandName() == "stop"){
+                cout<<"\nEnd of commands"<<endl;
+            }
+        }
+       
 
     } else {
-        string fileName = answer.substr(answer.find("<") + 1, answer.size() - (answer.find("<")+2));
+        string fileName = answer.substr(answer.find("<") + 1, answer.size() - (answer.find(">")+2));
         cout<<"\nUser has chosen to read commands from file \""<<fileName<<"\""<<endl;
         ifstream input;
         input.open(fileName);
