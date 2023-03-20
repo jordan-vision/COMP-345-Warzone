@@ -10,6 +10,7 @@ using std:: ifstream;
 //                                          COMMAND CLASS SECTION   
 
 
+
 Command:: Command(){
     commandName = "";
     effect = "";
@@ -64,23 +65,12 @@ void Command:: saveEffect(string effect){
     } else if (effect.substr(0,9) == "addplayer") {
         this->setCommandEffect("addplayer");
 
-    } else if (effect == "validatemap"){
-        this->setCommandEffect("validatemap");
-
-    } else if (effect == "gamestart"){
-        this->setCommandEffect("gamestart");
-
-    } else if (effect == "replay"){
-        this->setCommandEffect("replay");
-
-    } else if (effect == "quit"){
-        this->setCommandEffect("quit");
-
-    } else if (effect == "error") {
-        this->setCommandEffect("error");
-    }
+    } else {
+        this->setCommandEffect(effect);
+  
     Notify(this);
     }
+}
 
 string Command::stringToLog() {
 
@@ -117,14 +107,14 @@ ostream& operator <<(ostream& output, CommandProcessor& command){
 
 void CommandProcessor::saveCommand(Command* command) {
     //cout<<"Saving command \" "<<command->getCommandName()<<" \"
-    cout<<"Command saved"<<endl;
     commandList.push_back(command);
-    cout<<"\nCurrently in command list: \n";
+    cout<<"\nCommand list: \n";
     int lineNumber = 1;
     for (auto it: commandList){
         cout<<lineNumber<<": "<<*it;
         ++lineNumber;
     }
+    cout<<"\n";
     Notify(this);
 }
 
@@ -136,15 +126,14 @@ Command* CommandProcessor:: readCommand(){
     // string validateString = "validatemap";
 
     Command* newCommand = new Command(command);
-    cout<<"\nValidating command...\n";
-
+    
     if (!validate(first)) {
-        cout<<"NOT A COMMAND\n";
+        cout<<"Command not valid\n";
         newCommand->saveEffect("error");
         cout<<newCommand->getCommandEffect();
         return NULL;
     }
-    cout<<"Command is valid. Saving command\n";
+    cout<<"Command is valid, command saved\n";
     newCommand->saveEffect(command);
     saveCommand(newCommand);
         
@@ -152,7 +141,6 @@ Command* CommandProcessor:: readCommand(){
 }
 
 Command* CommandProcessor:: getCommand(){
-    cout<<"Getting command "<<endl;
     Command* newCommand = readCommand();
     return newCommand;
 }
@@ -265,16 +253,18 @@ ostream& operator <<(ostream& output, FileCommandProcessorAdapter& adapter){
 Command* FileCommandProcessorAdapter:: readCommand(){
     Command* newCommand = commandList[lineNumber];
     string commandString = newCommand->getCommandName();
-    cout<<"\nReading command line "<<lineNumber + 1<<" : "<< commandString;
+    string first = commandString.substr(0, commandString.find(" "));
+    cout<<"\nLine "<<lineNumber + 1<<" : "<< commandString;
     ++lineNumber;
-
-    cout << "Validating command\n";
-    if (!validate(commandString)) {
+   
+    if (!validate(first)) {
         cout << "\nError. Command not valid.";
+        newCommand->saveEffect("error");
         return NULL;
     }
 
-    cout << "command is valid. Saving command\n";
+    cout << ". Command is valid\n";
+    newCommand->saveEffect(commandString);
     saveCommand(newCommand);
     return newCommand;
 }

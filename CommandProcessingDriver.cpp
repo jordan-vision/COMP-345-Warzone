@@ -21,26 +21,43 @@ GameEngine:: reset();
     if (answer.substr(0, answer.find(" ")) == "-console"){
         bool answer = true;
         cout<<"\nUser has chosen to use commands through the console."<<endl;
+
+        // The object "console" accesses the getCommand function 
         CommandProcessor* console = new CommandProcessor();
-        while(answer){
-            console->getCommand();
-            if (console->getCommand()->getCommandName() == "stop"){
-                cout<<"\nEnd of commands"<<endl;
+
+
+        // This while loop lets the getCommand function loop till the game is over
+        while(!GameEngine:: getIsGameOver()){
+
+            // The getCommand function asks the user for the commands
+            Command* command = console->getCommand();
+            
+            // Making sure command object is not null S
+            if (command != NULL){
+            // cout<<"\n COMMAND EFFECT: "<<command->getCommandEffect()<<endl;
+            GameEngine::transition(command->getCommandEffect());
             }
         }
-       
 
+
+    // The user chooses for the commands to be read from the commands.txt file
     } else {
-        string fileName = answer.substr(answer.find("<") + 1, answer.size() - (answer.find(">")+2));
+        
+        // Here we are taking only the file name from the command string that the user inputs 
+        // by extracting only what's inside the < > brackets
+        string fileName = answer.substr(answer.find_first_of("<")+1, answer.find_last_of(">") - answer.find_first_of("<")-1);
         cout<<"\nUser has chosen to read commands from file \""<<fileName<<"\""<<endl;
         ifstream input;
         input.open(fileName);
+
+        // The fileCommand object calls the getCommand function 
         FileCommandProcessorAdapter* fileCommand = new FileCommandProcessorAdapter(fileName);
-        cout<<"Beginnning to read from file:\n"<<endl;
+        cout<<"Reading from file:\n"<<endl;
 
         // Reading from the commands.txt file 
         while (!fileCommand->isEntireFileRead()) {
-            fileCommand->getCommand();
+            Command* commandFromFile = fileCommand->getCommand();
+            GameEngine::transition(commandFromFile->getCommandEffect());
         }
         cout<<"\nEnd of file reached."<<endl;
 

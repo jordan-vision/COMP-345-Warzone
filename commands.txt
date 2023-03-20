@@ -1,10 +1,12 @@
-loadmap <solar.map>
+loadmap <europe.map>
 validatemap
 addplayer <Ally>
 addplayer <Victoria>
-addplayer <Parker> 
-addplayer <Jordan> 
+addplayer <Parker>
+addplayer <Jordan>
 addplayer <Afaf>
-gamestart 
-replay 
-quit 
+gamestart
+issueorder
+issueordersend
+win
+quit

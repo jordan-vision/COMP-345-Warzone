@@ -297,12 +297,12 @@ void GameEngine::reset(){
 		playersAdded->connect(assignReinforcement, "gamestart");
 		assignReinforcement->connect(issueOrders, "issueorder");
 		issueOrders->connect(issueOrders, "issueorder");
-		issueOrders->connect(executeOrders, "endissueorders");
+		issueOrders->connect(executeOrders, "issueordersend");
 		executeOrders->connect(executeOrders, "execorder");
 		executeOrders->connect(assignReinforcement, "endexecorders");
 		executeOrders->connect(win, "win");
-		win->connect(start, "play");
-		win->connect(end, "end");
+		win->connect(start, "replay");
+		win->connect(end, "quit");
 	}
 	else {
 		gameLoop->setCurrentState(gameLoop->getStartState());
