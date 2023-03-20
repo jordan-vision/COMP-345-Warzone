@@ -37,9 +37,10 @@ public:
 class Order : public ILoggable, public Subject {
 protected:
     virtual string getDescription() = 0;                        //getDescription() returns order description. virtual + protected = can be overriden by subclasses
-    string orderEffect;                                         //order effect stored there
+    
 public:
     Order();                                                    //Order constructor
+    string orderEffect;                                         //order effect stored there
     virtual ~Order();                                           //Order destructor
     Order(Order& copy);                                         //Order copy constructor            
     string getOrderEffect();                                    //gets the effect of the order

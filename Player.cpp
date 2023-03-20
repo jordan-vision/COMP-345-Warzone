@@ -42,7 +42,7 @@ Player::Player(vector<Territory*> territoriesOwned, vector<Territory*> territori
  Player::Player(string name)
 : name(name)
 {
-  this->name = name;
+    this->name = name;
 }
 string Player:: getName(){
     return name; 
@@ -163,13 +163,22 @@ vector <Territory*> Player:: getPlayerTerritories(){
 
 void Player::issueOrder(vector<Player*> player, int index)
 { 
+    cout<<player[index]->myOrders->vectorOfOrders.size() <<endl;
     bool addingOrders = true;
     int choice = 0;
 
     vector<Territory*> tToAttack = player[index]->toAttack(); //get list of territories to be attacked
     vector<Territory*> tToDefend = player[index]->toDefend(player[index]->getPlayerTerritories()); //get list of territories to be defended
 
-    while (addingOrders) {
+    //  (2) a player will only issue deploy orders and no other kind of orders if they still have armies in their reinforcement pool;
+    if (player[index]->getArmy()!=0){ 
+        Deploy* deploy = new Deploy(getValidTarget(tToDefend));
+        cout<<"Created Deploy Order"<<endl;
+        deploy->orderEffect = "order deployed";
+        player[index]->myOrders->add(deploy);
+    }
+    
+    while (addingOrders) { // (4) a player can play cards to issue orders;
 
         cout << "\n-- Orders --\n";
         cout << "1. Advance\n";
@@ -196,10 +205,11 @@ void Player::issueOrder(vector<Player*> player, int index)
         switch (choice) {
 
             // Advance
+            // (3) a player can issue advance orders to either defend or attack, based on the toAttack() and toDefend() lists;
             case 1:
 
                 // move form source to target (adj)
-
+                //Advance* advance = new Advance(getValidTarget(tToAttack));
 
 
                 break;
@@ -213,7 +223,7 @@ void Player::issueOrder(vector<Player*> player, int index)
                     // validate input
                     Bomb* bomb = new Bomb(getValidTarget(tToAttack));
                     player[index]->myOrders->vectorOfOrders.push_back(bomb);
-
+                    
                  } 
             else {
                     cout << "Invalid Request: You do not have this card! Try again"<<endl;
@@ -285,7 +295,8 @@ void Player::issueOrder(vector<Player*> player, int index)
                 addingOrders = false;
                 break;
         }
-    }
+    
+ }
 }
 
 

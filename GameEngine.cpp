@@ -10,6 +10,8 @@
 #include "CommandProcessing.h"
 using namespace std;
 
+int ALL_TERRITORIES = 24;
+
 /* 
 *  This source file contains the implementation of all methods from the GameEngine class declared in the GameEngine.h header file. It also contains the implementations of methods from
 *  user defined classes DirectedGraph, State and Transition which all aid in the implementation of the game loop diagram.
@@ -565,6 +567,8 @@ void GameEngine::startupPhase() {
 					{
 						//create a new hand for each player
 						Hand* hand = new Hand();
+						OrdersList* ordersList = new OrdersList();
+						players[i]->myOrders = ordersList;
 						players[i]->myHand = hand;
 
 					//for loop to iterate through hand.size
@@ -615,40 +619,49 @@ void GameEngine::mainGameLoop() {
 			cout << "Game has switched to Play Phase." << endl;
 			}
 
-	reinforcementPhase();
-	issueOrdersPhase();
-	executeOrdersPhase();
+	bool gameNotDone = true;
+
+	while (gameNotDone){
+		reinforcementPhase();
+		issueOrdersPhase();
+		executeOrdersPhase();
+		for (auto p: players){
+			if (p->getPlayerTerritories().size() == ALL_TERRITORIES){
+				gameNotDone = false; 
+			}
+	}
+	}
 	}
 
 void GameEngine::issueOrdersPhase(){
+	cout << "\nISSUING ORDERS PHASE" <<endl;
 	for (int i = 0; i < players.size(); i++) {
-		// cout << "\nPlayer " << i + 1 << "'s "  << "("<< players[i]->getName() << ") turn to issue Order."<< endl;
-    	// cout << "Enter your order: " << endl; // get order from user
-		// string order;
-		// cin >> order;
+		cout << "\n*** "<<players[i]->getName() << "'s turn! ***"<< endl;
 		players[i]->issueOrder(players, i);
-
+		cout << "iterating " << endl;
 	}
+	cout<<"Finished issuing phase..." << endl;
 }
 
 void GameEngine::executeOrdersPhase(){
+	cout << "\nEXECUTING ORDERS PHASE" <<endl;
 	int max = 0;    // Stores highest order count among players
-
-    // Find player with most orders
-    for (int i = 0; i < players.size() - 1; i++) 
-        if (players[i]->myOrders->vectorOfOrders.size() >= players[i + 1]->myOrders->vectorOfOrders.size())
-            max = players[i]->myOrders->vectorOfOrders.size();
-        else 
-            max = players[i + 1]->myOrders->vectorOfOrders.size();
     
+	cout << "iterating highest cnt"<<endl;
 
     // Iterate through highest order count
-    for (int j = 0; j < max; j++) 
+    for (int i = 0; i < players.size(); i++) 
         // Iterate through player count
-        for (int i = 0; i < players.size(); i++) 
+        for (int j = 0; j < players[i]->myOrders->vectorOfOrders.size(); j++) 
             // Execute highest priority order (if not empty)
-            if (players[i]->myOrders->vectorOfOrders.size() != 0) 
-                players[i]->myOrders->vectorOfOrders[0]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
+            if (players[i]->myOrders->vectorOfOrders.size() != 0){ 
+				cout << "tried executing" <<endl;
+				cout<< players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
+
+                players[i]->myOrders->vectorOfOrders[j]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
+
+				players[i]->myOrders->remove(0);
+			}
 
 }
 

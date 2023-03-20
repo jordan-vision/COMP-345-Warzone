@@ -37,8 +37,9 @@ ostream& operator<<(ostream &out, OrdersList& o) { //displays description and ef
 }
 
 void OrdersList::add(Order* o) { 
+	cout<< "Order added"<<endl;
 	vectorOfOrders.push_back(o); 
-	Notify(o);
+	//Notify(o);
 }
 
 void OrdersList::remove(int i) // removes order at position i
@@ -108,6 +109,7 @@ string Order::stringToLog() {
 void Order::execute(Player* player) {
 
     Notify(this);
+
 }
 
 /* -------------------------------------------------------------------------- */
@@ -128,12 +130,12 @@ Deploy& Deploy::operator=(const Deploy& d){ //assignment operator
 }
 
 void Deploy::execute(Player* player){
-
+	cout << "in deploy execute" << endl;
 	if (Deploy::validate(player)) { 
 
 		int reinforcementAmount = 0;
     	while (true) {
-
+			cout << "\nPlayer " << player->getName() << "'s turn: " << endl;
     	    cout << "How many reinforcements do you wish to send ( 1 - " << player->getArmy() << " )?";
 
     	    if (!(cin >> reinforcementAmount)) {
@@ -145,11 +147,14 @@ void Deploy::execute(Player* player){
     	    } else if (reinforcementAmount < 1 || reinforcementAmount > player->getArmy()) 
     	        cout << "Invalid Input: Please try again!" << endl;
     	    else 
+				
     	        break;
     	} // end of while loop
 
 		this->target->setArmy(this->target->getArmy() + reinforcementAmount);
+		player->setArmy(player->getArmy()-reinforcementAmount);
 		orderEffect = "Armies have been placed on players territories"; 
+
 
     } else 
 		orderEffect = "Unable to Deploy armies";
