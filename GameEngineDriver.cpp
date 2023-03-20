@@ -9,26 +9,9 @@
 using namespace std;
 
 int main() {
-	// GameEngine* engine = new GameEngine();
-	// cout << "Game engine created!" << endl << endl;
-	// cout << *engine << endl;
 
-	// GameEngine e;
-	// e.startupPhase();
+	GameEngine::reset(); //reset all previous settings 
+	GameEngine::startupPhase(); // start the startup phase
+	GameEngine::mainGameLoop(); // start the main game loop with its three phases
 
-	GameEngine::reset();
-	GameEngine::startupPhase();
-	GameEngine::mainGameLoop();
-	// while (!engine->getIsGameOver()) {
-	// 	string input;
-	// 	cout << "Enter a command: ";
-	// 	cin >> input;
-	// 	engine->transition(input);
-	// }
-
-	// delete engine;
-	// cout << "Game over!" << endl;
-	// return 0;
-
-	//e.mainGameLoop();
 };

@@ -94,35 +94,7 @@ vector<Territory*> Player::toDefend(vector<Territory*> t) {
     return territoriesDefend;  
 }
 
-
-
-//Implementation of the toAttack() method 
-// vector<Territory*> Player::toAttack() {
-
-//    //bool push = false; 
-//     vector<Territory*> territoriesAttack;
-//     for (int j = 0; j < territoriesOwned.size(); j++){
-//     vector<Territory*> adjacentTerritories = territoriesOwned[j]->getAdjacentTerritories();
-//     for (int i = 0; i < adjacentTerritories.size(); i++)
-//      {
-//         if (adjacentTerritories[i] != )
-       
-//          for(int k = 0; k < territoriesAttack.size(); k++){
-//              for(int z; z < )
-//         if((adjacentTerritories[i]->getOwner()->getName() != this->getName()) && (adjacentTerritories[i] != territoriesAttack[k])){
-//            territoriesAttack.push_back(adjacentTerritories[i]);
-//         }   
-//         }
-     
-//      }
-//     }
-//      return territoriesAttack;
-// }
-
-
-
-
-
+// returns a list of territories that can be attecked by the player i.e. adjacent territories
 vector<Territory*> Player::toAttack() {
 
     vector<Territory*> territoriesAttack;
@@ -175,7 +147,7 @@ void Player::issueOrder(vector<Player*> player, int index)
         Deploy* deploy = new Deploy(getValidTarget(tToDefend));
         cout<<"Created Deploy Order"<<endl;
         deploy->orderEffect = "order deployed";
-        player[index]->myOrders->add(deploy);
+        player[index]->myOrders->add(deploy);// add deploy order to orderslist
     }
     
     while (addingOrders) { // (4) a player can play cards to issue orders;
@@ -206,10 +178,7 @@ void Player::issueOrder(vector<Player*> player, int index)
 
             // Advance
             // (3) a player can issue advance orders to either defend or attack, based on the toAttack() and toDefend() lists;
-            case 1:
-
-                // move form source to target (adj)
-                //Advance* advance = new Advance(getValidTarget(tToAttack));
+            case 1: // Advance
 
 
                 break;
@@ -222,7 +191,7 @@ void Player::issueOrder(vector<Player*> player, int index)
                     cout << "Enter the integer of the territory you wish to Bomb: "<<endl;
                     // validate input
                     Bomb* bomb = new Bomb(getValidTarget(tToAttack));
-                    player[index]->myOrders->vectorOfOrders.push_back(bomb);
+                    player[index]->myOrders->vectorOfOrders.push_back(bomb); // add bomb order to orderslist
                     
                  } 
             else {
@@ -238,7 +207,7 @@ void Player::issueOrder(vector<Player*> player, int index)
                 if (player[index]->myHand->containsCardType("Blockade")) {
                     // validate input
                     Blockade* blockade = new Blockade(getValidTerritory(tToDefend, "\nPlease select the territory you would like to Blockade:"));
-                    player[index]->myOrders->vectorOfOrders.push_back(blockade);
+                    player[index]->myOrders->vectorOfOrders.push_back(blockade); // add blockade order to orderslist
                     
 
                 } else {
@@ -260,13 +229,13 @@ void Player::issueOrder(vector<Player*> player, int index)
                     cout << "Enter the amount of units you wish to Airlift (territory " << source->getName()<< " currently has "<< maxUnitAmount << " armies (units)):";
                     int unitAmount = 0;
                     cin >> unitAmount;
-                    while (unitAmount<1 || unitAmount > maxUnitAmount){
+                    while (unitAmount<1 || unitAmount > maxUnitAmount){ // get valid unit amount
                         cout << "invalid units amount. Please enter a value higher than 0 and lower than " << maxUnitAmount<< endl;
                         cin >> unitAmount;
                     }
                     
                     Airlift* airlift = new Airlift(source, target, unitAmount);
-                    player[index]->myOrders->vectorOfOrders.push_back(airlift);
+                    player[index]->myOrders->vectorOfOrders.push_back(airlift); // add airlift order to orderslist
 
                 } else {
                     cout << "Invalid Request: You do not have this card!";
@@ -281,7 +250,7 @@ void Player::issueOrder(vector<Player*> player, int index)
                 if (player[index]->myHand->containsCardType("Diplomacy")) {
 
                     Negotiate* negotiate = new Negotiate(getValidPlayer(player, index));
-                    player[index]->myOrders->vectorOfOrders.push_back(negotiate);
+                    player[index]->myOrders->vectorOfOrders.push_back(negotiate); //add new negotiate order to the orderslist
 
                 } else {
                     cout << "Invalid Request: You do not have this card!";
@@ -315,7 +284,7 @@ Territory* Player::getValidTarget(vector<Territory*>& tToAttack) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Invalid input. Please enter an integer.\n";
-        } else {
+        } else { // get valid territory
             for (auto t : tToAttack) {
                 if (t->getTerritoryID() == territoryId) {
                     validId = true;
@@ -346,7 +315,7 @@ Territory* Player::getValidTerritory(vector<Territory*>& territory, string descr
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Invalid input. Please enter an integer.\n";
         } else {
-            for (auto t : territory) {
+            for (auto t : territory) { // get valid territory
                 if (t->getTerritoryID() == territoryId) {
                     validId = true;
                     target = t;
@@ -361,11 +330,12 @@ Territory* Player::getValidTerritory(vector<Territory*>& territory, string descr
     return target; //return a valid territory to be defended
 }
 
+//get valid player from this game
 Player* Player::getValidPlayer(vector<Player*>players, int index){
     cout << "Here are all the players currently in the game: " << endl;
     for (auto player : players) {
         if (player != this) {
-            cout << player->getName() << endl;
+            cout << player->getName() << endl; //get valid players name
         }
     }
 
@@ -381,7 +351,7 @@ Player* Player::getValidPlayer(vector<Player*>players, int index){
         } else {
             transform(playerName.begin(), playerName.end(), playerName.begin(), ::tolower);
             for (auto p : players) {
-                string name = p->getName();
+                string name = p->getName(); //find the players name
                 transform(name.begin(), name.end(), name.begin(), ::tolower);
                 if (name == playerName && p != this) {
                     validName = true;

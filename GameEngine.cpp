@@ -665,14 +665,14 @@ void GameEngine::executeOrdersPhase(){
 
 }
 
-void GameEngine::reinforcementPhase(){
+void GameEngine::reinforcementPhase(){ // reinforcment phase implementation
 for (int i = 0; i < players.size(); i++) {
     cout << "\nPlayer " << i + 1 << "'s territories "  << "("<< players[i]->getName() << "): \n"<< endl; // output players territories
 
 	// 
 	map<string, set<Territory*>> continentTerritories;
         
-        for (Territory* territory : players[i]->getPlayerTerritories()) {
+        for (Territory* territory : players[i]->getPlayerTerritories()) { //get players territories
             cout << territory->getName() << endl;
             
             string continentName = territory->getContinent()->getName();
@@ -688,14 +688,13 @@ for (int i = 0; i < players.size(); i++) {
 
             if (firstContinentName.empty()) {
                 firstContinentName = continentName;
-            } else if (continentName != firstContinentName) {
+            } else if (continentName != firstContinentName) { //breaks at the first occurance of a different continent
                 sameContinent = false;
                 break;
             }
 }
 		if (sameContinent) {
             cout << "All territories are in the same continent: " << firstContinentName << endl;
-			//players[i]->getPlayerTerritories()->;
 
         } else {
             cout << "Territories are in different continents." << endl;
