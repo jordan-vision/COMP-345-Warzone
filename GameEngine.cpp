@@ -494,7 +494,7 @@ void GameEngine::startupPhase() {
 
 				// shuffle the vector to randomize the order of the territories
 				auto randomSeed = std::mt19937(std::random_device{}());
-				// std::shuffle(territories.begin(), territories.end(), randomSeed);
+				std::shuffle(territories.begin(), territories.end(), randomSeed);
 
 				//distribute variable calculates how many territories to give each player
 				// total number of territories divided by total number of players = how many territories each player recieves 
@@ -532,7 +532,8 @@ void GameEngine::startupPhase() {
 					// randomize the order of the territories
 					vector<Player*> order(players.size());
 					// Shuffle the order of players randomly
-					
+					std::shuffle(players.begin(), players.end(), randomSeed);
+
 
 					// print the player order
 					cout << "Player Order: \n";
