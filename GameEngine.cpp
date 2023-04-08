@@ -704,15 +704,6 @@ for (int i = 0; i < players.size(); i++) {
 	int currentArmies = players[i]->getArmy();
 	players[i]->setArmy(numberTerritories/3 + currentArmies); // assign number of armies
 	cout << "Player " << i + 1 <<   " (" << players[i]->getName() << ") " << "number of armies: "  << players[i]->getArmy() << endl;
-	
-	cout<< "---DIAGNOSTICS---" <<endl;
-	cout <<players[i]->getName()<<endl;
-	for (int j = 0; j < players[i]->myHand->handCards.size(); j++)
-		{
-			cout << players[i]->myHand->handCards[j] << endl;
-		}
-	cout << endl;
-
 }
 }
 
