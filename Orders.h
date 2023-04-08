@@ -59,7 +59,7 @@ class Deploy : public Order{
 protected:
     virtual string getDescription() override;
 public:    
-    Deploy(Territory* target);
+    Deploy(Territory* target, int numberOfArmies);
     ~Deploy();
     Deploy(Deploy& copy); // copy constructor
     Deploy& operator=(const Deploy& d); // assignment operator
@@ -67,6 +67,7 @@ public:
     virtual void execute(Player* player) override; // execute the order
 
     Territory* target;
+    int numberOfArmies;
 };
 
 

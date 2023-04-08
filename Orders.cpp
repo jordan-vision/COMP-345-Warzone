@@ -116,8 +116,9 @@ void Order::execute(Player* player) {
 /*                                Deploy Class                                */
 /* -------------------------------------------------------------------------- */
 
-Deploy::Deploy(Territory* target){ //contructor
+Deploy::Deploy(Territory* target, int numberOfArmies){ //contructor
 	this->target = target;
+	this->numberOfArmies = numberOfArmies;
 }
 
 Deploy::Deploy(Deploy& copy){ //copy constructor
@@ -130,29 +131,28 @@ Deploy& Deploy::operator=(const Deploy& d){ //assignment operator
 }
 
 void Deploy::execute(Player* player){
-	cout << "in deploy execute" << endl;
 	if (Deploy::validate(player)) { 
 
-		int reinforcementAmount = 0;
-    	while (true) {
-			cout << "\nPlayer " << player->getName() << "'s turn: " << endl;
-    	    cout << "How many reinforcements do you wish to send ( 1 - " << player->getArmy() << " )?";
+		// int reinforcementAmount = 0;
+    	// while (true) {
+		// 	cout << "\nPlayer " << player->getName() << "'s turn: " << endl;
+    	//     cout << "How many reinforcements do you wish to send ( 1 - " << player->getArmy() << " )?";
 
-    	    if (!(cin >> reinforcementAmount)) {
+    	//     if (!(cin >> reinforcementAmount)) {
 
-    	        cin.clear();
-    	        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    	        cout << "Invalid input: Please try again!" << endl;
+    	//         cin.clear();
+    	//         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    	//         cout << "Invalid input: Please try again!" << endl;
 
-    	    } else if (reinforcementAmount < 1 || reinforcementAmount > player->getArmy()) 
-    	        cout << "Invalid Input: Please try again!" << endl;
-    	    else 
+    	//     } else if (reinforcementAmount < 1 || reinforcementAmount > player->getArmy()) 
+    	//         cout << "Invalid Input: Please try again!" << endl;
+    	//     else 
 				
-    	        break;
-    	} // end of while loop
-
-		this->target->setArmy(this->target->getArmy() + reinforcementAmount);
-		player->setArmy(player->getArmy()-reinforcementAmount);
+    	//         break;
+    	// } // end of while loop
+		
+		this->target->setArmy(this->target->getArmy() + numberOfArmies);
+		player->setArmy(player->getArmy()-numberOfArmies);
 		orderEffect = "Armies have been placed on players territories"; 
 
 

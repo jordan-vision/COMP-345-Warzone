@@ -647,8 +647,6 @@ void GameEngine::issueOrdersPhase(){
 void GameEngine::executeOrdersPhase(){
 	cout << "\nEXECUTING ORDERS PHASE" <<endl;
 	int max = 0;    // Stores highest order count among players
-    
-	cout << "iterating highest cnt"<<endl;
 
     // Iterate through highest order count
     for (int i = 0; i < players.size(); i++) 
@@ -656,14 +654,13 @@ void GameEngine::executeOrdersPhase(){
         for (int j = 0; j < players[i]->myOrders->vectorOfOrders.size(); j++) 
             // Execute highest priority order (if not empty)
             if (players[i]->myOrders->vectorOfOrders.size() != 0){ 
-				cout << "tried executing" <<endl;
 				cout<< players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
 
                 players[i]->myOrders->vectorOfOrders[j]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
+				cout << players[i]->myOrders->vectorOfOrders[j]->getOrderEffect() << endl;
 
-				players[i]->myOrders->remove(0);
+				players[i]->myOrders->remove(j);
 			}
-
 }
 
 void GameEngine::reinforcementPhase(){ // reinforcment phase implementation
@@ -707,7 +704,14 @@ for (int i = 0; i < players.size(); i++) {
 	int currentArmies = players[i]->getArmy();
 	players[i]->setArmy(numberTerritories/3 + currentArmies); // assign number of armies
 	cout << "Player " << i + 1 <<   " (" << players[i]->getName() << ") " << "number of armies: "  << players[i]->getArmy() << endl;
-
+	
+	cout<< "---DIAGNOSTICS---" <<endl;
+	cout <<players[i]->getName()<<endl;
+	for (int j = 0; j < players[i]->myHand->handCards.size(); j++)
+		{
+			cout << players[i]->myHand->handCards[j] << endl;
+		}
+	cout << endl;
 
 }
 }

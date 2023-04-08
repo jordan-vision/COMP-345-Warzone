@@ -22,7 +22,7 @@ class Player
         //Destructor
         ~Player();
         //Constructor that initializes the player's collection of territories
-        Player(vector<Territory*> territoriesOwned, vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack, string name);
+        Player(vector<Territory*> territoriesOwned, vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack, string name, bool deployOrdersIssued);
         //Copy Constructor passing parameter p
         Player(const Player& p); 
         //constructor for name
@@ -49,9 +49,12 @@ class Player
         //name
          string getName();            
          void setName(string name);
+        //deployOrdersIssued
+        bool getFlag();
+        void setFlag(bool deployOrdersIssued);
        
         Territory* getValidTarget(vector<Territory*>& tToAttack); //validate target inputted by user
-        Territory* getValidTerritory(vector<Territory*>& territory, string msg);//validate territory inputted by user
+        Territory* getValidTerritory(vector<Territory*>& territory, string msg, int orderCase);//validate territory inputted by user
         Player* getValidPlayer(vector<Player*>players, int index); // validates the player inputted by user
        
 
@@ -61,6 +64,7 @@ class Player
         vector<Territory*> territoriesDefend;
         vector<Territory*> territoriesAttack;
         int army;
+        bool deployOrdersIssued;
         string name;
         int reinforcements;
 

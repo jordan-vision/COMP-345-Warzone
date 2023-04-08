@@ -28,14 +28,15 @@ Player::~Player() {
 };
 
 //Constructor that initializes the player's collection of territories (owned, defend, attack) and the player name
-Player::Player(vector<Territory*> territoriesOwned, vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack, string name)
-: territoriesOwned(territoriesOwned), territoriesDefend(territoriesDefend), territoriesAttack(territoriesAttack)
+Player::Player(vector<Territory*> territoriesOwned, vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack, string name, bool deployOrdersIssued)
+: territoriesOwned(territoriesOwned), territoriesDefend(territoriesDefend), territoriesAttack(territoriesAttack), deployOrdersIssued(false)
  {
   this->myHand = new Hand();
   this->name = name;
   this->territoriesOwned = territoriesOwned;
   this->territoriesDefend = territoriesDefend;
   this->territoriesAttack = territoriesAttack;
+  this->deployOrdersIssued = deployOrdersIssued;
  }
 
 //Constructor that initializes the player's name
@@ -57,6 +58,14 @@ int Player:: getArmy(){
 
 void Player:: setArmy(int army){
     this->army = army; 
+}
+
+bool Player:: getFlag(){
+    return deployOrdersIssued; 
+}
+
+void Player::setFlag(bool deployOrdersIssued){
+    this->deployOrdersIssued = deployOrdersIssued;
 }
 
 //Copy Constructor passing parameter p
@@ -138,20 +147,49 @@ void Player::issueOrder(vector<Player*> player, int index)
     cout<<player[index]->myOrders->vectorOfOrders.size() <<endl;
     bool addingOrders = true;
     int choice = 0;
+    int numberOfArmies = player[index]->getArmy();
+    bool deployOrdersIssued = player[index]->getFlag();
 
     vector<Territory*> tToAttack = player[index]->toAttack(); //get list of territories to be attacked
     vector<Territory*> tToDefend = player[index]->toDefend(player[index]->getPlayerTerritories()); //get list of territories to be defended
-
-    //  (2) a player will only issue deploy orders and no other kind of orders if they still have armies in their reinforcement pool;
-    if (player[index]->getArmy()!=0){ 
-        Deploy* deploy = new Deploy(getValidTarget(tToDefend));
-        cout<<"Created Deploy Order"<<endl;
-        deploy->orderEffect = "order deployed";
-        player[index]->myOrders->add(deploy);// add deploy order to orderslist
-    }
     
     while (addingOrders) { // (4) a player can play cards to issue orders;
+        if (numberOfArmies!=0 && !deployOrdersIssued){ //  (2) a player will only issue deploy orders and no other kind of orders if they still have armies in their reinforcement pool;
+            Territory* selectedTarget = getValidTarget(tToDefend);
+            int reinforcementAmount = 0;
+            while (true) {
+                cout << "\nPlayer " << player[index]->getName() << "'s turn: " << endl;
+                cout << "How many reinforcements do you wish to send ( 1 - " << numberOfArmies << " )?";
 
+                if (!(cin >> reinforcementAmount)) {
+
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input: Please try again!" << endl;
+
+                } else if (reinforcementAmount < 1 || reinforcementAmount > numberOfArmies) 
+                    cout << "Invalid Input: Please try again!" << endl;
+                else 
+                    
+                    break;
+            } // end of while loop
+            numberOfArmies = numberOfArmies - reinforcementAmount;
+
+            
+            
+            Deploy* deploy = new Deploy(selectedTarget, reinforcementAmount);
+            
+            cout<<"Created Deploy Order"<<endl;
+            deploy->orderEffect = "order deployed";
+            player[index]->myOrders->add(deploy);// add deploy order to orderslist
+            if (numberOfArmies==0){
+                deployOrdersIssued = true;
+                player[index]->setFlag(deployOrdersIssued);
+                addingOrders = false;
+                break;
+            }
+        }
+        else{
         cout << "\n-- Orders --\n";
         cout << "1. Advance\n";
         cout << "2. Bomb\n";
@@ -180,7 +218,7 @@ void Player::issueOrder(vector<Player*> player, int index)
             // (3) a player can issue advance orders to either defend or attack, based on the toAttack() and toDefend() lists;
             case 1: // Advance
 
-
+                player[index]->setFlag(false);
                 break;
             
             // Bomb
@@ -191,14 +229,14 @@ void Player::issueOrder(vector<Player*> player, int index)
                     cout << "Enter the integer of the territory you wish to Bomb: "<<endl;
                     // validate input
                     Bomb* bomb = new Bomb(getValidTarget(tToAttack));
-                    player[index]->myOrders->vectorOfOrders.push_back(bomb); // add bomb order to orderslist
+                    player[index]->myOrders->add(bomb); // add bomb order to orderslist
                     
                  } 
             else {
                     cout << "Invalid Request: You do not have this card! Try again"<<endl;
                     continue;
                 }
-
+                player[index]->setFlag(false);
                 break;
 
             // Blockade
@@ -206,15 +244,15 @@ void Player::issueOrder(vector<Player*> player, int index)
 
                 if (player[index]->myHand->containsCardType("Blockade")) {
                     // validate input
-                    Blockade* blockade = new Blockade(getValidTerritory(tToDefend, "\nPlease select the territory you would like to Blockade:"));
-                    player[index]->myOrders->vectorOfOrders.push_back(blockade); // add blockade order to orderslist
+                    Blockade* blockade = new Blockade(getValidTerritory(tToDefend, "\nPlease select the territory you would like to Blockade:",0));
+                    player[index]->myOrders->add(blockade); // add blockade order to orderslist
                     
 
                 } else {
                     cout << "Invalid Request: You do not have this card!"<<endl;
                     continue;
                 }
-
+                player[index]->setFlag(false);
                 break;
 
             // Airlift
@@ -222,26 +260,32 @@ void Player::issueOrder(vector<Player*> player, int index)
 
                 if (player[index]->myHand->containsCardType("Airlift")) {
 
-                    Territory* source = getValidTerritory(tToDefend, "Please select the territory you would like to Airlift from:");
-                    Territory* target = getValidTerritory(tToDefend, "Please select the territory you would like to Airlift to:");
+                    Territory* source = getValidTerritory(tToDefend, "Please select the territory you would like to Airlift from:", 4);
+                    Territory* target = getValidTerritory(tToDefend, "Please select the territory you would like to Airlift to:", 0);
 
                     int maxUnitAmount = source->getArmy();
                     cout << "Enter the amount of units you wish to Airlift (territory " << source->getName()<< " currently has "<< maxUnitAmount << " armies (units)):";
                     int unitAmount = 0;
                     cin >> unitAmount;
-                    while (unitAmount<1 || unitAmount > maxUnitAmount){ // get valid unit amount
+                    cout<< "max unit amount is " << maxUnitAmount << " and the entered unit amount is " << unitAmount<<endl;
+                    if (maxUnitAmount == 0){
+                        cout << "There are no armies to Airlift" << endl;
+                    }
+                    else {
+                    while (unitAmount<=0 || unitAmount > maxUnitAmount){ // get valid unit amount
                         cout << "invalid units amount. Please enter a value higher than 0 and lower than " << maxUnitAmount<< endl;
                         cin >> unitAmount;
                     }
+                    }
                     
                     Airlift* airlift = new Airlift(source, target, unitAmount);
-                    player[index]->myOrders->vectorOfOrders.push_back(airlift); // add airlift order to orderslist
+                    player[index]->myOrders->add(airlift); // add airlift order to orderslist
 
                 } else {
                     cout << "Invalid Request: You do not have this card!";
                     continue;
                 }
-
+                player[index]->setFlag(false);
                 break;
 
             // Negotiate
@@ -250,32 +294,33 @@ void Player::issueOrder(vector<Player*> player, int index)
                 if (player[index]->myHand->containsCardType("Diplomacy")) {
 
                     Negotiate* negotiate = new Negotiate(getValidPlayer(player, index));
-                    player[index]->myOrders->vectorOfOrders.push_back(negotiate); //add new negotiate order to the orderslist
+                    player[index]->myOrders->add(negotiate); //add new negotiate order to the orderslist
 
                 } else {
                     cout << "Invalid Request: You do not have this card!";
                     continue;
                 }
-
+                player[index]->setFlag(false);
                 break;
 
             //Exit
             case 6:
                 addingOrders = false;
+                player[index]->setFlag(false);
                 break;
         }
-    
+    }
  }
 }
 
 
 // checks if the user is trying to attack a valid territory i.e. if the entered integer corresponds to a territory id present in the vector returned by toAttack()
 Territory* Player::getValidTarget(vector<Territory*>& tToAttack) { 
-    cout << "\nThis is the list of available territories to attack:" << endl; // display available territories to attack
+    cout << "\nThis is the list of available territories to you:" << endl; // display available territories to attack
     for (auto t : tToAttack) {
         cout << t->getName() << " (" << t->getTerritoryID() << ")\n";
     }
-    cout << "\nPlease select the territory you would like to attack:" << endl;
+    cout << "\nPlease select the territory you would like to attack/deploy to:" << endl;
     int territoryId;
     bool validId = false;
     Territory* target = nullptr;
@@ -300,7 +345,7 @@ Territory* Player::getValidTarget(vector<Territory*>& tToAttack) {
     return target; //return a valid territory to attack
 }
 
-Territory* Player::getValidTerritory(vector<Territory*>& territory, string descriptiveMsg) {
+Territory* Player::getValidTerritory(vector<Territory*>& territory, string descriptiveMsg, int orderCase) {
     cout << "\nThis is the list of available territories:" << endl; //display the territories that can be defended
     for (auto t : territory) {
         cout << t->getName() << " (" << t->getTerritoryID() << ")\n";
@@ -317,9 +362,20 @@ Territory* Player::getValidTerritory(vector<Territory*>& territory, string descr
         } else {
             for (auto t : territory) { // get valid territory
                 if (t->getTerritoryID() == territoryId) {
-                    validId = true;
-                    target = t;
-                    break;
+                    if(orderCase != 4){
+                        validId = true;
+                        target = t;
+                        break;
+                    }
+                    else{
+                        if(t->getArmy()!=0){
+                            validId = true;
+                            target = t;
+                            break;
+                        }
+                        cout << "There are no armies to Airlift!" << endl;
+                    }
+
                 }
             }
             if (!validId) {
