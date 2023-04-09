@@ -11,7 +11,12 @@ using namespace std;
 
 // Enum and Array for card type 
 enum class CardType { Bomb, Reinforcement, Blockade, Airlift, Diplomacy };
-
+// ~Names equivalents~
+// Bomb = Bomb
+// Reinforcement = Advance
+// Blockade = Blockade
+// Airlift = Airlift
+// Dimplomacy = Negotiate
 
 // Initializes the classes for use in Card class
 class Player;
@@ -35,6 +40,7 @@ class Card
         CardType* cardType;                                             // Card enum type pointer
         
         void play(Player* player, Deck* mainDeck);                    // Uses card from hand and places in deck
+        CardType* getCardType();
 };
 
 /****************************************************************/

@@ -79,6 +79,7 @@ Territory:: Territory(){
 }
 
 Territory:: Territory(string name){
+    this->army = 0;
     this->name = name; 
     this->owner = nullptr;
 
@@ -87,6 +88,7 @@ Territory:: Territory(string name){
 Territory:: Territory(string name, Continent* inContinent){
     this->name = name; 
     this->inContinent = inContinent;
+    this->army = 0;
     this->owner = nullptr;
 
 }
@@ -95,6 +97,7 @@ Territory:: Territory(string name, int territoryID){
     this->name = name; 
     this->territoryID = territoryID;
     this->owner = nullptr;
+    this->army = 0;
 }
 
 Territory:: Territory(const Territory& copy){

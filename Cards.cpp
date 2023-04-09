@@ -130,6 +130,11 @@ ostream& operator<<(std::ostream& out, const Card* card) {
     return out;
 }
 
+/***************** CARD STREAM OPERATOR *****************/
+CardType* Card::getCardType() {
+    return cardType;
+};
+
 // /******************* CARD PLAY FUNCTION *******************/
 // void Card::play(Player* player, Deck* mainDeck) {
 
