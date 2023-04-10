@@ -1,7 +1,4 @@
 #include "Player.h"
-#include "Orders.h"
-#include "Cards.h"
-#include "Map.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -67,6 +64,31 @@ bool Player:: getFlag(){
 void Player::setFlag(bool deployOrdersIssued){
     this->deployOrdersIssued = deployOrdersIssued;
 }
+
+void Player::removeCardOfTypeFromHand(Player* player, CardType cardType) {
+    // Find the first card in the hand that matches the specified CardType
+    auto it = find_if(player->myHand->handCards.begin(), player->myHand->handCards.end(), 
+                      [&](Card* card) { return *card->getCardType() == cardType; });
+
+    // If a card of the specified type was found, remove it from the hand
+    if (it != player->myHand->handCards.end()) {
+        cout<<"card found in players hand"<<endl;
+        player->removeCardFromHand(*it);
+    }
+}
+
+void Player::removeCardFromHand(Card* cardToRemove) {
+    auto& handCards = myHand->handCards; // reference to vector of hand cards
+    handCards.erase(remove(handCards.begin(), handCards.end(), cardToRemove), handCards.end()); // remove card from vector
+    cout<<"card deleted from players hand"<<endl;
+    delete cardToRemove; // delete card from heap
+
+//     auto element = find(player->myHand->handCards.begin(), player->myHand->handCards.end(), this);  // Finds element
+//     int elementIndex = distance(player->myHand->handCards.begin(), element);                        // Gets element index
+//     mainDeck->deckCards.push_back(move(this));  // Moves card pointer back to deck
+//     player->myHand->handCards.erase(element);   // Erases card pointer from hand
+}
+
 
 //Copy Constructor passing parameter p
 Player::Player(const Player& p)

@@ -132,7 +132,6 @@ Deploy& Deploy::operator=(const Deploy& d){ //assignment operator
 
 void Deploy::execute(Player* player){
 	if (Deploy::validate(player)) { 
-
 		// int reinforcementAmount = 0;
     	// while (true) {
 		// 	cout << "\nPlayer " << player->getName() << "'s turn: " << endl;
@@ -211,11 +210,12 @@ void Advance::execute(Player* player){
 
 		//advance armies
 		orderEffect = "Armies have been moved to specified territory"; 
+		player->removeCardOfTypeFromHand(player, CardType::Reinforcement);
 		Notify(this);
 
 
 
-		
+
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to Advance armies";
@@ -266,6 +266,7 @@ void Bomb::execute(Player* player){
 		cout << "The target territory has been bombed (half the army is gone)"; 
 		//bomb area
 		orderEffect = "Destroyed half of the armies located on the opponents territory";
+		player->removeCardOfTypeFromHand(player, CardType::Bomb);
 		Notify(this);
 
 	} else 
@@ -325,6 +326,7 @@ void Blockade::execute(Player* player){
 		//target->setOwner(); 
 
 		orderEffect = "Blockaded the territory. Territory is now a neutral zone";
+		player->removeCardOfTypeFromHand(player, CardType::Blockade);
 		Notify(this);
 
 
@@ -368,13 +370,14 @@ Airlift& Airlift::operator=(const Airlift& a){ //assignment operator
 }
 
 void Airlift::execute(Player* player) {
-
+	
 	if (Airlift::validate(player)){ 
-
+		
 		this->source->setArmy(this->source->getArmy() - this->units);
 		this->target->setArmy(this->target->getArmy() + this->units);
 
 		orderEffect = "Airlifted armies from one territory to another";
+		player->removeCardOfTypeFromHand(player, CardType::Airlift);
 		Notify(this);
 
 	}else{
@@ -421,6 +424,7 @@ void Negotiate::execute(Player* player){
 	
 		// CREATE TRUCE VARIABLE FOR PLAYERS
 		orderEffect = "Negotiations performed. Attacks have been prevented until the end of turn";
+		player->removeCardOfTypeFromHand(player, CardType::Diplomacy);
 		Notify(this);
 	}else{
 		//display error message or whatever has to happen
