@@ -2,6 +2,7 @@
 #include "LoggingObserver.h"
 #include "Player.h"
 #include "Map.h"
+#include "Cards.h"
 #include <memory>
 #include <string>
 #include <vector>

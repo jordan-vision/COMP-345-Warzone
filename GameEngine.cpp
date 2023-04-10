@@ -11,7 +11,6 @@
 using namespace std;
 
 int ALL_TERRITORIES = 24;
-Deck *myDeck;
 
 /* 
 *  This source file contains the implementation of all methods from the GameEngine class declared in the GameEngine.h header file. It also contains the implementations of methods from
@@ -561,9 +560,9 @@ void GameEngine::startupPhase() {
 					//set hand size to 2
 					const int HAND_SIZE = 2;
 					//initialize and fill deck
+					Deck myDeck;
+					myDeck.fillDeck(20);
 					
-					myDeck->fillDeck(20);
-				
 					//for loop to iterate through player.size
 					for (int i = 0; i < players.size(); i++) 
 					{
@@ -577,7 +576,7 @@ void GameEngine::startupPhase() {
 						for (int j = 0; j < HAND_SIZE; j++)
 						{
 						//draws card from the deck and gives it to the player's hand
-						players[i]->myHand->handCards.push_back(myDeck->draw());
+						players[i]->myHand->handCards.push_back(myDeck.draw());
 						}
 					}
 					//loop to print out player's hand
@@ -662,14 +661,6 @@ void GameEngine::executeOrdersPhase(){
 
 				players[i]->myOrders->remove(j); //remove order
 			}
-
-		for (int j = 0; j < players[i]->myHand->handCards.size(); j++){
-				
-				// TODO -  get Card Type and remove it from players hand of cards
-				
-				// myDeck->deckCards.push_back(move(this));
-				// players[i]->myHand->handCards.erase(players[i]->myHand->handCards[j]->getCardType());
-		}
 	}
 }
 

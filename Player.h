@@ -1,6 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <vector>
+#include "Cards.h"
+#include "Orders.h"
+#include "Map.h"
 #include <iostream>
 #include <string>
 using std:: endl;
@@ -52,6 +55,9 @@ class Player
         //deployOrdersIssued
         bool getFlag();
         void setFlag(bool deployOrdersIssued);
+        // Player's Hand manipulation functions
+        void removeCardOfTypeFromHand(Player* player, CardType cardType);
+        void removeCardFromHand(Card* cardToRemove);
        
         Territory* getValidTarget(vector<Territory*>& tToAttack); //validate target inputted by user
         Territory* getValidTerritory(vector<Territory*>& territory, string msg, int orderCase);//validate territory inputted by user
