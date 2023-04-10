@@ -11,14 +11,14 @@ int main() {
     CommandProcessor* myCommandProcessor = new CommandProcessor();
     OrdersList* myOrders = new OrdersList();
     GameEngine* myEngine = new GameEngine();
-    GameEngine::reset()
+    GameEngine::instance()->reset()
 
 
-    while (!GameEngine::getIsGameOver()) {
+    while (!GameEngine::instance()->getIsGameOver()) {
 		string input;
 		cout << "Enter a command: ";
 		cin >> input;
-		GameEngine::transition(input);
+		GameEngine::instance()->transition(input);
 	}
 
 	return 0;
