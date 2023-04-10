@@ -90,8 +90,10 @@ ostream& operator<<(ostream& out, Transition& transition);
 class GameEngine : public ILoggable, public Subject 
 {
 private:
-	static bool isGameOver;
-	static DirectedGraph* gameLoop;
+	bool isGameOver;
+	DirectedGraph* gameLoop;
+
+	static GameEngine* singletonInstance;
 
 	GameEngine();
 	GameEngine(GameEngine& toCopy);
@@ -100,22 +102,24 @@ private:
 	void operator=(GameEngine& rhs);
 
 public:
-	static bool getIsGameOver();
-	static DirectedGraph* getGameLoop();
-	static void setIsGameOver(bool isTheGameOver);
+	bool getIsGameOver();
+	DirectedGraph* getGameLoop();
+	void setIsGameOver(bool isTheGameOver);
 
-	static void reset();
-	static bool transition(string command);
+	static GameEngine* instance();
+
+	void reset();
+	bool transition(string command);
 
 	virtual string stringToLog() override;
 
 	//startup phase method implements a command-based user interaction mechanism 
 	//to start the game by allowing the user to proceed with the game startup phase:
-	static void startupPhase();
-	static void mainGameLoop();
-	static void reinforcementPhase();
-	static void executeOrdersPhase();
-	static void issueOrdersPhase();
+	void startupPhase();
+	void mainGameLoop();
+	void reinforcementPhase();
+	void executeOrdersPhase();
+	void issueOrdersPhase();
 };
 
 ostream& operator<<(ostream& out, GameEngine& engine);

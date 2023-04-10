@@ -10,8 +10,8 @@ using namespace std;
 
 int main() {
 
-	GameEngine::reset(); //reset all previous settings 
-	GameEngine::startupPhase(); // start the startup phase
-	GameEngine::mainGameLoop(); // start the main game loop with its three phases
+	GameEngine::instance()->reset(); //reset all previous settings 
+	GameEngine::instance()->startupPhase(); // start the startup phase
+	GameEngine::instance()->mainGameLoop(); // start the main game loop with its three phases
 
 };

@@ -11,7 +11,7 @@ using std:: ifstream;
 
 int main(){
 
-GameEngine:: reset();
+GameEngine:: instance()->reset();
 
     string answer;
     cout<<"\nIf you want to enter commands to the console, type \"-console\". Otherwise, type \"-file <filename>\" to read commands from the file."<<endl;
@@ -27,7 +27,7 @@ GameEngine:: reset();
 
 
         // This while loop lets the getCommand function loop till the game is over
-        while(!GameEngine:: getIsGameOver()){
+        while(!GameEngine:: instance()->getIsGameOver()){
 
             // The getCommand function asks the user for the commands
             Command* command = console->getCommand();
@@ -35,7 +35,7 @@ GameEngine:: reset();
             // Making sure command object is not null S
             if (command != NULL){
             // cout<<"\n COMMAND EFFECT: "<<command->getCommandEffect()<<endl;
-            GameEngine::transition(command->getCommandEffect());
+            GameEngine::instance()->transition(command->getCommandEffect());
             }
         }
 
@@ -57,7 +57,7 @@ GameEngine:: reset();
         // Reading from the commands.txt file 
         while (!fileCommand->isEntireFileRead()) {
             Command* commandFromFile = fileCommand->getCommand();
-            GameEngine::transition(commandFromFile->getCommandEffect());
+            GameEngine::instance()->transition(commandFromFile->getCommandEffect());
         }
         cout<<"\nEnd of file reached."<<endl;
 

@@ -211,10 +211,9 @@ void Transition::setArrivalState(State* theArrival) { arrivalState = theArrival;
 
 
 
-DirectedGraph* GameEngine::gameLoop;
-bool GameEngine::isGameOver;
-
 // GAME ENGINE CLASS
+GameEngine* GameEngine::singletonInstance;
+
 // Constructors and destructor
 GameEngine::GameEngine() {
 	// Start and end states
@@ -267,6 +266,13 @@ void GameEngine::operator=(GameEngine& rhs) {
 bool GameEngine::getIsGameOver() { return isGameOver; };
 DirectedGraph* GameEngine::getGameLoop() { return gameLoop; };
 void GameEngine::setIsGameOver(bool isTheGameOver) { isGameOver = isTheGameOver; };
+
+GameEngine* GameEngine::instance() {
+	if (!singletonInstance) {
+		singletonInstance = new GameEngine();
+	}
+	return singletonInstance;
+}
 
 // Other methods
 // Resets static components of GameEngine without having to instatiate it again

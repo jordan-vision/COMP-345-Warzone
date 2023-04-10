@@ -177,7 +177,7 @@ bool CommandProcessor:: validate(string command){
     // In here we are separating the command string to just take the keyword
     // the game engine checks if the current state allows for this command to be executed
     firstWord = firstWord.substr(0, command.find(" "));
-    State *nextState = GameEngine::getGameLoop()->getCurrentState()->executeCommand(command);
+    State *nextState = GameEngine::instance()->getGameLoop()->getCurrentState()->executeCommand(command);
     return (nextState != NULL);
 }
 
