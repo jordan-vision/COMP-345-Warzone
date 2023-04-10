@@ -187,9 +187,10 @@ Deploy::~Deploy(){
 /*                                Advance Class                               */
 /* -------------------------------------------------------------------------- */
 
-Advance::Advance(Territory* target, Territory* source){
+Advance::Advance(Territory* target, Territory* source, int units){
 	this->target = target;
 	this->source = source; 
+	this->units = units; 
 }
 
 Advance::Advance(Advance& copy){ // copy constructor 
@@ -205,17 +206,94 @@ void Advance::execute(Player* player){
 
 	if (Advance::validate(player)) { //validate the order
 
+		if (this->target->getOwner()->getName() == player->getName()){
+			this->source->setArmy(this->source->getArmy() - this->units);
+			this->target->setArmy(this->target->getArmy() + this->units);
+			cout<<"\nTarget territory belongs to this player.";
+			cout<<"\nAdvancing "<<units<<" units to territory "<<target<<endl;
 
-		// CHECK HOW MANY ARMIES MOVING IN ISSUE ORDER
+			orderEffect = "Advanced armies from one owned territory to another";
+			Notify(this);
+		}
+		else if (this->target->getOwner()->getName() != player->getName()){
 
+<<<<<<< Updated upstream
 		//advance armies
 		orderEffect = "Armies have been moved to specified territory"; 
 		player->removeCardOfTypeFromHand(player, CardType::Reinforcement);
 		Notify(this);
+=======
+			int attacking = units;
+			int defending = target->getArmy();
+
+			cout<<"\nTarget territory belongs to another player.";
+			cout<<"\nCommencing attack on "<<target<<" with "<<units<<" units"<<endl;
+>>>>>>> Stashed changes
 
 
+			// for each unit in the attacking army, there is a 60 percent chance of victory over
+			// each unit in the defending army. Similarly, each defending unit has a 70 percent chance of victory 
+			while (attacking != 0 && defending != 0){
+
+<<<<<<< Updated upstream
+
+=======
+				// If the attacking unit defeats the defending unit
+				if (rand() % 100 < 60){
+					--defending;
+				}
+
+				// If the defending unit defeats the attacking unit 
+				if (rand() % 100 < 70 ){
+					--attacking;
+				}
+
+			}
+
+			// If the player conquers this target territory: 
+			// Set the new number of army units in the target territory after it has been conquered
+			// Erase its previous owner by removing it from their list of territories owned
+			// Set it to its new owner (the conqueror)
+			if (defending == 0){
+				cout<<"\nDefending army defeated. Target territory conquered";
+				target->setArmy(attacking);
+				source->setArmy(this->source->getArmy() - this->units);
 
 
+				// Deleting territory from previous owner's list 
+				int indexToDelete = -1;
+				for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
+    				if (player->getPlayerTerritories()[i] == target) {
+       					 indexToDelete = i;
+       					 break;
+					}
+				}
+
+				// Erase the territory pointer from the vector
+				if (indexToDelete != -1) {
+    				player->getPlayerTerritories().erase(player->getPlayerTerritories().begin() + indexToDelete);
+   				 	// Note that the "+ indexToDelete" part is used to specify the iterator pointing to the element to erase
+    				// in this case, it's the element at the index "indexToDelete" in the vector
+				}
+				target->setOwner(player);
+				player->getPlayerTerritories().push_back(target);
+
+				// give the player a card since they conquered a territory
+				player->myHand->handCards.push_back(myDeck->draw());
+				
+			// If the attacking army is defeated. Meaning, the target territory has not been conquered
+			} else { 
+				cout<<"\nAttacking army defeated. Target territory remains unconquered";
+				this->source->setArmy(this->source->getArmy() - this->units);
+				this->target->setArmy(defending);
+				
+			}
+
+			orderEffect = "Attacked with armies from owned territory to enemy territory";
+			Notify(this);
+		}
+		
+>>>>>>> Stashed changes
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to Advance armies";

@@ -240,7 +240,33 @@ void Player::issueOrder(vector<Player*> player, int index)
             // (3) a player can issue advance orders to either defend or attack, based on the toAttack() and toDefend() lists;
             case 1: // Advance
 
+<<<<<<< Updated upstream
                 player[index]->setFlag(false);
+=======
+                if (player[index]->myHand->containsCardType("Advance")) {
+
+                    Territory* src = getValidTerritory(tToDefend, "Please select the territory you would like to Advance from:");
+                    Territory* tgt = getValidTerritory(tToAttack, "Please select the territory you would like to Advance to:");
+
+                    int units = src->getArmy();
+                    cout << "Enter the amount of units you wish to Advance (territory " << src->getName()<< " currently has "<< units << " armies (units)):";
+                    int unitUser = 0;
+                    cin >> unitUser;
+                    while (unitUser<1 || unitUser > units){ // get valid unit amount
+                        cout << "invalid units amount. Please enter a value higher than 0 and lower than " << units<< endl;
+                        cin >> unitUser;
+                    }
+                    
+                    Advance* advance = new Advance(tgt, src, unitUser);
+                    player[index]->myOrders->vectorOfOrders.push_back(advance); // add airlift order to orderslist
+
+                } else {
+                    cout << "Invalid Request: You do not have this card!";
+                    continue;
+                }
+
+
+>>>>>>> Stashed changes
                 break;
             
             // Bomb

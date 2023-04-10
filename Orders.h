@@ -80,7 +80,7 @@ class Advance : public Order{
 protected:
     virtual string getDescription() override;
 public:
-    Advance(Territory* target, Territory* source);
+    Advance(Territory* target, Territory* source, int units);
     Advance(Advance& copy); // copy constructor
     Advance& operator=(const Advance& a); // assignment operator
     virtual bool validate(Player* player) override; // validate the order
@@ -89,6 +89,7 @@ public:
 
     Territory* target;
     Territory* source;
+    int units; 
 };
 
 
