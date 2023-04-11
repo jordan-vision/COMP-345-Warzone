@@ -16,6 +16,7 @@ using std:: ostream;
 class OrdersList;
 class Hand;
 class Territory;
+class PlayerStrategy;
 
 class Player
 {
@@ -63,7 +64,7 @@ class Player
         Territory* getValidTerritory(vector<Territory*>& territory, string msg, int orderCase);//validate territory inputted by user
         Player* getValidPlayer(vector<Player*>players, int index); // validates the player inputted by user
        
-
+        PlayerStrategy* playerStrat;
     private:
         vector <Territory*> territories; 
         vector<Territory*> territoriesOwned;
