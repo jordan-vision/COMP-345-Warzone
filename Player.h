@@ -4,6 +4,7 @@
 #include "Cards.h"
 #include "Orders.h"
 #include "Map.h"
+#include "PlayerStrategy.h"
 #include <iostream>
 #include <string>
 using std:: endl;
