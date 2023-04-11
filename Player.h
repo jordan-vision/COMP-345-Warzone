@@ -66,6 +66,7 @@ class Player
         Player* getValidPlayer(vector<Player*>players, int index); // validates the player inputted by user
        
         PlayerStrategy* playerStrat;
+        string* playerType;
     private:
         vector <Territory*> territories; 
         vector<Territory*> territoriesOwned;
