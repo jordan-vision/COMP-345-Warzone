@@ -243,8 +243,8 @@ void Player::issueOrder(vector<Player*> player, int index)
                 player[index]->setFlag(false);
                 if (player[index]->myHand->containsCardType("Advance")) {
 
-                    Territory* src = getValidTerritory(tToDefend, "Please select the territory you would like to Advance from:");
-                    Territory* tgt = getValidTerritory(tToAttack, "Please select the territory you would like to Advance to:");
+                    Territory* src = getValidTerritory(tToDefend, "Please select the territory you would like to Advance from:", 1);
+                    Territory* tgt = getValidTerritory(tToAttack, "Please select the territory you would like to Advance to:", 1);
 
                     int units = src->getArmy();
                     cout << "Enter the amount of units you wish to Advance (territory " << src->getName()<< " currently has "<< units << " armies (units)):";
