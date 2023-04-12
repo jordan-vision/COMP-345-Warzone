@@ -95,7 +95,9 @@ AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) {
 };
 
 void AggressivePlayerStrategy::issueOrder(vector<Player*> players) {
-
+    while (toAttack().size() != 0){
+        //issue advance orders
+    }
 };
 
 vector<Territory*> AggressivePlayerStrategy::toAttack() {
@@ -107,6 +109,18 @@ vector<Territory*> AggressivePlayerStrategy::toDefend() {
 
 
 };
+
+Territory* getStrongestCountry(Player* player){
+    Territory* strongestTerritory = nullptr;
+    int highestArmyCount = 0;
+    for (Territory* ter : player->getPlayerTerritories()){
+        if (ter->getArmy() > highestArmyCount) {
+            highestArmyCount = ter->getArmy();
+            strongestTerritory = ter;
+        }
+    }
+    return strongestTerritory;
+}
 
 /************* BENEVOLENT PLAYER STRATEGY *************/
 
