@@ -211,7 +211,7 @@ void Advance::execute(Player* player){
 			this->source->setArmy(this->source->getArmy() - this->units);
 			this->target->setArmy(this->target->getArmy() + this->units);
 			cout<<"\nTarget territory belongs to this player.";
-			cout<<"\nAdvancing "<<units<<" units to territory "<<target<<endl;
+			cout<<"\nAdvancing "<<units<<" units to territory "<<*target<<endl;
 
 			orderEffect = "Advanced armies from one owned territory to another";
 			Notify(this);
@@ -222,7 +222,7 @@ void Advance::execute(Player* player){
 			int defending = target->getArmy();
 
 			cout<<"\nTarget territory belongs to another player.";
-			cout<<"\nCommencing attack on "<<target<<" with "<<units<<" units"<<endl;
+			cout<<"\nCommencing attack on "<<*target<<" with "<<units<<" units"<<endl;
 
 
 			// for each unit in the attacking army, there is a 60 percent chance of victory over
@@ -293,11 +293,19 @@ void Advance::execute(Player* player){
 
 bool Advance::validate(Player* player){
 
-	if (this->source->getOwner()->getName() == player->getName()) 
-		for (Territory* ter : this->source->getAdjacentTerritories()) 
-			if (ter->getOwner()->getName() == this->target->getOwner()->getName())
+	if (this->source->getOwner()->getName() != player->getName()){
+		cout<<"\nTerritory does not belong to player"<<endl;
+		return false; 
+
+	} else {
+		for (auto it: this->source->getAdjacentTerritories()){
+			if (it->getName() == target->getName()){
 				return true;
-	return false;
+			} 
+		}
+		cout<<"\nTarget territory is not adjacent"<<endl;
+		return false; 
+	}
 }
 
 string Advance::getDescription()
