@@ -564,7 +564,7 @@ void GameEngine::startupPhase() {
 					cout << "----------------------------------------------\n" << endl;
 
 					//set hand size to 2
-					const int HAND_SIZE = 2;
+					const int HAND_SIZE = 5;
 					//initialize and fill deck
 					Deck myDeck;
 					myDeck.fillDeck(20);

@@ -241,7 +241,7 @@ void Player::issueOrder(vector<Player*> player, int index)
             case 1: // Advance
 
                 player[index]->setFlag(false);
-                if (player[index]->myHand->containsCardType("Advance")) {
+                if (player[index]->myHand->containsCardType("Reinforcement")) {
 
                     Territory* src = getValidTerritory(tToDefend, "Please select the territory you would like to Advance from:", 1);
                     Territory* tgt = getValidTerritory(tToAttack, "Please select the territory you would like to Advance to:", 1);
