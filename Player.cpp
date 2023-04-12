@@ -240,9 +240,7 @@ void Player::issueOrder(vector<Player*> player, int index)
             // (3) a player can issue advance orders to either defend or attack, based on the toAttack() and toDefend() lists;
             case 1: // Advance
 
-<<<<<<< Updated upstream
                 player[index]->setFlag(false);
-=======
                 if (player[index]->myHand->containsCardType("Advance")) {
 
                     Territory* src = getValidTerritory(tToDefend, "Please select the territory you would like to Advance from:");
@@ -266,7 +264,6 @@ void Player::issueOrder(vector<Player*> player, int index)
                 }
 
 
->>>>>>> Stashed changes
                 break;
             
             // Bomb

@@ -206,6 +206,7 @@ void Advance::execute(Player* player){
 
 	if (Advance::validate(player)) { //validate the order
 
+		player->removeCardOfTypeFromHand(player, CardType::Reinforcement);
 		if (this->target->getOwner()->getName() == player->getName()){
 			this->source->setArmy(this->source->getArmy() - this->units);
 			this->target->setArmy(this->target->getArmy() + this->units);
@@ -217,27 +218,18 @@ void Advance::execute(Player* player){
 		}
 		else if (this->target->getOwner()->getName() != player->getName()){
 
-<<<<<<< Updated upstream
-		//advance armies
-		orderEffect = "Armies have been moved to specified territory"; 
-		player->removeCardOfTypeFromHand(player, CardType::Reinforcement);
-		Notify(this);
-=======
 			int attacking = units;
 			int defending = target->getArmy();
 
 			cout<<"\nTarget territory belongs to another player.";
 			cout<<"\nCommencing attack on "<<target<<" with "<<units<<" units"<<endl;
->>>>>>> Stashed changes
 
 
 			// for each unit in the attacking army, there is a 60 percent chance of victory over
 			// each unit in the defending army. Similarly, each defending unit has a 70 percent chance of victory 
 			while (attacking != 0 && defending != 0){
 
-<<<<<<< Updated upstream
 
-=======
 				// If the attacking unit defeats the defending unit
 				if (rand() % 100 < 60){
 					--defending;
@@ -279,7 +271,7 @@ void Advance::execute(Player* player){
 				player->getPlayerTerritories().push_back(target);
 
 				// give the player a card since they conquered a territory
-				player->myHand->handCards.push_back(myDeck->draw());
+				//player->myHand->handCards.push_back(myDeck->draw());
 				
 			// If the attacking army is defeated. Meaning, the target territory has not been conquered
 			} else { 
@@ -293,7 +285,6 @@ void Advance::execute(Player* player){
 			Notify(this);
 		}
 		
->>>>>>> Stashed changes
 	}else{
 		//display error message or whatever has to happen
 		orderEffect = "Unable to Advance armies";
