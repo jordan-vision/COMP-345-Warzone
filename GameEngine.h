@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Cards.h"
 #include "Orders.h"
+#include "PlayerStrategy.h"
 #include <string>
 #include <vector>
 #include <map>

@@ -40,6 +40,8 @@ class Player
         vector<Territory*> toAttack();
          //method named toAttack() that returns a list of territories that are to be attacked 
         void owned(Territory* t);   
+        //method named toAttack() that returns the strongest country 
+        Territory* getStrongestCountry(Player* player);
         //method to get player territories
         vector <Territory*> getPlayerTerritories();        
         //creating an order object called myOrderss
@@ -64,9 +66,11 @@ class Player
         Territory* getValidTarget(vector<Territory*>& tToAttack); //validate target inputted by user
         Territory* getValidTerritory(vector<Territory*>& territory, string msg, int orderCase);//validate territory inputted by user
         Player* getValidPlayer(vector<Player*>players, int index); // validates the player inputted by user
-       
-        PlayerStrategy* playerStrat;
+        PlayerStrategy* ps;
         string* playerType;
+        void setStrategy(PlayerStrategy* ps);
+        PlayerStrategy* getStrategy();
+
     private:
         vector <Territory*> territories; 
         vector<Territory*> territoriesOwned;

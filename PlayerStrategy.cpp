@@ -1,5 +1,119 @@
 #include "PlayerStrategy.h"
 
+
+
+ostream& operator<<(ostream& output, PlayerStrategy& ps) {
+    output << ps.getName();
+    return output;
+}
+
+string PlayerStrategy:: getName(){
+    return name; 
+}
+
+void PlayerStrategy:: setName(string name){
+    this->name = name; 
+}
+
+
+/************** HUMAN PLAYER STRATEGY **************/
+
+HumanPlayerStrategy::HumanPlayerStrategy(Player* player) {
+
+    this->p = player;
+    // set player type to human
+};
+
+void HumanPlayerStrategy::issueOrder(vector<Player*> players, int index) {
+
+};
+
+vector<Territory*> HumanPlayerStrategy::toAttack() {
+
+
+};
+
+vector<Territory*> HumanPlayerStrategy::toDefend() {
+
+
+};
+
+/*************** AGGRESSIVE PLAYER STRATEGY ***************/
+
+
+AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) {
+
+    this->p = player;
+    // set player type to aggressive
+
+};
+
+
+void AggressivePlayerStrategy::issueOrder(vector<Player*> players, int index) {
+
+
+cout << "Aggressive player issuing order..." << endl;
+cout << players[index]->getName() << endl;
+Territory* strongestTerritory = players[index]->getStrongestCountry(players[index]);
+cout << "Strongest territory: " << strongestTerritory->getName() << endl;
+vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getOwner()->toAttack();
+cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl;
+
+    for (int i = 0; i < strongestAdjacentTerritories.size(); i++) {
+        Territory* targetTerritory = strongestAdjacentTerritories[i];
+        cout << "Target territory " << i << ": " << targetTerritory->getName() << endl;
+
+        while (strongestTerritory->getArmy() > 0) {
+            Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
+            cout << "Advance order created." << endl;
+
+            advanceOrder->execute(players[index]);
+            cout << "Advance order executed." << endl;
+
+            // delete advanceOrder;
+            // cout << "Advance order deleted." << endl;
+        }
+    }
+}
+
+vector<Territory*> AggressivePlayerStrategy::toAttack() {
+
+// Territory* strongestTerritory = p->getStrongestCountry(p);
+
+// vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getOwner()->toAttack();
+
+// return strongestAdjacentTerritories;
+
+};
+
+vector<Territory*> AggressivePlayerStrategy::toDefend() {
+
+
+};
+
+
+// /************* BENEVOLENT PLAYER STRATEGY *************/
+
+BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) {
+
+    this->p = player;
+    // set player type to benevolent
+};
+
+void BenevolentPlayerStrategy::issueOrder(vector<Player*> players, int index) {
+
+};
+
+vector<Territory*> BenevolentPlayerStrategy::toAttack() {
+
+
+};
+
+vector<Territory*> BenevolentPlayerStrategy::toDefend() {
+
+
+};
+
 /************** NEUTRAL PLAYER STRATEGY **************/
 
 NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) {
@@ -8,7 +122,7 @@ NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) {
     // set player type to neutral
 };
 
-void NeutralPlayerStrategy::issueOrder(vector<Player*> players) {
+void NeutralPlayerStrategy::issueOrder(vector<Player*> players, int index) {
 
 };
 
@@ -30,7 +144,8 @@ CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player) {
     // set player type to cheater
 };
 
-void CheaterPlayerStrategy::issueOrder(vector<Player*> players) {
+void CheaterPlayerStrategy::issueOrder(vector<Player*> players, int indexs) {
+
 
     // loop through adjacent enemy territories
     for (int i = 0; i < this->toAttack().size(); i++) {
@@ -62,85 +177,3 @@ vector<Territory*> CheaterPlayerStrategy::toDefend() {
 
 
 };
-
-/************** HUMAN PLAYER STRATEGY **************/
-
-HumanPlayerStrategy::HumanPlayerStrategy(Player* player) {
-
-    this->p = player;
-    // set player type to human
-};
-
-void HumanPlayerStrategy::issueOrder(vector<Player*> players) {
-
-};
-
-vector<Territory*> HumanPlayerStrategy::toAttack() {
-
-
-};
-
-vector<Territory*> HumanPlayerStrategy::toDefend() {
-
-
-};
-
-/*************** AGGRESSIVE PLAYER STRATEGY ***************/
-
-AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) {
-
-    this->p = player;
-    // set player type to aggressive
-
-};
-
-void AggressivePlayerStrategy::issueOrder(vector<Player*> players) {
-    while (toAttack().size() != 0){
-        //issue advance orders
-    }
-};
-
-vector<Territory*> AggressivePlayerStrategy::toAttack() {
-
-
-};
-
-vector<Territory*> AggressivePlayerStrategy::toDefend() {
-
-
-};
-
-Territory* getStrongestCountry(Player* player){
-    Territory* strongestTerritory = nullptr;
-    int highestArmyCount = 0;
-    for (Territory* ter : player->getPlayerTerritories()){
-        if (ter->getArmy() > highestArmyCount) {
-            highestArmyCount = ter->getArmy();
-            strongestTerritory = ter;
-        }
-    }
-    return strongestTerritory;
-}
-
-/************* BENEVOLENT PLAYER STRATEGY *************/
-
-BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) {
-
-    this->p = player;
-    // set player type to benevolent
-};
-
-void BenevolentPlayerStrategy::issueOrder(vector<Player*> players) {
-
-};
-
-vector<Territory*> BenevolentPlayerStrategy::toAttack() {
-
-
-};
-
-vector<Territory*> BenevolentPlayerStrategy::toDefend() {
-
-
-};
-

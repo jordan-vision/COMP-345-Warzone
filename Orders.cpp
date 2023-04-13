@@ -247,7 +247,7 @@ void Advance::execute(Player* player){
 			// Erase its previous owner by removing it from their list of territories owned
 			// Set it to its new owner (the conqueror)
 			if (defending == 0){
-				cout<<"\nDefending army defeated. Target territory conquered";
+				cout<<"\nDefending army defeated. Target territory conquered\n";
 				target->setArmy(attacking);
 				source->setArmy(this->source->getArmy() - this->units);
 

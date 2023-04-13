@@ -8,6 +8,8 @@
 #include "Player.h"
 #include "Cards.h"
 #include "CommandProcessing.h"
+#include "PlayerStrategy.h"
+
 using namespace std;
 
 int ALL_TERRITORIES = 24;
@@ -642,12 +644,62 @@ void GameEngine::mainGameLoop() {
 
 void GameEngine::issueOrdersPhase(){
 	cout << "\nISSUING ORDERS PHASE" <<endl;
-	for (int i = 0; i < players.size(); i++) {
-		cout << "\n*** "<<players[i]->getName() << "'s turn! ***"<< endl;
-		players[i]->issueOrder(players, i);
-		cout << "iterating " << endl;
-	}
-	cout<<"Finished issuing phase..." << endl;
+// Start game loop
+for (int i = 0; i < players.size(); i++) {
+    // Print which player's turn it is
+    cout << "\n*** " << players[i]->getName() << "'s turn! ***" << endl;
+    
+    // Call the issueOrder method for the current player
+    players[i]->issueOrder(players, i);
+    
+    // Ask the user to select a strategy type for the current player
+    cout << "\nEnter strategy type (aggressive, neutral, cheater, benevolent, or human): \n";
+    cout << "Player " << i + 1 << "'s strategy " << "("<< players[i]->getName() << "): \n" << endl;
+    string strategyType;
+    cin >> strategyType;
+
+    // Set the current player's strategy based on the user's input
+    PlayerStrategy* ps;
+    if (strategyType == "aggressive") {
+        ps = new AggressivePlayerStrategy(players[i]);
+        ps->setName("aggressive");
+    } else if (strategyType == "neutral") {
+        ps = new NeutralPlayerStrategy(players[i]);
+        ps->setName("neutral");
+    } else if (strategyType == "cheater") {
+        ps = new CheaterPlayerStrategy(players[i]);
+        ps->setName("cheater");
+    } else if (strategyType == "benevolent") {
+        ps = new BenevolentPlayerStrategy(players[i]);
+        ps->setName("benevolent");
+    } else if (strategyType == "human") {
+        ps = new HumanPlayerStrategy(players[i]);
+        ps->setName("human");
+    } else {
+        // handle invalid strategy type input
+    }
+    players[i]->setStrategy(ps);
+
+    // Print which strategy was selected for the current player
+    cout << "\nPlayer " << i + 1 << "'s strategy: " << players[i]->ps->getName() << endl;
+
+    // Get the strongest territory for the current player
+    Territory* strongestTerritory = players[i]->getStrongestCountry(players[i]);
+
+    // Print the strongest territory for the current player
+    cout << "Printing strongest territory for player " << i + 1 << ": " << strongestTerritory->getName() << endl;
+
+    // Call the issueOrder method for the current player's strategy
+    players[i]->getStrategy()->issueOrder(players, i);
+
+    // Print that the current player's turn is completed
+    cout << "\n*** " << players[i]->getName() << "'s turn is complete. ***" << endl;
+}
+
+// Print that the issuing phase is complete
+cout<<"Finished issuing phase..." << endl;
+
+	
 }
 
 void GameEngine::executeOrdersPhase(){

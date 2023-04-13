@@ -160,18 +160,50 @@ vector<Territory*> Player::toAttack() {
 vector <Territory*> Player:: getPlayerTerritories(){
     return territoriesOwned;
 }
-   // create an OrderList object
+  
+
+Territory* Player::getStrongestCountry(Player* player) {
+    // cout << "get strongest country method";
+    Territory* strongestTerritory;
+    // cout << " not a null pointer issue....";
+    int highestArmyCount = 0;
+    // cout << highestArmyCount ;
+    // cout << player->getPlayerTerritories()[0]->getName();
+    // cout << player->getPlayerTerritories()[0]->getArmy();
+
+    for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
+    if (player->getPlayerTerritories()[i]->getArmy() > highestArmyCount) {
+        highestArmyCount = player->getPlayerTerritories()[i]->getArmy();
+        strongestTerritory = player->getPlayerTerritories()[i];
+    }
+    
+}
+    // cout << "STRONGESTTTTTTT " << strongestTerritory->getName() ;
+return strongestTerritory;
+}
+
+void Player:: setStrategy(PlayerStrategy* ps){
+    this->ps = ps;
+}
+
+PlayerStrategy* Player:: getStrategy(){
+    return ps;
+    }
+
+
+ // create an OrderList object
    OrdersList* ol = new OrdersList();
-
-
+   
 void Player::issueOrder(vector<Player*> player, int index)
 { 
+
     cout<<player[index]->myOrders->vectorOfOrders.size() <<endl;
     bool addingOrders = true;
     int choice = 0;
     int numberOfArmies = player[index]->getArmy();
     bool deployOrdersIssued = player[index]->getFlag();
-
+// cout << "ARMY SIZE " << player[index]->getArmy() << endl;
+// cout << "number of armies" << numberOfArmies<< endl; 
     vector<Territory*> tToAttack = player[index]->toAttack(); //get list of territories to be attacked
     vector<Territory*> tToDefend = player[index]->toDefend(player[index]->getPlayerTerritories()); //get list of territories to be defended
     
@@ -182,7 +214,7 @@ void Player::issueOrder(vector<Player*> player, int index)
             while (true) {
                 cout << "\nPlayer " << player[index]->getName() << "'s turn: " << endl;
                 cout << "How many reinforcements do you wish to send ( 1 - " << numberOfArmies << " )?";
-
+                
                 if (!(cin >> reinforcementAmount)) {
 
                     cin.clear();
@@ -200,7 +232,8 @@ void Player::issueOrder(vector<Player*> player, int index)
             
             
             Deploy* deploy = new Deploy(selectedTarget, reinforcementAmount);
-            
+            selectedTarget->setArmy(reinforcementAmount);
+
             cout<<"Created Deploy Order"<<endl;
             deploy->orderEffect = "order deployed";
             player[index]->myOrders->add(deploy);// add deploy order to orderslist
