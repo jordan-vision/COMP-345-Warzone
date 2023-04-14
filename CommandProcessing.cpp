@@ -164,23 +164,22 @@ bool CommandProcessor:: validate(string command){
 }
 
 void CommandProcessor::tournamentMode(string command) {
-    string maps, players, games, turns;
+    string maps = copyInBetweenAngleBrackets("-M ", command);
+    string players = copyInBetweenAngleBrackets("-P ", command);
+    string games = copyInBetweenAngleBrackets("-G ", command);
+    string turns = copyInBetweenAngleBrackets("-D ", command);
 
-    int i = command.find("-M <") + 4;
-    char currentChar = command[i];
-
-    while (currentChar != '>' && i < command.length()) {
-        i++;
-        maps += currentChar;
-        currentChar = command[i];
-    }
-    if (i >= command.length()) {
-        cout << "Please write the tournament settings in the following format:" << endl;
-        cout << "tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
+    if (maps == "" || players == "" || games == "" || turns == "") {
+        cerr << "Please write the tournament settings in the following format:" << endl;
+        cerr << "tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
         return;
     }
-    cout << maps << endl;
 
+    cout << "Tournament mode" << endl;
+    cout << "M: " << maps << endl;
+    cout << "P: " << players << endl;
+    cout << "G: " << games << endl;
+    cout << "D: " << turns << endl;
     return;
 }
 
@@ -329,4 +328,25 @@ string getFirstWord(string command) {
         firstWord = command;
     }
     return firstWord;
+}
+
+string copyInBetweenAngleBrackets(string prefix, string command) {
+    string result = "";
+    int i = command.find(prefix + "<");
+
+    if (i == string::npos) {
+        return result;
+    }
+
+    i += prefix.length() + 1;
+    char currentChar = command[i];
+
+    while (currentChar != '>' && i < command.length()) {
+        i++;
+        result += currentChar;
+        currentChar = command[i];
+    } if (i >= command.length()) {
+        return "";
+    }
+    return result;
 }
