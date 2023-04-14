@@ -742,3 +742,24 @@ for (int i = 0; i < players.size(); i++) {
 }
 
 
+// TOURNAMENT CLASS
+// Singleton implementation
+
+Tournament *Tournament::singletonInstance;
+
+Tournament::Tournament() {
+
+}
+Tournament::Tournament(string maps, string players, string games, string turns) {
+
+}
+Tournament::~Tournament() {
+	
+}
+
+bool Tournament::newTournament(string maps, string players, string games, string turns) {
+	
+}
+Tournament* Tournament::instance() {
+	return singletonInstance;
+}
