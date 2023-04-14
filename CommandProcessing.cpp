@@ -61,25 +61,9 @@ Command& Command:: operator=(const Command& rhs){
 // The string effect is the command name that is passed to this function as a parameter 
 // This command name (string effect) is then set to be the effect of this command
 void Command:: saveEffect(string effect){
-    
-    // We only need to account for two special cases, the loadmap and addplayer commands
-    // That is because only these two have a format of the < > brackets 
-    // So in here we make sure that only the first keyword is passed on to the effect
-    // In order to not pass the player or file name, which is unnecessary 
-
-    if (effect.substr(0,7) == "loadmap"){
-        this->setCommandEffect("loadmap");
-
-    } else if (effect.substr(0,9) == "addplayer") {
-        this->setCommandEffect("addplayer");
-
-
-    // This is for all other effect messages 
-    } else {
-        this->setCommandEffect(effect);
-  
+    this->setCommandEffect(getFirstWord(effect));
     Notify(this);
-    }
+    
 }
 
 string Command::stringToLog() {
@@ -143,13 +127,11 @@ Command* CommandProcessor:: readCommand(){
     string command;
     cout<<"\n*** Reading Command ***\nEnter your command: ";
     getline(cin, command);
-    string first = command.substr(0, command.find(" "));
-   
 
     Command* newCommand = new Command(command);
     
     // If command is invalid, an error message will be saved as its effect
-    if (!validate(first)) {
+    if (!validate(command)) {
         cout<<"Command not valid\n";
         newCommand->saveEffect("error");
         cout<<newCommand->getCommandEffect();
@@ -172,12 +154,7 @@ Command* CommandProcessor:: getCommand(){
 
 // This validates the command string passed which is the name of the command object 
 bool CommandProcessor:: validate(string command){
-    string firstWord = command + " ";
-
-    // In here we are separating the command string to just take the keyword
-    // the game engine checks if the current state allows for this command to be executed
-    firstWord = firstWord.substr(0, command.find(" "));
-    State *nextState = GameEngine::instance()->getGameLoop()->getCurrentState()->executeCommand(command);
+    State *nextState = GameEngine::instance()->getGameLoop()->getCurrentState()->executeCommand(getFirstWord(command));
     return (nextState != NULL);
 }
 
@@ -308,4 +285,17 @@ Command* FileCommandProcessorAdapter:: readCommand(){
 FileCommandProcessorAdapter:: ~FileCommandProcessorAdapter(){
     delete flr;
     flr = nullptr;
+}
+
+// In here we are separating the command string to just take the keyword
+// the game engine checks if the current state allows for this command to be executed
+string getFirstWord(string command) {
+    string firstWord;
+    if (command.find(" ")) {
+        firstWord = command.substr(0, command.find(" "));
+    }
+    else {
+        firstWord = command;
+    }
+    return firstWord;
 }

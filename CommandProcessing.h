@@ -106,3 +106,6 @@ class FileCommandProcessorAdapter : public CommandProcessor {
         Command* readCommand();
         FileLineReader* flr;      
 };
+
+//                  HELPER FUNCTIONS
+string getFirstWord(string command);

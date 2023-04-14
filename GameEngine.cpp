@@ -218,37 +218,8 @@ GameEngine* GameEngine::singletonInstance;
 
 // Constructors and destructor
 GameEngine::GameEngine() {
-	// Start and end states
 	isGameOver = false;
-	State* start = new State("start");
-	State* end = new State("end");
-	gameLoop = new DirectedGraph(start, end);
-
-	// All other states
-	State* mapLoaded = new State("map loaded");
-	State* mapValidated = new State("map validated");
-	State* playersAdded = new State("players added");
-	State* assignReinforcement = new State("game start");
-	State* issueOrders = new State("issue orders");
-	State* executeOrders = new State("execute orders");
-	State* win = new State("win");
-
-
-	// Transitions and commands
-	start->connect(mapLoaded, "loadmap");
-	mapLoaded->connect(mapLoaded, "loadmap");
-	mapLoaded->connect(mapValidated, "validatemap");
-	mapValidated->connect(playersAdded, "addplayer");
-	playersAdded->connect(playersAdded, "addplayer");
-	playersAdded->connect(assignReinforcement, "gamestart");
-	assignReinforcement->connect(issueOrders, "issueorder");
-	issueOrders->connect(issueOrders, "issueorder");
-	issueOrders->connect(executeOrders, "endissueorders");
-	executeOrders->connect(executeOrders, "execorder");
-	executeOrders->connect(assignReinforcement, "endexecorders");
-	executeOrders->connect(win, "win");
-	win->connect(start, "play");
-	win->connect(end, "end");
+	gameLoop = NULL; // Directed Graph instantiated with GameEngine::reset()
 };
 GameEngine::GameEngine(GameEngine& toCopy) {
 	isGameOver = false;
@@ -277,7 +248,7 @@ GameEngine* GameEngine::instance() {
 }
 
 // Other methods
-// Resets static components of GameEngine without having to instatiate it again
+// Instantiates components of GameEngine and resets game loop
 void GameEngine::reset(){
 	if (gameLoop == NULL) {
 		// Start and end states
