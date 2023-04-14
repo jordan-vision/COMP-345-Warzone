@@ -665,7 +665,7 @@ for (int i = 0; i < players.size(); i++) {
     cout << "Printing strongest territory for player " << i + 1 << ": " << strongestTerritory->getName() << endl;
 
     // Call the issueOrder method for the current player's strategy
-    players[i]->getStrategy()->issueOrder(players, i);
+    players[i]->getStrategy()->issueOrder(players);
 
     // Print that the current player's turn is completed
     cout << "\n*** " << players[i]->getName() << "'s turn is complete. ***" << endl;

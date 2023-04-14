@@ -232,12 +232,12 @@ void Advance::execute(Player* player){
 
 				// If the attacking unit defeats the defending unit
 				if (rand() % 100 < 60){
-					--defending;
+					defending = defending-1;
 				}
 
 				// If the defending unit defeats the attacking unit 
 				if (rand() % 100 < 70 ){
-					--attacking;
+					attacking = attacking-1;
 				}
 
 			}
@@ -247,11 +247,7 @@ void Advance::execute(Player* player){
 			// Erase its previous owner by removing it from their list of territories owned
 			// Set it to its new owner (the conqueror)
 			if (defending == 0){
-				cout<<"\nDefending army defeated. Target territory conquered\n";
-				target->setArmy(attacking);
-				source->setArmy(this->source->getArmy() - this->units);
-
-
+			
 				// Deleting territory from previous owner's list 
 				int indexToDelete = -1;
 				for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
@@ -269,6 +265,11 @@ void Advance::execute(Player* player){
 				}
 				target->setOwner(player);
 				player->getPlayerTerritories().push_back(target);
+
+				cout<<"\n" << player->getName() << ": "<< target->getName() << " has been defeated by " << source->getName()<< ". Target territory conquered\n";
+				target->setArmy(attacking);
+				source->setArmy(this->source->getArmy() - this->units);
+				cout << "You now own " << target->getName() << " with " << target->getArmy() <<  " armies on it.\n" << endl;
 
 				// give the player a card since they conquered a territory
 				//player->myHand->handCards.push_back(myDeck->draw());

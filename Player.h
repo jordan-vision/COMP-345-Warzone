@@ -42,6 +42,8 @@ class Player
         void owned(Territory* t);   
         //method named toAttack() that returns the strongest country 
         Territory* getStrongestCountry(Player* player);
+        //method named toAttack() that returns the strongest country 
+        Territory* getWeakestCountry(Player* player);
         //method to get player territories
         vector <Territory*> getPlayerTerritories();        
         //creating an order object called myOrderss

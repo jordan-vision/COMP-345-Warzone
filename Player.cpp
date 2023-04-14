@@ -163,25 +163,28 @@ vector <Territory*> Player:: getPlayerTerritories(){
   
 
 Territory* Player::getStrongestCountry(Player* player) {
-    // cout << "get strongest country method";
     Territory* strongestTerritory;
-    // cout << " not a null pointer issue....";
     int highestArmyCount = 0;
-    // cout << highestArmyCount ;
-    // cout << player->getPlayerTerritories()[0]->getName();
-    // cout << player->getPlayerTerritories()[0]->getArmy();
-
     for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
     if (player->getPlayerTerritories()[i]->getArmy() > highestArmyCount) {
         highestArmyCount = player->getPlayerTerritories()[i]->getArmy();
         strongestTerritory = player->getPlayerTerritories()[i];
     }
-    
 }
-    // cout << "STRONGESTTTTTTT " << strongestTerritory->getName() ;
 return strongestTerritory;
 }
 
+Territory* Player::getWeakestCountry(Player* player) {
+    Territory* weakestTerritory;
+    int lowestArmyCount = 100;
+    for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
+    if (player->getPlayerTerritories()[i]->getArmy() < lowestArmyCount) {
+        lowestArmyCount = player->getPlayerTerritories()[i]->getArmy();
+        weakestTerritory = player->getPlayerTerritories()[i];
+    }
+}
+return weakestTerritory;
+}
 void Player:: setStrategy(PlayerStrategy* ps){
     this->ps = ps;
 }
@@ -207,6 +210,7 @@ void Player::issueOrder(vector<Player*> player, int index)
     vector<Territory*> tToAttack = player[index]->toAttack(); //get list of territories to be attacked
     vector<Territory*> tToDefend = player[index]->toDefend(player[index]->getPlayerTerritories()); //get list of territories to be defended
     
+
     while (addingOrders) { // (4) a player can play cards to issue orders;
         if (numberOfArmies!=0 && !deployOrdersIssued){ //  (2) a player will only issue deploy orders and no other kind of orders if they still have armies in their reinforcement pool;
             Territory* selectedTarget = getValidTarget(tToDefend);
@@ -245,6 +249,9 @@ void Player::issueOrder(vector<Player*> player, int index)
             }
         }
         else{
+     
+
+        cout << player[index]->getName() << ": You have these cards: "<< player[index]->myHand << endl;
         cout << "\n-- Orders --\n";
         cout << "1. Advance\n";
         cout << "2. Bomb\n";
@@ -277,7 +284,13 @@ void Player::issueOrder(vector<Player*> player, int index)
                 if (player[index]->myHand->containsCardType("Reinforcement")) {
 
                     Territory* src = getValidTerritory(tToDefend, "Please select the territory you would like to Advance from:", 1);
-                    Territory* tgt = getValidTerritory(tToAttack, "Please select the territory you would like to Advance to:", 1);
+                    // int wow;
+                    // cin >> wow;
+                    // cout << tToDefend[wow] << endl;
+                     vector<Territory*> choiceAdjacentTerritories = src->getAdjacentTerritories();
+
+
+                    Territory* tgt = getValidTerritory(choiceAdjacentTerritories, "Please select the territory you would like to Advance to:", 1);
 
                     int units = src->getArmy();
                     cout << "Enter the amount of units you wish to Advance (territory " << src->getName()<< " currently has "<< units << " armies (units)):";
@@ -398,7 +411,7 @@ Territory* Player::getValidTarget(vector<Territory*>& tToAttack) {
     for (auto t : tToAttack) {
         cout << t->getName() << " (" << t->getTerritoryID() << ")\n";
     }
-    cout << "\nPlease select the territory you would like to attack/deploy to:" << endl;
+    cout << "\nPlease select the territory you would like to deploy to:" << endl;
     int territoryId;
     bool validId = false;
     Territory* target = nullptr;
@@ -424,7 +437,7 @@ Territory* Player::getValidTarget(vector<Territory*>& tToAttack) {
 }
 
 Territory* Player::getValidTerritory(vector<Territory*>& territory, string descriptiveMsg, int orderCase) {
-    cout << "\nThis is the list of available territories:" << endl; //display the territories that can be defended
+    cout << "\nThis is the list of available adjacent territories:" << endl; //display the territories that can be defended
     for (auto t : territory) {
         cout << t->getName() << " (" << t->getTerritoryID() << ")\n";
     }
@@ -460,8 +473,11 @@ Territory* Player::getValidTerritory(vector<Territory*>& territory, string descr
                 cout << "Invalid territory ID. Please enter a valid ID.\n";
             }
         }
-    }
-    return target; //return a valid territory to be defended
+    }   
+   
+
+        return target; //return a valid territory to be defended
+
 }
 
 //get valid player from this game

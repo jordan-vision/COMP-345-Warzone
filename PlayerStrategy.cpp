@@ -24,7 +24,7 @@ HumanPlayerStrategy::HumanPlayerStrategy(Player* player) {
     // set player type to human
 };
 
-void HumanPlayerStrategy::issueOrder(vector<Player*> players, int index) {
+void HumanPlayerStrategy::issueOrder(vector<Player*> players) {
 
 };
 
@@ -49,45 +49,47 @@ AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) {
 };
 
 
-void AggressivePlayerStrategy::issueOrder(vector<Player*> players, int index) {
-
+void AggressivePlayerStrategy::issueOrder(vector<Player*> players) {
 
 cout << "Aggressive player issuing order..." << endl;
-cout << players[index]->getName() << endl;
-Territory* strongestTerritory = players[index]->getStrongestCountry(players[index]);
+cout << p->getName() << endl;
+Territory* strongestTerritory = p->getStrongestCountry(p);
 cout << "Strongest territory: " << strongestTerritory->getName() << endl;
-vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getOwner()->toAttack();
+vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
 cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl;
 
-    for (int i = 0; i < strongestAdjacentTerritories.size(); i++) {
-        Territory* targetTerritory = strongestAdjacentTerritories[i];
-        cout << "Target territory " << i << ": " << targetTerritory->getName() << endl;
 
-        while (strongestTerritory->getArmy() > 0) {
-            Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
-            cout << "Advance order created." << endl;
+        for (int i = 0; i < strongestAdjacentTerritories.size(); i++) {
+            Territory* targetTerritory = strongestAdjacentTerritories[i];
 
-            advanceOrder->execute(players[index]);
-            cout << "Advance order executed." << endl;
+            while (strongestTerritory->getArmy() > 0) {
+                cout << "Target territory " << i +1 << ": " << targetTerritory->getName() << endl;
 
-            // delete advanceOrder;
-            // cout << "Advance order deleted." << endl;
+                Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
+                cout << "Advance order created." << endl;
+
+                advanceOrder->execute(p);
+                cout << "Advance order executed." << endl;
+
+
+            }
         }
     }
-}
+
 
 vector<Territory*> AggressivePlayerStrategy::toAttack() {
 
-// Territory* strongestTerritory = p->getStrongestCountry(p);
+Territory* strongestTerritory = p->getStrongestCountry(p);
 
-// vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getOwner()->toAttack();
+vector<Territory*> strongestAdjacentTerritoriesAttack = strongestTerritory->getOwner()->toAttack();
 
-// return strongestAdjacentTerritories;
+return strongestAdjacentTerritoriesAttack;
 
 };
 
 vector<Territory*> AggressivePlayerStrategy::toDefend() {
 
+p->toDefend(p->getPlayerTerritories());
 
 };
 
@@ -100,9 +102,36 @@ BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) {
     // set player type to benevolent
 };
 
-void BenevolentPlayerStrategy::issueOrder(vector<Player*> players, int index) {
+void BenevolentPlayerStrategy::issueOrder(vector<Player*> players) {
+cout << "Benevolent player issuing order..." << endl;
+cout << p->getName() << endl;
+Territory* weakestTerritory = p->getWeakestCountry(p);
+cout << "Weakest territory: " << weakestTerritory->getName() << endl;
+vector<Territory*> weakestAdjacentTerritories = weakestTerritory->getAdjacentTerritories();
+cout << "Number of weakest adjacent territories: " << weakestAdjacentTerritories.size() << endl;
 
-};
+
+        for (int i = 0; i < weakestAdjacentTerritories.size(); i++)
+         {
+            if (weakestAdjacentTerritories[i]->getOwner()->getName() == p->getName())
+            {
+                Territory* targetTerritory = weakestAdjacentTerritories[i];
+                while (weakestTerritory->getArmy() > 0)
+                {
+                    cout << "Target territory " << i +1 << ": " << targetTerritory->getName() << endl;
+                    Advance* advanceOrder = new Advance(targetTerritory, weakestTerritory, weakestTerritory->getArmy());
+                    cout << "Advance order created." << endl;
+                    advanceOrder->execute(p);
+                    cout << "Advance order executed." << endl;
+
+
+                }
+            }
+
+           
+        }
+    }
+
 
 vector<Territory*> BenevolentPlayerStrategy::toAttack() {
 
@@ -110,6 +139,7 @@ vector<Territory*> BenevolentPlayerStrategy::toAttack() {
 };
 
 vector<Territory*> BenevolentPlayerStrategy::toDefend() {
+
 
 
 };
@@ -122,7 +152,7 @@ NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) {
     // set player type to neutral
 };
 
-void NeutralPlayerStrategy::issueOrder(vector<Player*> players, int index) {
+void NeutralPlayerStrategy::issueOrder(vector<Player*> players) {
 
 };
 
@@ -144,7 +174,7 @@ CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player) {
     // set player type to cheater
 };
 
-void CheaterPlayerStrategy::issueOrder(vector<Player*> players, int indexs) {
+void CheaterPlayerStrategy::issueOrder(vector<Player*> players) {
 
 
     // loop through adjacent enemy territories
