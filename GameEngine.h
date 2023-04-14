@@ -111,6 +111,7 @@ public:
 
 	void reset();
 	bool transition(string command);
+	bool hasGameStarted();
 
 	virtual string stringToLog() override;
 

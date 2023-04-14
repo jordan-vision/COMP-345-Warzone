@@ -127,8 +127,13 @@ Command* CommandProcessor:: readCommand(){
     string command;
     cout<<"\n*** Reading Command ***\nEnter your command: ";
     getline(cin, command);
-
     Command* newCommand = new Command(command);
+
+    // Start tournament mode
+    if (!GameEngine::instance()->hasGameStarted() && getFirstWord(command) == "tournament") {
+        tournamentMode(command);
+        return NULL;
+    }
     
     // If command is invalid, an error message will be saved as its effect
     if (!validate(command)) {
@@ -156,6 +161,27 @@ Command* CommandProcessor:: getCommand(){
 bool CommandProcessor:: validate(string command){
     State *nextState = GameEngine::instance()->getGameLoop()->getCurrentState()->executeCommand(getFirstWord(command));
     return (nextState != NULL);
+}
+
+void CommandProcessor::tournamentMode(string command) {
+    string maps, players, games, turns;
+
+    int i = command.find("-M <") + 4;
+    char currentChar = command[i];
+
+    while (currentChar != '>' && i < command.length()) {
+        i++;
+        maps += currentChar;
+        currentChar = command[i];
+    }
+    if (i >= command.length()) {
+        cout << "Please write the tournament settings in the following format:" << endl;
+        cout << "tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
+        return;
+    }
+    cout << maps << endl;
+
+    return;
 }
 
 string CommandProcessor::stringToLog() {
@@ -266,11 +292,16 @@ ostream& operator <<(ostream& output, FileCommandProcessorAdapter& adapter){
 Command* FileCommandProcessorAdapter:: readCommand(){
     Command* newCommand = commandList[lineNumber];
     string commandString = newCommand->getCommandName();
-    string first = commandString.substr(0, commandString.find(" "));
     cout<<"\nLine "<<lineNumber + 1<<" : "<< commandString;
     ++lineNumber;
    
-    if (!validate(first)) {
+    // Start tournament mode
+    if (!GameEngine::instance()->hasGameStarted() && getFirstWord(commandString) == "tournament") {
+        tournamentMode(commandString);
+        return NULL;
+    }
+
+    if (!validate(commandString)) {
         cout << "\nError. Command not valid.";
         newCommand->saveEffect("error");
         return NULL;

@@ -306,6 +306,10 @@ bool GameEngine::transition(string command) {
 	return success;
 };
 
+bool GameEngine::hasGameStarted() {
+	return (gameLoop->getCurrentState() != gameLoop->getStartState());
+}
+
 // Stream insertion operator
 ostream& operator<<(ostream& out, GameEngine& engine) {
 	out << "GAME ENGINE -- ";

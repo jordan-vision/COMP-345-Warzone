@@ -43,7 +43,7 @@ class CommandProcessor : public ILoggable, public Subject {
         Command* getCommand();              
         bool validate(string command);        
 
-
+        void tournamentMode(string command);
 
         CommandProcessor();     
 
