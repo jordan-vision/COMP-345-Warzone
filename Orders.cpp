@@ -218,7 +218,6 @@ void Advance::execute(Player* player){
 		}
 		else if (this->target->getOwner()->getName() != player->getName()){
 
-			target->setIsAttacked(true);
 			int attacking = units;
 			int defending = target->getArmy();
 
