@@ -1,7 +1,33 @@
 #include "PlayerStrategy.h"
 
-/************** NEUTRAL PLAYER STRATEGY **************/
 
+
+/************** PLAYER STRATEGY  **************/
+
+
+ostream& operator<<(ostream& output, PlayerStrategy& ps) {
+    output << ps.getName();
+    return output;
+}
+
+string PlayerStrategy:: getName(){
+    return name; 
+}
+
+void PlayerStrategy:: setName(string name){
+    this->name = name; 
+}
+
+
+
+
+
+
+
+
+
+
+/************** NEUTRAL PLAYER STRATEGY **************/
 NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) {
  this->p = player;
 };
@@ -10,6 +36,7 @@ void NeutralPlayerStrategy::issueOrder(vector<Player*> players) {
 
 for (int i = 0; i < p->getPlayerTerritories().size(); i++){
     if (p->getPlayerTerritories()[i]->getIsAttacked() == true){
+        cout<<"\nNeutral player has been attacked. Switching to aggressive strategy"<<endl;
         p->setStrategy(new AggressivePlayerStrategy(p));
         p->getStrategy()->issueOrder(players);
     }

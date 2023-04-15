@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Cards.h"
 #include "CommandProcessing.h"
+#include "PlayerStrategy.h"
 
 using namespace std;
 
@@ -661,7 +662,7 @@ for (int i = 0; i < players.size(); i++) {
     Territory* strongestTerritory = players[i]->getStrongestCountry(players[i]);
 
     // Print the strongest territory for the current player
-    cout << "Printing strongest territory for player " << i + 1 << ": " << strongestTerritory->getName() << endl;
+   // cout << "Printing strongest territory for player " << i + 1 << ": " << strongestTerritory->getName() << endl;
 
     // Call the issueOrder method for the current player's strategy
     players[i]->getStrategy()->issueOrder(players);

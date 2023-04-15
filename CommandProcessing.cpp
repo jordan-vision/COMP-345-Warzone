@@ -129,11 +129,11 @@ Command* CommandProcessor:: readCommand(){
     getline(cin, command);
     Command* newCommand = new Command(command);
 
-    // Start tournament mode
-    if (!GameEngine::instance()->hasGameStarted() && getFirstWord(command) == "tournament") {
-        startTournamentMode(command);
-        return NULL;
-    }
+    // // Start tournament mode
+    // if (!GameEngine::instance()->hasGameStarted() && getFirstWord(command) == "tournament") {
+    //     startTournamentMode(command);
+    //     return NULL;
+    // }
     
     // If command is invalid, an error message will be saved as its effect
     if (!validate(command)) {
@@ -163,26 +163,26 @@ bool CommandProcessor:: validate(string command){
     return (nextState != NULL);
 }
 
-void CommandProcessor::startTournamentMode(string command) {
-    string maps = copyInBetweenAngleBrackets("-M ", command);
-    string players = copyInBetweenAngleBrackets("-P ", command);
-    string games = copyInBetweenAngleBrackets("-G ", command);
-    string turns = copyInBetweenAngleBrackets("-D ", command);
+// void CommandProcessor::startTournamentMode(string command) {
+//     string maps = copyInBetweenAngleBrackets("-M ", command);
+//     string players = copyInBetweenAngleBrackets("-P ", command);
+//     string games = copyInBetweenAngleBrackets("-G ", command);
+//     string turns = copyInBetweenAngleBrackets("-D ", command);
 
-    if (maps == "" || players == "" || games == "" || turns == "") {
-        cerr << "Please write the tournament settings in the following format:" << endl;
-        cerr << "tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
-        return;
-    }
+//     if (maps == "" || players == "" || games == "" || turns == "") {
+//         cerr << "Please write the tournament settings in the following format:" << endl;
+//         cerr << "tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
+//         return;
+//     }
 
-    cout << "Tournament mode" << endl;
-    cout << "M: " << maps << endl;
-    cout << "P: " << players << endl;
-    cout << "G: " << games << endl;
-    cout << "D: " << turns << endl;
-    Tournament::newTournament(maps, players, games, turns);
-    return;
-}
+//     cout << "Tournament mode" << endl;
+//     cout << "M: " << maps << endl;
+//     cout << "P: " << players << endl;
+//     cout << "G: " << games << endl;
+//     cout << "D: " << turns << endl;
+//     Tournament::newTournament(maps, players, games, turns);
+//     return;
+// }
 
 string CommandProcessor::stringToLog() {
 
@@ -295,11 +295,11 @@ Command* FileCommandProcessorAdapter:: readCommand(){
     cout<<"\nLine "<<lineNumber + 1<<" : "<< commandString;
     ++lineNumber;
    
-    // Start tournament mode
-    if (!GameEngine::instance()->hasGameStarted() && getFirstWord(commandString) == "tournament") {
-        startTournamentMode(commandString);
-        return NULL;
-    }
+    // // Start tournament mode
+    // if (!GameEngine::instance()->hasGameStarted() && getFirstWord(commandString) == "tournament") {
+    //     startTournamentMode(commandString);
+    //     return NULL;
+    // }
 
     if (!validate(commandString)) {
         cout << "\nError. Command not valid.";
