@@ -61,31 +61,35 @@ void AggressivePlayerStrategy::issueOrder(vector<Player*> players) {
 cout << "Aggressive player issuing order..." << endl;
 // cout << p->getName() << endl;
 Territory* strongestTerritory = p->getStrongestCountry(p);
-cout << "Strongest territory: " << *strongestTerritory<< endl;
-vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
-cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl;
+ cout << "Strongest territory: " << *strongestTerritory<< endl;
 
+cout<<p->getPlayerTerritories().size();
+// vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
+ //cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl;
 
-        if (strongestTerritory->getArmy() != 0 && strongestTerritory != NULL) 
+//strongestTerritory->getName()
+        if (strongestTerritory != nullptr) 
         {
-              for (int i = 0; i < strongestAdjacentTerritories.size(); i++)
-               {
-                Territory* targetTerritory = strongestAdjacentTerritories[i];
+               cout << "Strongest territory: " << *strongestTerritory<< endl;
+               vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
+               cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl; 
+               Territory* targetTerritory = strongestAdjacentTerritories[0];
 
-                while (strongestTerritory->getArmy() > 0)
-                {
-                cout << "Target territory " << i +1 << ": " << targetTerritory->getName() << "\n" << endl;
+              
+                cout << "Target territory : " << targetTerritory->getName() << "\n" << endl;
 
                 Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
-                cout << "Advance order created.\n" << endl;
+              //  cout << "Advance order created.\n" << endl;
 
                 advanceOrder->execute(p);
                 cout << "Advance order executed.\n" << endl;
-                }
-                }
+                
+                
         } else
         {
             cout<<"\nError. Cannot advance with 0 armies"<<endl;
+
+
         }
     }
 

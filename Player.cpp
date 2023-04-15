@@ -171,10 +171,8 @@ Territory* Player::getStrongestCountry(Player* player) {
         strongestTerritory = player->getPlayerTerritories()[i];
     } if (strongestTerritory->getArmy() == 0){
         cout<<"\nStrongest territory has 0 armies"<<endl;
-        strongestTerritory = NULL;
+        strongestTerritory = nullptr;
         return strongestTerritory;
-        
-       
     }
 }
 return strongestTerritory;
@@ -191,6 +189,7 @@ Territory* Player::getWeakestCountry(Player* player) {
 }
 return weakestTerritory;
 }
+
 void Player:: setStrategy(PlayerStrategy* ps){
     this->ps = ps;
 }

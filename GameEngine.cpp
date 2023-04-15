@@ -657,7 +657,8 @@ for (int i = 0; i < players.size(); i++) {
     cout << "\nPlayer " << i + 1 << "'s strategy: " << players[i]->ps->getName() << endl;
 
  	 // Call the issueOrder method for the current player's strategy
-     players[i]->getStrategy()->issueOrder(players);
+     //players[i]->getStrategy()->issueOrder(players);
+	 players[i]->ps->issueOrder(players);
 
     
 
