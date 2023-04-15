@@ -624,7 +624,7 @@ for (int i = 0; i < players.size(); i++) {
     cout << "\n*** " << players[i]->getName() << "'s turn! ***" << endl;
     
     // Call the issueOrder method for the current player
-    players[i]->issueOrder(players, i);
+    // players[i]->issueOrder(players, i);
     // Ask the user to select a strategy type for the current player
     cout << "\nEnter strategy type (human, aggressive, benevolent, neutral, or cheater): \n";
     cout << "Player " << i + 1 << "'s strategy " << "("<< players[i]->getName() << "): \n" << endl;

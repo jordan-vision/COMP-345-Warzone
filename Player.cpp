@@ -205,7 +205,7 @@ PlayerStrategy* Player:: getStrategy(){
 void Player::issueOrder(vector<Player*> player, int index)
 { 
 
-    cout<<player[index]->myOrders->vectorOfOrders.size() <<endl;
+    // cout<<player[index]->myOrders->vectorOfOrders.size() <<endl;
     bool addingOrders = true;
     int choice = 0;
     int numberOfArmies = player[index]->getArmy();

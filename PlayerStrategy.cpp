@@ -57,6 +57,13 @@ AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) {
 
 
 void AggressivePlayerStrategy::issueOrder(vector<Player*> players) {
+    int index = 0;
+for (int i = 0; i < players.size(); i++){
+    if (players[i] == p){
+        index = i;
+    }
+}
+p->issueOrder(players, index);
 
 cout << "Aggressive player issuing order..." << endl;
 // cout << p->getName() << endl;
