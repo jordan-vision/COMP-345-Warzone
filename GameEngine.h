@@ -16,6 +16,7 @@ using namespace std;
 class State;
 class Transition;
 class DirectedGraph;
+class PlayerStrategy;
 
 class DirectedGraph {
 private:
@@ -95,7 +96,6 @@ private:
 	DirectedGraph* gameLoop;
 
 	static GameEngine* singletonInstance;
-
 	GameEngine();
 	GameEngine(GameEngine& toCopy);
 	~GameEngine();
@@ -125,3 +125,20 @@ public:
 };
 
 ostream& operator<<(ostream& out, GameEngine& engine);
+
+
+class Tournament {
+private:
+	string maps[5];
+	Player* players[4];
+	int games, turns;
+
+	static Tournament* singletonInstance;
+	Tournament();
+	Tournament(string* maps, PlayerStrategy** players, int games, int turns);
+	~Tournament();
+
+public:
+	static bool newTournament(string maps, string players, string games, string turns);
+	static Tournament* instance();
+};

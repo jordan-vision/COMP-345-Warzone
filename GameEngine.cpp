@@ -8,7 +8,6 @@
 #include "Player.h"
 #include "Cards.h"
 #include "CommandProcessing.h"
-#include "PlayerStrategy.h"
 
 using namespace std;
 
@@ -666,7 +665,7 @@ for (int i = 0; i < players.size(); i++) {
     Territory* strongestTerritory = players[i]->getStrongestCountry(players[i]);
 
     // Print the strongest territory for the current player
-    cout << "Printing strongest territory for player " << i + 1 << ": " << strongestTerritory->getName() << endl;
+	 cout << "Printing strongest territory for player " << i + 1 << ": " << strongestTerritory->getName() << endl;
 
     // Call the issueOrder method for the current player's strategy
    // players[i]->getStrategy()->issueOrder(players);
@@ -746,3 +745,45 @@ for (int i = 0; i < players.size(); i++) {
 }
 
 
+// TOURNAMENT CLASS
+// Singleton implementation
+
+Tournament *Tournament::singletonInstance;
+
+Tournament::Tournament() {
+
+}
+Tournament::Tournament(string* maps, PlayerStrategy** players, int games, int turns) {
+
+}
+Tournament::~Tournament() {
+	
+}
+
+bool Tournament::newTournament(string maps, string players, string games, string turns) {
+	int position = 0;
+
+ 	string tempMaps = maps;
+ 	string mapArray[5];
+ 	int mapNumber = 0;
+ 	position = tempMaps.find(", ");
+
+ 	while (mapNumber < 5) {
+ 		if (position == string::npos) {
+ 			mapArray[mapNumber] = tempMaps;
+ 			break;
+ 		}
+ 		mapArray[mapNumber] = tempMaps.substr(0, position);
+ 		tempMaps.erase(0, position + 2);
+ 		position = tempMaps.find(", ");
+ 		mapNumber++;
+ 	}
+	
+ 	if (mapNumber >= 5) {
+ 		cerr << "Too many maps. Please enter 5 maps at most." << endl;
+ 		return false;
+ 	}
+}
+Tournament* Tournament::instance() {
+	return singletonInstance;
+}
