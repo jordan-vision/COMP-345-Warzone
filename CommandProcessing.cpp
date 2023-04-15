@@ -164,23 +164,74 @@ bool CommandProcessor:: validate(string command){
 }
 
  void CommandProcessor::startTournamentMode(string command) {
+     // Get all parameters as strings
     string maps = copyInBetweenAngleBrackets("-M ", command);
     string players = copyInBetweenAngleBrackets("-P ", command);
     string games = copyInBetweenAngleBrackets("-G ", command);
     string turns = copyInBetweenAngleBrackets("-D ", command);
 
+    // If some parameters are absent, print error message
     if (maps == "" || players == "" || games == "" || turns == "") {
         cerr << "Please write the tournament settings in the following format:" << endl;
         cerr << "tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
         return;
     }
 
-    cout << "Tournament mode" << endl;
-    cout << "M: " << maps << endl;
-    cout << "P: " << players << endl;
-    cout << "G: " << games << endl;
-    cout << "D: " << turns << endl;
-    Tournament::newTournament(maps, players, games, turns);
+    // Get maps as a 5-array of strings
+    string* mapArray = splitByCommas(maps, 5);
+    if (mapArray == NULL) {
+        cerr << "Too many maps. Please enter 5 maps at most." << endl;
+        return;
+    }
+
+    // Get player strategies as a 4-array of strings
+    string* playerStringArray = splitByCommas(players, 4);
+    if (playerStringArray == NULL || playerStringArray[1] == "") {
+        cerr << "Inappropriate amount of players. Please enter 2 players at least and 4 at most." << endl;
+        delete[] mapArray;
+        return;
+    }
+
+    // Make player strategies a 4-array of Player objects, return an error if the string is not the name of a strategy
+    Player** playerArray = new Player*[4];
+    string playerNames[4] = { "Afaf", "Ally", "Parker", "Victoria" };
+    for (int i = 0; i < 4; i++) {
+        if (playerStringArray[i] == "") {
+            break;
+        } 
+        else if (playerStringArray[i] == "Aggressive") { // Make aggressive player
+            Player* player = new Player(playerNames[i]);
+            player->setStrategy(new AggressivePlayerStrategy(player));
+            playerArray[i] = player;
+        }
+        else if (playerStringArray[i] == "Benevolent") { // Make benevolent player
+            Player* player = new Player(playerNames[i]);
+            player->setStrategy(new BenevolentPlayerStrategy(player));
+            playerArray[i] = player;
+        }
+        else if (playerStringArray[i] == "Neutral") { // Make netral player
+            Player* player = new Player(playerNames[i]);
+            player->setStrategy(new NeutralPlayerStrategy(player));
+            playerArray[i] = player;
+        }
+        else if (playerStringArray[i] == "Cheater") { // Make cheater player
+            Player* player = new Player(playerNames[i]);
+            player->setStrategy(new CheaterPlayerStrategy(player));
+            playerArray[i] = player;
+        }
+        else {
+            cerr << "Error: please enter valid strategies in the -P parameter. The alid strategies are \"Aggressive\", \"Benevolent\", \"Neutral\" and \"Cheater\"";
+            delete[] mapArray;
+            delete[] playerStringArray;
+            delete[] playerArray;
+            return;
+        }
+    }
+
+
+    // Tournament command has been validated, now make the tournament
+    cout << "Command valid. Creating tournament";
+    // Tournament::newTournament(mapArray, playerArray, games, turns);
     return;
 }
 
@@ -350,4 +401,28 @@ string copyInBetweenAngleBrackets(string prefix, string command) {
         return "";
     }
     return result;
+}
+
+string* splitByCommas(string input, int size) {
+    int position = 0, i = 0;
+    string tempInput = input;
+    string* splitValues = new string[5];
+    position = tempInput.find(", ");
+
+    while (i < size) {
+        if (position == string::npos) {
+            splitValues[i] = tempInput;
+            break;
+        }
+        splitValues[i] = tempInput.substr(0, position);
+        tempInput.erase(0, position + 2);
+        position = tempInput.find(", ");
+        i++;
+    }
+
+    if (i >= size) {
+        delete[] splitValues;
+        splitValues = NULL;
+    }
+    return splitValues;
 }

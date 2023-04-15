@@ -110,3 +110,4 @@ class FileCommandProcessorAdapter : public CommandProcessor {
 //                  HELPER FUNCTIONS
 string getFirstWord(string command);
 string copyInBetweenAngleBrackets(string prefix, string command);
+string* splitByCommas(string input, int size);
