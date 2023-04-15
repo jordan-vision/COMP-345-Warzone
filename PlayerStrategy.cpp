@@ -66,7 +66,7 @@ vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacen
 cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl;
 
 
-        if (strongestTerritory->getArmy() != 0 || strongestTerritory == NULL) 
+        if (strongestTerritory->getArmy() != 0 && strongestTerritory != NULL) 
         {
               for (int i = 0; i < strongestAdjacentTerritories.size(); i++)
                {

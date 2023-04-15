@@ -662,7 +662,7 @@ for (int i = 0; i < players.size(); i++) {
     
 
     // Get the strongest territory for the current player
-    Territory* strongestTerritory = players[i]->getStrongestCountry(players[i]);
+    //Territory* strongestTerritory = players[i]->getStrongestCountry(players[i]);
 
     // Print the strongest territory for the current player
 	//  cout << "Printing strongest territory for player " << i + 1 << ": " << strongestTerritory->getName() << endl;
