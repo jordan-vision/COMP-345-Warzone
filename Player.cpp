@@ -169,6 +169,11 @@ Territory* Player::getStrongestCountry(Player* player) {
     if (player->getPlayerTerritories()[i]->getArmy() > highestArmyCount) {
         highestArmyCount = player->getPlayerTerritories()[i]->getArmy();
         strongestTerritory = player->getPlayerTerritories()[i];
+    } if (player->getPlayerTerritories()[i]->getArmy() == 0){
+        cout<<"\nError army number is 0"<<endl;
+        strongestTerritory = Territory()
+        
+       
     }
 }
 return strongestTerritory;

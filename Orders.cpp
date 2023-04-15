@@ -277,7 +277,7 @@ void Advance::execute(Player* player){
 				
 			// If the attacking army is defeated. Meaning, the target territory has not been conquered
 			} else { 
-				cout<<"\nAttacking army defeated. Target territory remains unconquered";
+				cout<<"\nAttacking army defeated. Target territory remains unconquered\n";
 				this->source->setArmy(this->source->getArmy() - this->units);
 				this->target->setArmy(defending);
 				

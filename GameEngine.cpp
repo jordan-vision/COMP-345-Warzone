@@ -589,7 +589,7 @@ void GameEngine::startupPhase() {
 				else
 				{					
 					cout << "\nInvalid number of players.\n" << endl;
-					transition("invalid");
+					// transition("invalid");
 				}
 			}
 		}
@@ -626,7 +626,7 @@ for (int i = 0; i < players.size(); i++) {
     // Call the issueOrder method for the current player
     players[i]->issueOrder(players, i);
     // Ask the user to select a strategy type for the current player
-    cout << "\nEnter strategy type (aggressive, neutral, cheater, benevolent, or human): \n";
+    cout << "\nEnter strategy type (human, aggressive, benevolent, neutral, or cheater): \n";
     cout << "Player " << i + 1 << "'s strategy " << "("<< players[i]->getName() << "): \n" << endl;
     string strategyType;
     cin >> strategyType;
@@ -665,7 +665,7 @@ for (int i = 0; i < players.size(); i++) {
     Territory* strongestTerritory = players[i]->getStrongestCountry(players[i]);
 
     // Print the strongest territory for the current player
-	 cout << "Printing strongest territory for player " << i + 1 << ": " << strongestTerritory->getName() << endl;
+	//  cout << "Printing strongest territory for player " << i + 1 << ": " << strongestTerritory->getName() << endl;
 
     // Call the issueOrder method for the current player's strategy
    // players[i]->getStrategy()->issueOrder(players);
@@ -701,6 +701,7 @@ void GameEngine::executeOrdersPhase(){
 }
 
 void GameEngine::reinforcementPhase(){ // reinforcment phase implementation
+cout << "\nREINFORCEMENT PHASE" <<endl;
 for (int i = 0; i < players.size(); i++) {
     cout << "\nPlayer " << i + 1 << "'s territories "  << "("<< players[i]->getName() << "): \n"<< endl; // output players territories
 
