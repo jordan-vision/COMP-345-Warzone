@@ -66,13 +66,14 @@ vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacen
 cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl;
 
 
-        if (strongestTerritory->getArmy() != 0){
+        if (strongestTerritory->getArmy() != 0) 
+        {
+              for (int i = 0; i < strongestAdjacentTerritories.size(); i++)
+               {
+                Territory* targetTerritory = strongestAdjacentTerritories[i];
 
-        }
-        for (int i = 0; i < strongestAdjacentTerritories.size(); i++) {
-            Territory* targetTerritory = strongestAdjacentTerritories[i];
-
-            while (strongestTerritory->getArmy() > 0) {
+                while (strongestTerritory->getArmy() > 0)
+                {
                 cout << "Target territory " << i +1 << ": " << targetTerritory->getName() << "\n" << endl;
 
                 Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
@@ -80,9 +81,11 @@ cout << "Number of strongest adjacent territories: " << strongestAdjacentTerrito
 
                 advanceOrder->execute(p);
                 cout << "Advance order executed.\n" << endl;
-
-
-            }
+                }
+                }
+        } else
+        {
+            cout<<"\nError. Cannot advance with 0 armies"<<endl;
         }
     }
 
