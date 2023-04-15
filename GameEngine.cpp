@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Cards.h"
 #include "CommandProcessing.h"
+#include "PlayerStrategy.h"
 
 using namespace std;
 
@@ -749,7 +750,7 @@ Tournament *Tournament::singletonInstance;
 Tournament::Tournament() {
 
 }
-Tournament::Tournament(string* maps, PlayerStrategy** players, int games, int turns) {
+Tournament::Tournament(string maps, string players, string games, string turns) {
 
 }
 Tournament::~Tournament() {
@@ -757,28 +758,7 @@ Tournament::~Tournament() {
 }
 
 bool Tournament::newTournament(string maps, string players, string games, string turns) {
-	int position = 0;
-
-	string tempMaps = maps;
-	string mapArray[5];
-	int mapNumber = 0;
-	position = tempMaps.find(", ");
-
-	while (mapNumber < 5) {
-		if (position == string::npos) {
-			mapArray[mapNumber] = tempMaps;
-			break;
-		}
-		mapArray[mapNumber] = tempMaps.substr(0, position);
-		tempMaps.erase(0, position + 2);
-		position = tempMaps.find(", ");
-		mapNumber++;
-	}
 	
-	if (mapNumber >= 5) {
-		cerr << "Too many maps. Please enter 5 maps at most." << endl;
-		return false;
-	}
 }
 Tournament* Tournament::instance() {
 	return singletonInstance;

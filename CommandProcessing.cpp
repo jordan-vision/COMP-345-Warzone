@@ -131,7 +131,7 @@ Command* CommandProcessor:: readCommand(){
 
     // Start tournament mode
     if (!GameEngine::instance()->hasGameStarted() && getFirstWord(command) == "tournament") {
-        startTournamentMode(command);
+        tournamentMode(command);
         return NULL;
     }
     
@@ -163,7 +163,7 @@ bool CommandProcessor:: validate(string command){
     return (nextState != NULL);
 }
 
-void CommandProcessor::startTournamentMode(string command) {
+void CommandProcessor::tournamentMode(string command) {
     string maps = copyInBetweenAngleBrackets("-M ", command);
     string players = copyInBetweenAngleBrackets("-P ", command);
     string games = copyInBetweenAngleBrackets("-G ", command);
@@ -180,7 +180,6 @@ void CommandProcessor::startTournamentMode(string command) {
     cout << "P: " << players << endl;
     cout << "G: " << games << endl;
     cout << "D: " << turns << endl;
-    Tournament::newTournament(maps, players, games, turns);
     return;
 }
 
@@ -297,7 +296,7 @@ Command* FileCommandProcessorAdapter:: readCommand(){
    
     // Start tournament mode
     if (!GameEngine::instance()->hasGameStarted() && getFirstWord(commandString) == "tournament") {
-        startTournamentMode(commandString);
+        tournamentMode(commandString);
         return NULL;
     }
 
