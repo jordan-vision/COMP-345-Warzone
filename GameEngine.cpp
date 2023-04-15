@@ -624,7 +624,7 @@ for (int i = 0; i < players.size(); i++) {
     cout << "\n*** " << players[i]->getName() << "'s turn! ***" << endl;
     
     // Call the issueOrder method for the current player
-    // players[i]->issueOrder(players, i);
+    players[i]->issueOrder(players, i);
     
     // Ask the user to select a strategy type for the current player
     cout << "\nEnter strategy type (aggressive, neutral, cheater, benevolent, or human): \n";
@@ -749,16 +749,12 @@ Tournament *Tournament::singletonInstance;
 Tournament::Tournament() {
 
 }
-<<<<<<< Updated upstream
 Tournament::Tournament(string* maps, PlayerStrategy** players, int games, int turns) {
-=======
-// Tournament::Tournament(string maps, string players, string games, string turns) {
->>>>>>> Stashed changes
 
-// }
-// Tournament::~Tournament() {
+}
+Tournament::~Tournament() {
 	
-// }
+}
 
 bool Tournament::newTournament(string maps, string players, string games, string turns) {
 	int position = 0;
