@@ -59,7 +59,7 @@ AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) {
 void AggressivePlayerStrategy::issueOrder(vector<Player*> players) {
 
 cout << "Aggressive player issuing order..." << endl;
-cout << p->getName() << endl;
+// cout << p->getName() << endl;
 Territory* strongestTerritory = p->getStrongestCountry(p);
 cout << "Strongest territory: " << *strongestTerritory<< endl;
 vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
@@ -73,13 +73,13 @@ cout << "Number of strongest adjacent territories: " << strongestAdjacentTerrito
             Territory* targetTerritory = strongestAdjacentTerritories[i];
 
             while (strongestTerritory->getArmy() > 0) {
-                cout << "Target territory " << i +1 << ": " << targetTerritory->getName() << endl;
+                cout << "Target territory " << i +1 << ": " << targetTerritory->getName() << "\n" << endl;
 
                 Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
-                cout << "Advance order created." << endl;
+                cout << "Advance order created.\n" << endl;
 
                 advanceOrder->execute(p);
-                cout << "Advance order executed." << endl;
+                cout << "Advance order executed.\n" << endl;
 
 
             }
@@ -187,6 +187,11 @@ vector<Territory*> NeutralPlayerStrategy::toDefend() {
 };
 
 /************** CHEATER PLAYER STRATEGY **************/
+CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player) {
+
+    this->p = player;
+    // set player type to neutral
+};
 
 void CheaterPlayerStrategy::issueOrder(vector<Player*> players) {
 
