@@ -188,14 +188,11 @@ vector<Territory*> NeutralPlayerStrategy::toDefend() {
 
 /************** CHEATER PLAYER STRATEGY **************/
 
-CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player) {
-
-    this->p = player;
-    // set player type to cheater
-};
-
 void CheaterPlayerStrategy::issueOrder(vector<Player*> players) {
 
+
+    cout << this->p->getName();
+    int index = 0;
 
     // loop through adjacent enemy territories
     for (int i = 0; i < this->toAttack().size(); i++) {
@@ -209,10 +206,12 @@ void CheaterPlayerStrategy::issueOrder(vector<Player*> players) {
                 // check territory name 
                 if (playerTerritory->getName() == this->toAttack()[i]->getName()) {
                     
-                    // remove territory from player 
-                    // add territory to cheater
+                    this->p->getPlayerTerritories().erase(this->p->getPlayerTerritories().begin() + index);
+				    playerTerritory->setOwner(this->p);
+				    this->p->getPlayerTerritories().push_back(playerTerritory);
                     break;
                 }
+                index++;
             }
         }
     }
@@ -220,10 +219,41 @@ void CheaterPlayerStrategy::issueOrder(vector<Player*> players) {
 
 vector<Territory*> CheaterPlayerStrategy::toAttack() {
 
+    vector<Territory*> territoriesToAttack;
 
+    for (Territory* playerTerritory : this->p->getPlayerTerritories()) {
+        
+        for (Territory* adjTerritory : playerTerritory->getAdjacentTerritories()) {
+
+            if (adjTerritory->getOwner()->getName() != this->p->getName()) {
+                
+                if (find(territoriesToAttack.begin(), territoriesToAttack.end(), adjTerritory) == territoriesToAttack.end()) {  // check if this works properly
+
+                    territoriesToAttack.push_back(adjTerritory);
+                }   
+            }
+        } 
+    }
+    return territoriesToAttack;
 };
 
 vector<Territory*> CheaterPlayerStrategy::toDefend() {
 
+    vector<Territory*> territoriesToDefend;
 
+    for (Territory* playerTerritory : this->p->getPlayerTerritories()) {
+
+        for (Territory* adjTerritory : playerTerritory->getAdjacentTerritories()) {
+
+            if (adjTerritory->getOwner()->getName() != this->p->getName()) {
+
+                if (find(territoriesToDefend.begin(), territoriesToDefend.end(), adjTerritory) == territoriesToDefend.end()) {  // check if this works properly
+
+                    territoriesToDefend.push_back(playerTerritory);
+                    break;
+                }  
+            }
+        }
+    }
+    return territoriesToDefend;
 };
