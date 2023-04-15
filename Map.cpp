@@ -24,6 +24,10 @@ int Territory:: getArmy(){
     return army; 
 }
 
+bool Territory:: getIsAttacked(){
+    return isAttacked;
+}
+
 Player* Territory:: getOwner(){
     return owner;
 }
@@ -47,6 +51,11 @@ vector <Territory*> Territory:: getAdjacentTerritories(){
 void Territory:: setName(string name){
     this->name = name; 
 }
+
+void Territory:: setIsAttacked(bool attacked){
+    this->isAttacked = attacked; 
+}
+
 
 void Territory:: setArmy(int army){
     this->army = army;
@@ -76,12 +85,14 @@ Territory:: Territory(){
     this->army = 0;
     this->owner = nullptr;
     this->name = "";
+    this->isAttacked = false; 
 }
 
 Territory:: Territory(string name){
     this->army = 0;
     this->name = name; 
     this->owner = nullptr;
+    this->isAttacked = false; 
 
 }
 
@@ -90,6 +101,7 @@ Territory:: Territory(string name, Continent* inContinent){
     this->inContinent = inContinent;
     this->army = 0;
     this->owner = nullptr;
+    this->isAttacked = false; 
 
 }
 
@@ -98,6 +110,7 @@ Territory:: Territory(string name, int territoryID){
     this->territoryID = territoryID;
     this->owner = nullptr;
     this->army = 0;
+    this->isAttacked = false; 
 }
 
 Territory:: Territory(const Territory& copy){

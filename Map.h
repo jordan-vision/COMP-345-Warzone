@@ -16,6 +16,7 @@ private:
     int territoryID;        
     Player* owner;
     int army;
+    bool isAttacked; 
     vector <Territory*> adjacentTerritories;
 
 public: 
@@ -23,7 +24,8 @@ public:
     string getName();                                    
     int getArmy();     
     void addArmy(int units);                                 
-    Player* getOwner();                                   
+    Player* getOwner();  
+    bool getIsAttacked();                                 
     Continent* getContinent();                          
     int getContinentID();                                
     int getTerritoryID();     
@@ -32,7 +34,8 @@ public:
 // SETTERS
     void setName(string name);                                         
     void setArmy(int army);                               
-    void setOwner(Player* owner);                         
+    void setOwner(Player* owner);    
+    void setIsAttacked(bool attacked);                       
     void setContinent(Continent* inContinent);              
     void setContinentID(int continentID);                   
     void setTerritoryID(int territoryID);      

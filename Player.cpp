@@ -249,8 +249,8 @@ void Player::issueOrder(vector<Player*> player, int index)
             }
         }
         else{
-     
 
+        if (player[index]->getStrategy()->getName() == "human"){
         cout << player[index]->getName() << ": You have these cards: "<< player[index]->myHand << endl;
         cout << "\n-- Orders --\n";
         cout << "1. Advance\n";
@@ -400,9 +400,16 @@ void Player::issueOrder(vector<Player*> player, int index)
                 player[index]->setFlag(false);
                 break;
         }
+    } else {
+       player[index]->getStrategy()->issueOrder(player);
     }
+
  }
 }
+}
+     
+            
+     
 
 
 // checks if the user is trying to attack a valid territory i.e. if the entered integer corresponds to a territory id present in the vector returned by toAttack()

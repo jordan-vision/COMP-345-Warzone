@@ -25,6 +25,13 @@ HumanPlayerStrategy::HumanPlayerStrategy(Player* player) {
 };
 
 void HumanPlayerStrategy::issueOrder(vector<Player*> players) {
+    int index = 0;
+for (int i = 0; i < players.size(); i++){
+    if (players[i] == p){
+        index = i;
+    }
+}
+p->issueOrder(players, index);
 
 };
 
@@ -54,11 +61,14 @@ void AggressivePlayerStrategy::issueOrder(vector<Player*> players) {
 cout << "Aggressive player issuing order..." << endl;
 cout << p->getName() << endl;
 Territory* strongestTerritory = p->getStrongestCountry(p);
-cout << "Strongest territory: " << strongestTerritory->getName() << endl;
+cout << "Strongest territory: " << *strongestTerritory<< endl;
 vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
 cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl;
 
 
+        if (strongestTerritory->getArmy() != 0){
+
+        }
         for (int i = 0; i < strongestAdjacentTerritories.size(); i++) {
             Territory* targetTerritory = strongestAdjacentTerritories[i];
 
@@ -154,6 +164,16 @@ NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) {
 
 void NeutralPlayerStrategy::issueOrder(vector<Player*> players) {
 
+for (int i = 0; i < p->getPlayerTerritories().size(); i++){
+    if (p->getPlayerTerritories()[i]->getIsAttacked() == true){
+        cout<<"\nNeutral player has been attacked. Switching to aggressive strategy"<<endl;
+        p->setStrategy(new AggressivePlayerStrategy(p));
+        p->getStrategy()->issueOrder(players);
+    } else {
+         cout<<"\nNeutral player has not been attacked. Remaining neutral"<<endl;
+    }
+
+}
 };
 
 vector<Territory*> NeutralPlayerStrategy::toAttack() {

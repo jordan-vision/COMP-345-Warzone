@@ -626,7 +626,6 @@ for (int i = 0; i < players.size(); i++) {
     
     // Call the issueOrder method for the current player
     players[i]->issueOrder(players, i);
-    
     // Ask the user to select a strategy type for the current player
     cout << "\nEnter strategy type (aggressive, neutral, cheater, benevolent, or human): \n";
     cout << "Player " << i + 1 << "'s strategy " << "("<< players[i]->getName() << "): \n" << endl;
@@ -658,6 +657,11 @@ for (int i = 0; i < players.size(); i++) {
     // Print which strategy was selected for the current player
     cout << "\nPlayer " << i + 1 << "'s strategy: " << players[i]->ps->getName() << endl;
 
+ 	 // Call the issueOrder method for the current player's strategy
+     players[i]->getStrategy()->issueOrder(players);
+
+    
+
     // Get the strongest territory for the current player
     Territory* strongestTerritory = players[i]->getStrongestCountry(players[i]);
 
@@ -665,7 +669,7 @@ for (int i = 0; i < players.size(); i++) {
     cout << "Printing strongest territory for player " << i + 1 << ": " << strongestTerritory->getName() << endl;
 
     // Call the issueOrder method for the current player's strategy
-    players[i]->getStrategy()->issueOrder(players);
+   // players[i]->getStrategy()->issueOrder(players);
 
     // Print that the current player's turn is completed
     cout << "\n*** " << players[i]->getName() << "'s turn is complete. ***" << endl;
