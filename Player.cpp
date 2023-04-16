@@ -206,6 +206,10 @@ void Player::addTerritory(Territory* newTerritory) {
     territoriesOwned.push_back(newTerritory);
 }
 
+void Player::removeTerritory(int index) {
+    territoriesOwned.erase(territoriesOwned.begin() + index);
+}
+
  // create an OrderList object
    OrdersList* ol = new OrdersList();
    

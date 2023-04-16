@@ -76,6 +76,7 @@ class Player
         PlayerStrategy* getStrategy();
 
         void addTerritory(Territory* newTerritory);
+        void removeTerritory(int index);
 
     private:
         vector <Territory*> territories; 
