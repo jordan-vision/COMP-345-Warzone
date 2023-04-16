@@ -610,7 +610,7 @@ void GameEngine::mainGameLoop() {
 	while (gameNotDone){
 		reinforcementPhase();
 		issueOrdersPhase(false);
-		executeOrdersPhase();
+		executeOrdersPhase(false);
 		for (auto p: players){
 			if (p->getPlayerTerritories().size() == ALL_TERRITORIES){
 				gameNotDone = false; 
@@ -711,7 +711,7 @@ cout << "the current state is: " << gameLoop->getCurrentState()->getLabel() << e
 
 }
 
-void GameEngine::executeOrdersPhase(){
+void GameEngine::executeOrdersPhase(bool isTournament){
 	cout << "\nEXECUTING ORDERS PHASE" <<endl;
 	transition("execorder");
 	int max = 0;    // Stores highest order count among players
@@ -734,6 +734,10 @@ void GameEngine::executeOrdersPhase(){
 		}
 
 			if (players[i]->getPlayerTerritories().size() == ALL_TERRITORIES){
+				if (isTournament) {
+					transition("replay");
+					return;
+				}
 				transition("win");
 				cout << "The game is now over. Would you like to quit or replay?" << endl;
 				string answer;
@@ -901,8 +905,8 @@ void Tournament::runTournament() {
 
 void Tournament::tournamentStartupPhase(int mapNumber) {
 	// Game engine and map setup
-	GameEngine::instance()->reset();
 	maps[mapNumber]->reset();
+	GameEngine::instance()->reset();
 	GameEngine::instance()->transition("loadmap");
 	GameEngine::instance()->transition("validatemap");
 	GameEngine::instance()->transition("addplayer");
@@ -1015,10 +1019,10 @@ void Tournament::tournamentStartupPhase(int mapNumber) {
 	}
 
 	// e) switch the game to the play phase
-	/*if (transition("gamestart"))
+	if (GameEngine::instance()->transition("gamestart"))
 	{
 		cout << "Game has switched to Play Phase." << endl;
-	}*/
+	}
 }
 
 void Tournament::tournamentGameLoop(int mapNumber, int gameNumber) {
@@ -1029,14 +1033,15 @@ void Tournament::tournamentGameLoop(int mapNumber, int gameNumber) {
 		cout << "TURN " << i + 1 << endl;
 		GameEngine::instance()->reinforcementPhase();
 		GameEngine::instance()->issueOrdersPhase(true);
-		GameEngine::instance()->executeOrdersPhase();
-		i++;
+		GameEngine::instance()->executeOrdersPhase(true);
+		
 		for (auto p : players) {
 			if (p != NULL && p->getPlayerTerritories().size() == ALL_TERRITORIES) {
 				results[mapNumber][gameNumber] = p->getStrategy()->getName();
 				gameNotDone = false;
 			}
 		}
+		i++;
 	}
 
 	if (results[mapNumber][gameNumber] == "") {
@@ -1045,16 +1050,26 @@ void Tournament::tournamentGameLoop(int mapNumber, int gameNumber) {
 }
 
 void Tournament::printResults() {
-	cout << "\t";
+	cout << "\t\t";
 	for (int j = 0; j < games; j++) {
-		cout << "Game " << j << "\t";
+		cout << "Game " << j << "\t\t";
 	}
 	cout << endl;
 	for (int i = 0; i < numberOfMaps; i++) {
-		cout << maps[i]->getName() << "\t";
-		for (int j = 0; j < games; j++) {
-			cout << results[i][j] << "\t";
+		cout << maps[i]->getName();
+		int tabs = 2 - (int)(maps[i]->getName().length() / 8);
+		for (int k = 0; k < tabs; k++) {
+			cout << "\t";
 		}
+
+		for (int j = 0; j < games; j++) {
+			cout << results[i][j];
+			tabs = 2 - (int)(results[i][j].length() / 8);
+			for (int k = 0; k < tabs; k++) {
+				cout << "\t";
+			}
+		}
+
 		cout << endl;
 	}
 }

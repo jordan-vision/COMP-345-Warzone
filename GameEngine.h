@@ -124,7 +124,7 @@ public:
 	void startupPhase();
 	void mainGameLoop();
 	void reinforcementPhase();
-	void executeOrdersPhase();
+	void executeOrdersPhase(bool isTournament);
 	void issueOrdersPhase(bool isTournament);
 };
 
