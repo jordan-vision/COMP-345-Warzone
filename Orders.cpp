@@ -251,12 +251,13 @@ void Advance::execute(Player* player){
 			// Set the new number of army units in the target territory after it has been conquered
 			// Erase its previous owner by removing it from their list of territories owned
 			// Set it to its new owner (the conqueror)
+			Player* enemy = target->getOwner();
 			if (defending == 0){
 			
 				// Deleting territory from previous owner's list 
 				int indexToDelete = -1;
-				for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
-    				if (player->getPlayerTerritories()[i] == target) {
+				for (int i = 0; i < enemy->getPlayerTerritories().size(); i++) {
+    				if (enemy->getPlayerTerritories()[i] == target) {
        					 indexToDelete = i;
        					 break;
 					}
@@ -264,7 +265,7 @@ void Advance::execute(Player* player){
 
 				// Erase the territory pointer from the vector
 				if (indexToDelete != -1) {
-    				player->getPlayerTerritories().erase(player->getPlayerTerritories().begin() + indexToDelete);
+    				enemy->getPlayerTerritories().erase(enemy->getPlayerTerritories().begin() + indexToDelete);
    				 	// Note that the "+ indexToDelete" part is used to specify the iterator pointing to the element to erase
     				// in this case, it's the element at the index "indexToDelete" in the vector
 				}
@@ -283,6 +284,8 @@ void Advance::execute(Player* player){
 				
 			// If the attacking army is defeated. Meaning, the target territory has not been conquered
 			} else { 
+
+				
 				cout<<"\nAttacking army defeated. Target territory remains unconquered\n";
 							// Deleting territory from previous owner's list 
 				int indexToDelete = -1;
@@ -292,13 +295,19 @@ void Advance::execute(Player* player){
        					 break;
 					}
 				}
+				cout<<"For loop is alright"<<endl;
 
 				// Erase the territory pointer from the vector
 				if (indexToDelete != -1) {
+					cout<<indexToDelete<<endl;
+					cout<<"if condition is alright"<<endl;
     				player->getPlayerTerritories().erase(player->getPlayerTerritories().begin() + indexToDelete);
    				 	// Note that the "+ indexToDelete" part is used to specify the iterator pointing to the element to erase
     				// in this case, it's the element at the index "indexToDelete" in the vector
 				}
+				cout<<"if condition is alright part 2 "<<endl;
+
+				enemy->getPlayerTerritories().push_back(source);
 				source->setOwner(target->getOwner());
 				player->getPlayerTerritories().push_back(source);
 				this->source->setArmy(this->source->getArmy() - this->units);
