@@ -777,11 +777,24 @@ Tournament::Tournament() {}
 Tournament::Tournament(Map** maps, Player** players, int games, int turns) {
 	copy(maps, maps + 5, this->maps);
 	copy(players, players + 4, this->players);
+
+	numberOfMaps = 0;
+	for (int i = 0; i < 5; i++) {
+		if (this->maps[i] != NULL) {
+			numberOfMaps++;
+		}
+	}
+
 	numberOfPlayers = 0;
 	for (int i = 0; i < 4; i++) {
 		if (this->players[i] != NULL) {
 			numberOfPlayers++;
 		}
+	}
+
+	results = new string*[numberOfMaps];
+	for (int i = 0; i < numberOfMaps; i++) {
+		results[i] = new string[games];
 	}
 
 	this->games = games;
@@ -795,10 +808,14 @@ Tournament::~Tournament() {
 	for (Player* player : players) {
 		delete player;
 	}
+	for (int i = 0; i < numberOfMaps; i++) {
+		delete[] results[i];
+	}
+	delete[] results;
 }
 
 bool Tournament::newTournament(string* mapStrings, Player** players, int games, int turns) {
-	Map** maps = new Map*[5];
+	Map** maps = new Map*[5]();
 	MapLoader* mapLoader = new MapLoader();
 
 	// Turn strings into maps. Return error if a map doesn't exist or is invalid
@@ -837,15 +854,16 @@ void Tournament::runTournament() {
 	}
 
 	// Run every game
-	for (int i = 0; i < 5; i++) { // On every map
-		if (maps[i] != NULL) {
-			for (int j = 0; j < games; j++) { // -G times
-				cout << "MAP " << *maps[i] << " -- GAME " << j + 1 << endl;
-				tournamentStartupPhase(i);
-				tournamentGameLoop();
-			}
+	for (int i = 0; i < numberOfMaps; i++) { // On every map
+		for (int j = 0; j < games; j++) { // -G times
+			cout << "MAP " << *maps[i] << " -- GAME " << j + 1 << endl;
+			tournamentStartupPhase(i);
+			tournamentGameLoop(i, j);
 		}
 	}
+
+	// Print results
+	printResults();
 }
 
 void Tournament::tournamentStartupPhase(int mapNumber) {
@@ -970,9 +988,10 @@ void Tournament::tournamentStartupPhase(int mapNumber) {
 	}*/
 }
 
-void Tournament::tournamentGameLoop() {
+void Tournament::tournamentGameLoop(int mapNumber, int gameNumber) {
 	int i = 0;
 	bool gameNotDone = true;
+
 	while (i < turns && gameNotDone) {
 		cout << "TURN " << i + 1 << endl;
 		GameEngine::instance()->reinforcementPhase();
@@ -981,9 +1000,29 @@ void Tournament::tournamentGameLoop() {
 		i++;
 		for (auto p : players) {
 			if (p != NULL && p->getPlayerTerritories().size() == ALL_TERRITORIES) {
+				results[mapNumber][gameNumber] = p->getStrategy()->getName();
 				gameNotDone = false;
 			}
 		}
+	}
+
+	if (results[mapNumber][gameNumber] == "") {
+		results[mapNumber][gameNumber] = "Draw";
+	}
+}
+
+void Tournament::printResults() {
+	cout << "\t";
+	for (int j = 0; j < games; j++) {
+		cout << "Game " << j << "\t";
+	}
+	cout << endl;
+	for (int i = 0; i < numberOfMaps; i++) {
+		cout << maps[i]->getName() << "\t";
+		for (int j = 0; j < games; j++) {
+			cout << results[i][j] << "\t";
+		}
+		cout << endl;
 	}
 }
 

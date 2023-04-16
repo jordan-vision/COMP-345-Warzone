@@ -135,7 +135,8 @@ class Tournament {
 private:
 	Map* maps[5];
 	Player* players[4];
-	int numberOfPlayers, games, turns;
+	int numberOfMaps, numberOfPlayers, games, turns;
+	string** results;
 
 	static Tournament* singletonInstance;
 	Tournament();
@@ -148,7 +149,8 @@ public:
 
 	void runTournament();
 	void tournamentStartupPhase(int mapNumber);
-	void tournamentGameLoop();
+	void tournamentGameLoop(int mapNumber, int gameNumber);
+	void printResults();
 
 	friend ostream& operator<<(ostream& out, Tournament& tournament);
 };

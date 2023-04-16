@@ -1,1 +1,1 @@
-tournament -M <europe.map> -P <Aggressive, Aggressive> -G <2> -D <11>
+tournament -M <europe.map, europe.map> -P <Neutral, Aggressive> -G <5> -D <50>
