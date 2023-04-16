@@ -57,45 +57,51 @@ AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) {
 
 
 void AggressivePlayerStrategy::issueOrder(vector<Player*> players) {
-    int index = 0;
-for (int i = 0; i < players.size(); i++){
-    if (players[i] == p){
-        index = i;
-    }
-}
-p->issueOrder(players, index);
 
 cout << "Aggressive player issuing order..." << endl;
 // cout << p->getName() << endl;
 Territory* strongestTerritory = p->getStrongestCountry(p);
- cout << "Strongest territory: " << *strongestTerritory<< endl;
+int numberOfArmies = p->getArmy();
+cout << "Player has " << p->getArmy() << " armies" <<endl;
+// cout << p->getPlayerTerritories()[0] << endl;
 
-cout<<p->getPlayerTerritories().size();
-// vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
- //cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl;
-
-//strongestTerritory->getName()
         if (strongestTerritory != nullptr) 
         {
-               cout << "Strongest territory: " << *strongestTerritory<< endl;
-               vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
-               cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl; 
-               Territory* targetTerritory = strongestAdjacentTerritories[0];
-
-              
-                cout << "Target territory : " << targetTerritory->getName() << "\n" << endl;
-
-                Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
-              //  cout << "Advance order created.\n" << endl;
-
-                advanceOrder->execute(p);
-                cout << "Advance order executed.\n" << endl;
-                
-                
+            cout << "Strongest territory: " << *strongestTerritory<< endl;
+             if ( p->getArmy() !=0 ){ //  (2) a player will only issue deploy orders and no other kind of orders if they still have armies in their reinforcement pool;
+            Deploy* deploy = new Deploy(strongestTerritory, numberOfArmies);
+            int currentArmy = strongestTerritory->getArmy();
+            strongestTerritory->setArmy(numberOfArmies + currentArmy);
+            cout << "strongest has " << strongestTerritory->getArmy() << " armies" <<endl;
+            cout<<"Created Deploy Order"<<endl;
+            deploy->orderEffect = "order deployed";
+            p->myOrders->add(deploy);// add deploy order to orderslist
+            vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
+            cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl; 
+            Territory* targetTerritory = strongestAdjacentTerritories[0];
+             cout << "Target territory : " << targetTerritory->getName() << "\n" << endl;
+             Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
+            advanceOrder->execute(p);
+             cout << "Aggressive Advance order executed.\n" << endl;
+             }
+         
         } else
         {
-            cout<<"\nError. Cannot advance with 0 armies"<<endl;
-
+            if ( p->getArmy() !=0 ){ //  (2) a player will only issue deploy orders and no other kind of orders if they still have armies in their reinforcement pool;
+            Deploy* deploy = new Deploy( p->getPlayerTerritories()[0], numberOfArmies);
+            p->getPlayerTerritories()[0]->setArmy(numberOfArmies);
+            cout << p->getPlayerTerritories()[0]->getName() << " now has " << p->getPlayerTerritories()[0]->getArmy() << " armies" <<endl;
+            cout<<"Created Deploy Order"<<endl;
+            deploy->orderEffect = "order deployed";
+             p->myOrders->add(deploy);// add deploy order to orderslist
+             //set target territory
+            Territory* targetTerritory = p->getPlayerTerritories()[0];
+            Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
+              //  cout << "Advance order created.\n" << endl;
+                advanceOrder->execute(p);
+                cout << "Aggressive Advance order executed.\n" << endl;
+        }
+            // cout<<"\nCannot advance with 0 armies"<<endl;
 
         }
     }
