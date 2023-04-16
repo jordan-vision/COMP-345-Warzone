@@ -206,18 +206,20 @@ void Advance::execute(Player* player){
 
 	if (Advance::validate(player)) { //validate the order
 		Player* enemy = target->getOwner();
-		cout << "enemy who owns target is: " << enemy->getName() << endl;
-		player->removeCardOfTypeFromHand(player, CardType::Reinforcement);
+
+		        if (player->getStrategy()->getName() == "human"){
+					player->removeCardOfTypeFromHand(player, CardType::Reinforcement);
+				}
+
 		if (this->target->getOwner()->getName() == player->getName()){
 			source->setArmy(source->getArmy() - units);
 			target->setArmy(target->getArmy() + units);
-			cout<<"\nTarget territory belongs to you.";
-			cout<<"\nAdvancing "<<units<<" units to territory "<<*target<<endl;
+			cout<< "Target territory belongs to you." << endl;
+			cout<< *source << " is now advancing "<<units<<" units to territory "<<*target<<endl;
 			orderEffect = "Advanced armies from one owned territory to another";
-			cout<<"\nTarget Army: " << target->getArmy() << endl;
-			cout<<"Source Army: " << target->getArmy() << endl;
+			cout << *source << " now has " << source->getArmy() << " armies." << endl;
+			cout << *target << " now has " << target->getArmy() << " armies.\n" << endl;
 
-		
 
 			Notify(this);
 		}
@@ -228,7 +230,7 @@ void Advance::execute(Player* player){
 			target->setIsAttacked(true);
 
 			cout<<"\nTarget territory belongs to another player.";
-			cout<<"\nCommencing attack on "<<*target<<" with "<<units<<" units"<<endl;
+			cout<<"\n" << *source << " has " <<units << " armies and is commencing attack on " << *target << " which has " << target->getArmy() << " armies."<<endl;
 
 
 			// for each unit in the attacking army, there is a 60 percent chance of victory over
@@ -270,12 +272,12 @@ void Advance::execute(Player* player){
 				player->addTerritory(target);
 				target->setOwner(player);
 				
-				cout<<"\n" << player->getName() << ": "<< target->getName() << " has been defeated by " << source->getName()<< ". Target territory conquered\n";
+				cout<<"\n" << player->getName() << ":"<< endl;
+				cout << source->getName() << " has defeated " << target->getName()<< ". Target territory conquered. You won the battles.\n";
 				target->setArmy(attacking);
 				source->setArmy(this->source->getArmy() - units);
+				cout << "Ownership of " << target->getName() << " has been changed to " << player->getName() <<  "." << endl;
 				cout << "You now own " << target->getName() << " with " << target->getArmy() <<  " armies on it.\n" << endl;
-				cout << "Owner of target " << target->getOwner()->getName()<< endl;
-				cout << source->getName() << " now has: " << source->getArmy() <<  " armies on it.\n" << endl;
 
 				// give the player a card since they conquered a territory
 				//player->myHand->handCards.push_back(myDeck->draw());
@@ -283,36 +285,30 @@ void Advance::execute(Player* player){
 			// If the attacking army is defeated. Meaning, the target territory has not been conquered
 			} else { 
 
-				
-				cout<<"\nAttacking army defeated. Target territory remains unconquered\n";
-							// Deleting territory from previous owner's list 
+
+					// Deleting territory from previous owner's list 
 				int indexToDelete = -1;
 				for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
-    				if (player->getPlayerTerritories()[i] == source) {
+    				if (player->getPlayerTerritories()[i] == target) {
        					 indexToDelete = i;
        					 break;
 					}
 				}
-				cout<<"For loop is alright"<<endl;
+				vector<Territory*> playerTerritories = player->getPlayerTerritories();
+
 
 				// Erase the territory pointer from the vector
-				if (indexToDelete != -1) {
-					cout<<indexToDelete<<endl;
-					cout<<"if condition is alright"<<endl;
-					vector<Territory*> playerTerritories = player->getPlayerTerritories();
+				player->removeTerritory(indexToDelete);
+				enemy->addTerritory(target);
+				target->setOwner(enemy);
 
-    				playerTerritories.erase(playerTerritories.begin() + indexToDelete);
-   				 	// Note that the "+ indexToDelete" part is used to specify the iterator pointing to the element to erase
-    				// in this case, it's the element at the index "indexToDelete" in the vector
-				}
-				cout<<"if condition is alright part 2 "<<endl;
-
-				enemy->getPlayerTerritories().push_back(source);
-				source->setOwner(target->getOwner());
-				player->getPlayerTerritories().push_back(source);
+				cout <<"\n" << player->getName() << ":" << endl;
+				cout << target->getName() << " has defeated " << source->getName()<< ". Source territory conquered. You lost the battle.\n";
 				this->source->setArmy(this->source->getArmy() - this->units);
 				this->target->setArmy(defending);
-				
+				cout << "You no longer own " << source->getName() << "." << endl;
+				cout << "Ownership of  " << source->getName() << " has been changed to " << enemy->getName() <<  "." << endl;
+				cout << enemy->getName() << " now owns: " <<source->getName() << " with " << source->getArmy() <<  " armies on it.\n" << endl;
 			}
 
 			orderEffect = "Attacked with armies from owned territory to enemy territory";
