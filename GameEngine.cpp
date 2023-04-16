@@ -725,7 +725,7 @@ for (int i = 0; i < players.size(); i++) {
 	map<string, set<Territory*>> continentTerritories;
         
         for (Territory* territory : players[i]->getPlayerTerritories()) { //get players territories
-            cout << territory->getName() << endl;
+            cout << territory->getName() << " (" << territory->getArmy() << " armies)"<< endl;
             
             string continentName = territory->getContinent()->getName();
             continentTerritories[continentName].insert(territory);
