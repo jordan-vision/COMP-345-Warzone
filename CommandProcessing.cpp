@@ -167,11 +167,11 @@ bool CommandProcessor:: validate(string command){
      // Get all parameters as strings
     string maps = copyInBetweenAngleBrackets("-M ", command);
     string players = copyInBetweenAngleBrackets("-P ", command);
-    string games = copyInBetweenAngleBrackets("-G ", command);
-    string turns = copyInBetweenAngleBrackets("-D ", command);
+    string gamesString = copyInBetweenAngleBrackets("-G ", command);
+    string turnsString = copyInBetweenAngleBrackets("-D ", command);
 
     // If some parameters are absent, print error message
-    if (maps == "" || players == "" || games == "" || turns == "") {
+    if (maps == "" || players == "" || gamesString == "" || turnsString == "") {
         cerr << "Please write the tournament settings in the following format:" << endl;
         cerr << "tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
         return;
@@ -187,7 +187,7 @@ bool CommandProcessor:: validate(string command){
     // Get player strategies as a 4-array of strings
     string* playerStringArray = splitByCommas(players, 4);
     if (playerStringArray == NULL || playerStringArray[1] == "") {
-        cerr << "Inappropriate amount of players. Please enter 2 players at least and 4 at most." << endl;
+        cerr << "Invalid number of players. Please enter between 2 and 4 players." << endl;
         delete[] mapArray;
         return;
     }
@@ -220,7 +220,7 @@ bool CommandProcessor:: validate(string command){
             playerArray[i] = player;
         }
         else {
-            cerr << "Error: please enter valid strategies in the -P parameter. The alid strategies are \"Aggressive\", \"Benevolent\", \"Neutral\" and \"Cheater\"";
+            cerr << "Please enter valid strategies in the -P parameter. The alid strategies are \"Aggressive\", \"Benevolent\", \"Neutral\" and \"Cheater\"" << endl;
             delete[] mapArray;
             delete[] playerStringArray;
             delete[] playerArray;
@@ -228,10 +228,46 @@ bool CommandProcessor:: validate(string command){
         }
     }
 
+    delete[] playerStringArray;
+
+    // Check if number of games valid
+    int games;
+    try {
+        games = stoi(gamesString);
+    }
+    catch (exception e) {
+        cerr << "Please enter a valid integer for the number of games." << endl;
+        delete[] mapArray;
+        delete[] playerArray;
+        return;
+    }
+    if (games < 1 || games > 5) {
+        cerr << "Invalid number of games. Please enter an integer between 1 and 5 in the -G parameter." << endl;
+        delete[] mapArray;
+        delete[] playerArray;
+        return;
+    }
+    // Check if number of turns valid
+    int turns;
+    try {
+        turns = stoi(turnsString);
+    }
+    catch (exception e) {
+        cerr << "Please enter a valid integer for the number of turns." << endl;
+        delete[] mapArray;
+        delete[] playerArray;
+        return;
+    }
+    if (turns < 10 || turns > 50) {
+        cerr << "Invalid number of turns. Please enter an integer between 10 and 50 in the -G parameter." << endl;
+        delete[] mapArray;
+        delete[] playerArray;
+        return;
+    }
 
     // Tournament command has been validated, now make the tournament
-    cout << "Command valid. Creating tournament";
-    // Tournament::newTournament(mapArray, playerArray, games, turns);
+    cout << "Command valid. Creating tournament" << endl;;
+    Tournament::newTournament(mapArray, playerArray, games, turns);
     return;
 }
 
