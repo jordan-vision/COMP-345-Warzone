@@ -78,6 +78,8 @@ class Player
         void addTerritory(Territory* newTerritory);
         void removeTerritory(int index);
 
+        bool isHumanStrategy;
+
     private:
         vector <Territory*> territories; 
         vector<Territory*> territoriesOwned;

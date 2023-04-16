@@ -26,7 +26,7 @@ Player::~Player() {
 
 //Constructor that initializes the player's collection of territories (owned, defend, attack) and the player name
 Player::Player(vector<Territory*> territoriesOwned, vector<Territory*> territoriesDefend, vector<Territory*> territoriesAttack, string name, bool deployOrdersIssued)
-: territoriesOwned(territoriesOwned), territoriesDefend(territoriesDefend), territoriesAttack(territoriesAttack), deployOrdersIssued(false)
+: territoriesOwned(territoriesOwned), territoriesDefend(territoriesDefend), territoriesAttack(territoriesAttack), deployOrdersIssued(false), isHumanStrategy(false)
  {
   this->myHand = new Hand();
   this->name = name;
@@ -34,6 +34,7 @@ Player::Player(vector<Territory*> territoriesOwned, vector<Territory*> territori
   this->territoriesDefend = territoriesDefend;
   this->territoriesAttack = territoriesAttack;
   this->deployOrdersIssued = deployOrdersIssued;
+  this->isHumanStrategy = isHumanStrategy;
  }
 
 //Constructor that initializes the player's name
@@ -41,6 +42,7 @@ Player::Player(vector<Territory*> territoriesOwned, vector<Territory*> territori
 : name(name)
 {
     this->name = name;
+    this->isHumanStrategy = false;
 }
 string Player:: getName(){
     return name; 
@@ -98,6 +100,7 @@ Player::Player(const Player& p)
   this->territoriesOwned = p.territoriesOwned;
   this->territoriesDefend = p.territoriesDefend;
   this->territoriesAttack = p.territoriesAttack;
+  this->isHumanStrategy = p.isHumanStrategy;
 }
 
 //Implementation of the friend insertion operator for class Player
@@ -460,7 +463,7 @@ Territory* Player::getValidTarget(vector<Territory*>& tToAttack) {
 }
 
 Territory* Player::getValidTerritory(vector<Territory*>& territory, string descriptiveMsg, int orderCase) {
-    cout << "\nThis is the list of available adjacent territories:" << endl; //display the territories that can be defended
+    cout << "\nThis is the list of available territories:" << endl; //display the territories that can be defended
     for (auto t : territory) {
         cout << t->getName() << " (" << t->getTerritoryID() << ")\n";
     }

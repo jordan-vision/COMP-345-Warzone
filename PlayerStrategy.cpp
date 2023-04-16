@@ -210,6 +210,7 @@ NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) {
 void NeutralPlayerStrategy::issueOrder(vector<Player*> players) {
 
 for (int i = 0; i < p->getPlayerTerritories().size(); i++){
+    
     if (p->getPlayerTerritories()[i]->getIsAttacked() == true){
         cout<<"\nNeutral player has been attacked. Switching to aggressive strategy"<<endl;
         p->setStrategy(new AggressivePlayerStrategy(p));
