@@ -205,7 +205,8 @@ Advance& Advance::operator=(const Advance& a){ //assignment operator
 void Advance::execute(Player* player){
 
 	if (Advance::validate(player)) { //validate the order
-
+		Player* enemy = target->getOwner();
+		cout << "enemy who owns target is: " << enemy->getName() << endl;
 		player->removeCardOfTypeFromHand(player, CardType::Reinforcement);
 		if (this->target->getOwner()->getName() == player->getName()){
 			source->setArmy(source->getArmy() - units);
@@ -251,7 +252,6 @@ void Advance::execute(Player* player){
 			// Set the new number of army units in the target territory after it has been conquered
 			// Erase its previous owner by removing it from their list of territories owned
 			// Set it to its new owner (the conqueror)
-			Player* enemy = target->getOwner();
 			if (defending == 0){
 			
 				// Deleting territory from previous owner's list 
@@ -262,10 +262,12 @@ void Advance::execute(Player* player){
        					 break;
 					}
 				}
+            vector<Territory*> enemyTerritories = enemy->getPlayerTerritories();
+
 
 				// Erase the territory pointer from the vector
 				if (indexToDelete != -1) {
-    				enemy->getPlayerTerritories().erase(enemy->getPlayerTerritories().begin() + indexToDelete);
+    				enemyTerritories.erase(enemyTerritories.begin() + indexToDelete);
    				 	// Note that the "+ indexToDelete" part is used to specify the iterator pointing to the element to erase
     				// in this case, it's the element at the index "indexToDelete" in the vector
 				}
@@ -301,7 +303,9 @@ void Advance::execute(Player* player){
 				if (indexToDelete != -1) {
 					cout<<indexToDelete<<endl;
 					cout<<"if condition is alright"<<endl;
-    				player->getPlayerTerritories().erase(player->getPlayerTerritories().begin() + indexToDelete);
+					vector<Territory*> playerTerritories = player->getPlayerTerritories();
+
+    				playerTerritories.erase(playerTerritories.begin() + indexToDelete);
    				 	// Note that the "+ indexToDelete" part is used to specify the iterator pointing to the element to erase
     				// in this case, it's the element at the index "indexToDelete" in the vector
 				}
