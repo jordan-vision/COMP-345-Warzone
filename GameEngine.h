@@ -125,7 +125,7 @@ public:
 	void mainGameLoop();
 	void reinforcementPhase();
 	void executeOrdersPhase();
-	void issueOrdersPhase();
+	void issueOrdersPhase(bool isTournament);
 };
 
 ostream& operator<<(ostream& out, GameEngine& engine);
@@ -147,7 +147,8 @@ public:
 	static Tournament* instance();
 
 	void runTournament();
-	void tournamentStartupPhase(int i);
+	void tournamentStartupPhase(int mapNumber);
+	void tournamentGameLoop();
 
 	friend ostream& operator<<(ostream& out, Tournament& tournament);
 };

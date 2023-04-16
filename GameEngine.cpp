@@ -608,7 +608,7 @@ void GameEngine::mainGameLoop() {
 
 	while (gameNotDone){
 		reinforcementPhase();
-		issueOrdersPhase();
+		issueOrdersPhase(false);
 		executeOrdersPhase();
 		for (auto p: players){
 			if (p->getPlayerTerritories().size() == ALL_TERRITORIES){
@@ -618,7 +618,7 @@ void GameEngine::mainGameLoop() {
 	}
 	}
 
-void GameEngine::issueOrdersPhase(){
+void GameEngine::issueOrdersPhase(bool isTournament){
 	cout << "\nISSUING ORDERS PHASE" <<endl;
 // Start game loop
 for (int i = 0; i < players.size(); i++) {
@@ -640,53 +640,60 @@ for (int i = 0; i < players.size(); i++) {
 	// 				players[i]->setStrategy(nullptr);
 	// 			}
 	// 			}
-
-	PlayerStrategy* ps;
+	if (!isTournament) {
+		PlayerStrategy* ps;
 		
-    cout << "\nEnter strategy type (human, aggressive, benevolent, neutral, or cheater): \n";
-    cout << "Player " << i + 1 << "'s strategy " << "("<< players[i]->getName() << "): \n" << endl;
-    string strategyType;
-    cin >> strategyType;
+		cout << "\nEnter strategy type (human, aggressive, benevolent, neutral, or cheater): \n";
+		cout << "Player " << i + 1 << "'s strategy " << "("<< players[i]->getName() << "): \n" << endl;
+		string strategyType;
+		cin >> strategyType;
 	
 		// Set the current player's strategy based on the user's input
 		if (strategyType == "aggressive") {
 			ps = new AggressivePlayerStrategy(players[i]);
 			ps->setName("aggressive");
-		} else if (strategyType == "neutral") {
+		}
+		else if (strategyType == "neutral") {
 			ps = new NeutralPlayerStrategy(players[i]);
 			ps->setName("neutral");
-		} else if (strategyType == "cheater") {
+		}
+		else if (strategyType == "cheater") {
 			ps = new CheaterPlayerStrategy(players[i]);
 			ps->setName("cheater");
-		} else if (strategyType == "benevolent") {
+		}
+		else if (strategyType == "benevolent") {
 			ps = new BenevolentPlayerStrategy(players[i]);
 			ps->setName("benevolent");
-		} else if (strategyType == "human") {
+		}
+		else if (strategyType == "human") {
 			ps = new HumanPlayerStrategy(players[i]);
 			ps->setName("human");
-		} else {
+		}
+		else {
 			// handle invalid strategy type input
-			cout << "INVALID stategy" ;
+			cout << "INVALID stategy";
 			continue;
 
 		}
-		 	
-		
-		players[i]->setStrategy(ps);
-				
 
-		// Debugging output to check the value of ps after setting it
-		// cout << "ps after setting: " << players[i]->getStrategy() << endl;
-		// Print which strategy was selected for the current player
-		cout << "\nPlayer " << i + 1 << "'s strategy: " << players[i]->ps->getName() << endl;
-		// Call the issueOrder method for the current player's strategy
-		//  players[i]->getStrategy()->issueOrder(players);
-		players[i]->ps->issueOrder(players);
-		// Debugging output to check the value of ps after calling issueOrder
-		// cout << "ps after issueOrder: " << players[i]->getStrategy() << endl;
-		// Print that the current player's turn is completed
-		cout << "\n*** " << players[i]->getName() << "'s turn is complete. ***" << endl;
+
+		players[i]->setStrategy(ps);
+	}		
+
+	// Debugging output to check the value of ps after setting it
+	// cout << "ps after setting: " << players[i]->getStrategy() << endl;
+	// Print which strategy was selected for the current player
+	cout << "\nPlayer " << i + 1 << "'s strategy: " << players[i]->ps->getName() << endl;
+	// Call the issueOrder method for the current player's strategy
+	//  players[i]->getStrategy()->issueOrder(players);
+	players[i]->ps->issueOrder(players);
+	// Debugging output to check the value of ps after calling issueOrder
+	// cout << "ps after issueOrder: " << players[i]->getStrategy() << endl;
+	// Print that the current player's turn is completed
+	cout << "\n*** " << players[i]->getName() << "'s turn is complete. ***" << endl;
+	if (!isTournament) {
 		players[i]->setStrategy(nullptr);
+	}
 
 
 	}
@@ -703,16 +710,15 @@ void GameEngine::executeOrdersPhase(){
     // Iterate through highest order count
     for (int i = 0; i < players.size(); i++){ 
         // Iterate through player count
-        for (int j = 0; j < players[i]->myOrders->vectorOfOrders.size(); j++) 
-            // Execute highest priority order (if not empty)
-            if (players[i]->myOrders->vectorOfOrders.size() != 0){ 
-				cout<< players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
+		while (!players[i]->myOrders->vectorOfOrders.empty()) {
+			// Execute highest priority order (if not empty)
+			cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
 
-                players[i]->myOrders->vectorOfOrders[j]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
-				cout << players[i]->myOrders->vectorOfOrders[j]->getOrderEffect() << endl;
+			players[i]->myOrders->vectorOfOrders[0]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
+			cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect() << endl;
 
-				players[i]->myOrders->remove(j); //remove order
-			}
+			players[i]->myOrders->remove(0); //remove order
+		}
 	}
 }
 
@@ -771,6 +777,12 @@ Tournament::Tournament() {}
 Tournament::Tournament(Map** maps, Player** players, int games, int turns) {
 	copy(maps, maps + 5, this->maps);
 	copy(players, players + 4, this->players);
+	numberOfPlayers = 0;
+	for (int i = 0; i < 4; i++) {
+		if (this->players[i] != NULL) {
+			numberOfPlayers++;
+		}
+	}
 
 	this->games = games;
 	this->turns = turns;
@@ -818,10 +830,9 @@ Tournament* Tournament::instance() {
 
 void Tournament::runTournament() {
 	// Add all players to game engine
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < numberOfPlayers; i++) {
 		if (players[i] != NULL) {
 			GameEngine::instance()->addPlayer(players[i]);
-			numberOfPlayers++;
 		}
 	}
 
@@ -831,6 +842,7 @@ void Tournament::runTournament() {
 			for (int j = 0; j < games; j++) { // -G times
 				cout << "MAP " << *maps[i] << " -- GAME " << j + 1 << endl;
 				tournamentStartupPhase(i);
+				tournamentGameLoop();
 			}
 		}
 	}
@@ -958,6 +970,23 @@ void Tournament::tournamentStartupPhase(int mapNumber) {
 	}*/
 }
 
+void Tournament::tournamentGameLoop() {
+	int i = 0;
+	bool gameNotDone = true;
+	while (i < turns && gameNotDone) {
+		cout << "TURN " << i + 1 << endl;
+		GameEngine::instance()->reinforcementPhase();
+		GameEngine::instance()->issueOrdersPhase(true);
+		GameEngine::instance()->executeOrdersPhase();
+		i++;
+		for (auto p : players) {
+			if (p != NULL && p->getPlayerTerritories().size() == ALL_TERRITORIES) {
+				gameNotDone = false;
+			}
+		}
+	}
+}
+
 ostream& operator<<(ostream& out, Tournament& tournament) {
 	out << "Tournament Mode:" << endl;
 	out << "M: " << *tournament.maps[0];
@@ -966,10 +995,10 @@ ostream& operator<<(ostream& out, Tournament& tournament) {
 			out << ", " << *tournament.maps[i] << endl;
 		}
 	}
-	out << endl << "P: " << *tournament.players[0]/*->getStrategy()*/;
+	out << endl << "P: " << tournament.players[0]->getStrategy()->getName();
 	for (int i = 1; i < 4; i++) {
 		if (tournament.players[i] != NULL) {
-			out << ", " << *tournament.players[i]/*->getStrategy()*/;
+			out << ", " << tournament.players[i]->getStrategy()->getName();
 		}
 	}
 	out << endl << "G: " << tournament.games << endl;

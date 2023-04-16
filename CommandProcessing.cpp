@@ -193,7 +193,7 @@ bool CommandProcessor:: validate(string command){
     }
 
     // Make player strategies a 4-array of Player objects, return an error if the string is not the name of a strategy
-    Player** playerArray = new Player*[4];
+    Player** playerArray = new Player*[4]();
     string playerNames[4] = { "Afaf", "Ally", "Parker", "Victoria" };
     for (int i = 0; i < 4; i++) {
         if (playerStringArray[i] == "") {
@@ -202,22 +202,26 @@ bool CommandProcessor:: validate(string command){
         else if (playerStringArray[i] == "Aggressive") { // Make aggressive player
             Player* player = new Player(playerNames[i]);
             player->setStrategy(new AggressivePlayerStrategy(player));
+            player->getStrategy()->setName("Aggressive");
             playerArray[i] = player;
         }
         else if (playerStringArray[i] == "Benevolent") { // Make benevolent player
             Player* player = new Player(playerNames[i]);
             player->setStrategy(new BenevolentPlayerStrategy(player));
             playerArray[i] = player;
+            player->getStrategy()->setName("Benevolent");
         }
         else if (playerStringArray[i] == "Neutral") { // Make netral player
             Player* player = new Player(playerNames[i]);
             player->setStrategy(new NeutralPlayerStrategy(player));
             playerArray[i] = player;
+            player->getStrategy()->setName("Neutral");
         }
         else if (playerStringArray[i] == "Cheater") { // Make cheater player
             Player* player = new Player(playerNames[i]);
             player->setStrategy(new CheaterPlayerStrategy(player));
             playerArray[i] = player;
+            player->getStrategy()->setName("Cheater");
         }
         else {
             cerr << "Please enter valid strategies in the -P parameter. The alid strategies are \"Aggressive\", \"Benevolent\", \"Neutral\" and \"Cheater\"" << endl;
