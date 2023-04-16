@@ -82,8 +82,9 @@ cout << "Player has " << p->getArmy() << " armies" <<endl;
             Territory* targetTerritory = strongestAdjacentTerritories[0];
              cout << "Target territory : " << targetTerritory->getName() << "\n" << endl;
              Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
-            advanceOrder->execute(p);
-             cout << "Aggressive Advance order executed.\n" << endl;
+             p->myOrders->add(advanceOrder);
+            //advanceOrder->execute(p);
+             //cout << "Aggressive Advance order executed.\n" << endl;
              
          
         } else
@@ -99,9 +100,10 @@ cout << "Player has " << p->getArmy() << " armies" <<endl;
             cout << "Target Territory: " << p->getPlayerTerritories()[0]->getAdjacentTerritories()[0]->getName() << endl;
             Territory* targetTerritory =  p->getPlayerTerritories()[0]->getAdjacentTerritories()[0];
             Advance* advanceOrder = new Advance(targetTerritory, p->getPlayerTerritories()[0], p->getPlayerTerritories()[0]->getArmy());
+            p->myOrders->add(advanceOrder);
               //  cout << "Advance order created.\n" << endl;
-                advanceOrder->execute(p);
-                cout << "Aggressive Advance order executed.\n" << endl;
+                //advanceOrder->execute(p);
+                //cout << "Aggressive Advance order executed.\n" << endl;
         
             // cout<<"\nCannot advance with 0 armies"<<endl;
 
