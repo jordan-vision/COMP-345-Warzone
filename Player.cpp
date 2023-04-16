@@ -160,6 +160,10 @@ vector<Territory*> Player::toAttack() {
 vector <Territory*> Player:: getPlayerTerritories(){
     return territoriesOwned;
 }
+
+void Player::setPlayerTerritories(vector <Territory*> territories) {
+    territoriesOwned = territories;
+}
   
 
 Territory* Player::getStrongestCountry(Player* player) {
@@ -198,6 +202,9 @@ PlayerStrategy* Player:: getStrategy(){
     return ps;
     }
 
+void Player::addTerritory(Territory* newTerritory) {
+    territoriesOwned.push_back(newTerritory);
+}
 
  // create an OrderList object
    OrdersList* ol = new OrdersList();

@@ -45,7 +45,9 @@ class Player
         //method named toAttack() that returns the strongest country 
         Territory* getWeakestCountry(Player* player);
         //method to get player territories
-        vector <Territory*> getPlayerTerritories();        
+        vector <Territory*> getPlayerTerritories(); 
+        // method to set player territories
+        void setPlayerTerritories(vector <Territory*> territories);
         //creating an order object called myOrderss
         OrdersList* myOrders;
         //method named issueOrder() 
@@ -72,6 +74,8 @@ class Player
         string* playerType;
         void setStrategy(PlayerStrategy* ps);
         PlayerStrategy* getStrategy();
+
+        void addTerritory(Territory* newTerritory);
 
     private:
         vector <Territory*> territories; 

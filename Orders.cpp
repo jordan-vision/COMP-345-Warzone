@@ -262,17 +262,18 @@ void Advance::execute(Player* player){
        					 break;
 					}
 				}
-            vector<Territory*> enemyTerritories = enemy->getPlayerTerritories();
+				vector<Territory*> enemyTerritories = enemy->getPlayerTerritories();
 
 
 				// Erase the territory pointer from the vector
 				if (indexToDelete != -1) {
-    				enemyTerritories.erase(enemyTerritories.begin() + indexToDelete);
+					enemyTerritories.erase(enemyTerritories.begin() + indexToDelete);
    				 	// Note that the "+ indexToDelete" part is used to specify the iterator pointing to the element to erase
     				// in this case, it's the element at the index "indexToDelete" in the vector
 				}
+				enemy->setPlayerTerritories(enemyTerritories);
 				target->setOwner(player);
-				player->getPlayerTerritories().push_back(target);
+				player->addTerritory(target);
 
 				cout<<"\n" << player->getName() << ": "<< target->getName() << " has been defeated by " << source->getName()<< ". Target territory conquered\n";
 				target->setArmy(attacking);
