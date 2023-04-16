@@ -208,12 +208,16 @@ void Advance::execute(Player* player){
 
 		player->removeCardOfTypeFromHand(player, CardType::Reinforcement);
 		if (this->target->getOwner()->getName() == player->getName()){
-			this->source->setArmy(this->source->getArmy() - this->units);
-			this->target->setArmy(this->target->getArmy() + this->units);
-			cout<<"\nTarget territory belongs to this player.";
+			source->setArmy(source->getArmy() - units);
+			target->setArmy(target->getArmy() + units);
+			cout<<"\nTarget territory belongs to you.";
 			cout<<"\nAdvancing "<<units<<" units to territory "<<*target<<endl;
-
 			orderEffect = "Advanced armies from one owned territory to another";
+			cout<<"\nTarget Army: " << target->getArmy() << endl;
+			cout<<"Source Army: " << target->getArmy() << endl;
+
+		
+
 			Notify(this);
 		}
 		else if (this->target->getOwner()->getName() != player->getName()){
@@ -269,8 +273,10 @@ void Advance::execute(Player* player){
 
 				cout<<"\n" << player->getName() << ": "<< target->getName() << " has been defeated by " << source->getName()<< ". Target territory conquered\n";
 				target->setArmy(attacking);
-				source->setArmy(this->source->getArmy() - this->units);
+				source->setArmy(this->source->getArmy() - units);
 				cout << "You now own " << target->getName() << " with " << target->getArmy() <<  " armies on it.\n" << endl;
+				cout << "Owner of target " << target->getOwner()->getName()<< endl;
+				cout << source->getName() << " now has: " << source->getArmy() <<  " armies on it.\n" << endl;
 
 				// give the player a card since they conquered a territory
 				//player->myHand->handCards.push_back(myDeck->draw());
@@ -278,6 +284,23 @@ void Advance::execute(Player* player){
 			// If the attacking army is defeated. Meaning, the target territory has not been conquered
 			} else { 
 				cout<<"\nAttacking army defeated. Target territory remains unconquered\n";
+							// Deleting territory from previous owner's list 
+				int indexToDelete = -1;
+				for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
+    				if (player->getPlayerTerritories()[i] == source) {
+       					 indexToDelete = i;
+       					 break;
+					}
+				}
+
+				// Erase the territory pointer from the vector
+				if (indexToDelete != -1) {
+    				player->getPlayerTerritories().erase(player->getPlayerTerritories().begin() + indexToDelete);
+   				 	// Note that the "+ indexToDelete" part is used to specify the iterator pointing to the element to erase
+    				// in this case, it's the element at the index "indexToDelete" in the vector
+				}
+				source->setOwner(target->getOwner());
+				player->getPlayerTerritories().push_back(source);
 				this->source->setArmy(this->source->getArmy() - this->units);
 				this->target->setArmy(defending);
 				

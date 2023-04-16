@@ -76,6 +76,7 @@ cout << "Player has " << p->getArmy() << " armies" <<endl;
             cout<<"Created Deploy Order"<<endl;
             deploy->orderEffect = "order deployed";
             p->myOrders->add(deploy);// add deploy order to orderslist
+             }
             vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
             cout << "Number of strongest adjacent territories: " << strongestAdjacentTerritories.size() << endl; 
             Territory* targetTerritory = strongestAdjacentTerritories[0];
@@ -83,7 +84,7 @@ cout << "Player has " << p->getArmy() << " armies" <<endl;
              Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
             advanceOrder->execute(p);
              cout << "Aggressive Advance order executed.\n" << endl;
-             }
+             
          
         } else
         {
@@ -94,13 +95,14 @@ cout << "Player has " << p->getArmy() << " armies" <<endl;
             cout<<"Created Deploy Order"<<endl;
             deploy->orderEffect = "order deployed";
              p->myOrders->add(deploy);// add deploy order to orderslist
-             //set target territory
-            Territory* targetTerritory = p->getPlayerTerritories()[0];
-            Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
+            }
+            cout << "Target Territory: " << p->getPlayerTerritories()[0]->getAdjacentTerritories()[0]->getName() << endl;
+            Territory* targetTerritory =  p->getPlayerTerritories()[0]->getAdjacentTerritories()[0];
+            Advance* advanceOrder = new Advance(targetTerritory, p->getPlayerTerritories()[0], p->getPlayerTerritories()[0]->getArmy());
               //  cout << "Advance order created.\n" << endl;
                 advanceOrder->execute(p);
                 cout << "Aggressive Advance order executed.\n" << endl;
-        }
+        
             // cout<<"\nCannot advance with 0 armies"<<endl;
 
         }
