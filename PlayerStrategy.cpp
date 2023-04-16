@@ -138,33 +138,42 @@ BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) {
 
 void BenevolentPlayerStrategy::issueOrder(vector<Player*> players) {
 cout << "Benevolent player issuing order..." << endl;
-cout << p->getName() << endl;
 Territory* weakestTerritory = p->getWeakestCountry(p);
+
+//create new Deploy order to assign armies
+// deploy all player's armies to the first territory in the list
+Deploy* deploy = new Deploy(weakestTerritory, p->getArmy());
+//p->myOrders->add(deploy);
+deploy->execute(p);
+
+cout << p->getName() << endl;
+
+weakestTerritory = p->getWeakestCountry(p); // get weakest territory again after deploying armies
+
+Territory* strongestTerritory = p->getStrongestCountry(p);
 cout << "Weakest territory: " << weakestTerritory->getName() << endl;
+cout << "Strongest territory: " << strongestTerritory->getName() << endl;
+
 vector<Territory*> weakestAdjacentTerritories = weakestTerritory->getAdjacentTerritories();
 cout << "Number of weakest adjacent territories: " << weakestAdjacentTerritories.size() << endl;
-
 
         for (int i = 0; i < weakestAdjacentTerritories.size(); i++)
          {
             if (weakestAdjacentTerritories[i]->getOwner()->getName() == p->getName())
             {
+                cout << "found a weak adjacent territory belonging to " << p->getName() << endl;
                 Territory* targetTerritory = weakestAdjacentTerritories[i];
-                while (weakestTerritory->getArmy() > 0)
-                {
+                //while (weakestTerritory->getArmy() > 0)
+                //{
                     cout << "Target territory " << i +1 << ": " << targetTerritory->getName() << endl;
-                    Advance* advanceOrder = new Advance(targetTerritory, weakestTerritory, weakestTerritory->getArmy());
+                    Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, std::round(weakestTerritory->getArmy()));
                     cout << "Advance order created." << endl;
                     advanceOrder->execute(p);
                     cout << "Advance order executed." << endl;
-
-
-                }
-            }
-
-           
+                //}
+            }           
         }
-    }
+}
 
 
 vector<Territory*> BenevolentPlayerStrategy::toAttack() {
