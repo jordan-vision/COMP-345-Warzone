@@ -94,6 +94,7 @@ class GameEngine : public ILoggable, public Subject
 private:
 	bool isGameOver;
 	DirectedGraph* gameLoop;
+	vector <Player*> players;
 
 	static GameEngine* singletonInstance;
 	GameEngine();
@@ -106,6 +107,8 @@ public:
 	bool getIsGameOver();
 	DirectedGraph* getGameLoop();
 	void setIsGameOver(bool isTheGameOver);
+
+	void addPlayer(Player* player);
 
 	static GameEngine* instance();
 
@@ -131,7 +134,7 @@ class Tournament {
 private:
 	Map* maps[5];
 	Player* players[4];
-	int games, turns;
+	int numberOfPlayers, games, turns;
 
 	static Tournament* singletonInstance;
 	Tournament();
@@ -141,6 +144,9 @@ private:
 public:
 	static bool newTournament(string* mapStrings, Player** players, int games, int turns);
 	static Tournament* instance();
+
+	void runTournament();
+	void tournamentStartupPhase(int i);
 
 	friend ostream& operator<<(ostream& out, Tournament& tournament);
 };

@@ -267,7 +267,9 @@ bool CommandProcessor:: validate(string command){
 
     // Tournament command has been validated, now make the tournament
     cout << "Command valid. Creating tournament" << endl;;
-    Tournament::newTournament(mapArray, playerArray, games, turns);
+    if (Tournament::newTournament(mapArray, playerArray, games, turns)) {
+        Tournament::instance()->runTournament();
+    }
     return;
 }
 

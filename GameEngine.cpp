@@ -239,6 +239,10 @@ bool GameEngine::getIsGameOver() { return isGameOver; };
 DirectedGraph* GameEngine::getGameLoop() { return gameLoop; };
 void GameEngine::setIsGameOver(bool isTheGameOver) { isGameOver = isTheGameOver; };
 
+void GameEngine::addPlayer(Player* player) {
+	players.push_back(player);
+}
+
 GameEngine* GameEngine::instance() {
 	if (!singletonInstance) {
 		singletonInstance = new GameEngine();
@@ -380,8 +384,6 @@ return "Game Engine New State: ...";
 
 // new command processor object to call the getCommand method
 CommandProcessor* cp = new CommandProcessor();
-
-vector<Player*> players;
 
 void GameEngine::startupPhase() {
 			//command selection menu
@@ -760,7 +762,6 @@ for (int i = 0; i < players.size(); i++) {
 }
 }
 
-
 // TOURNAMENT CLASS
 // Singleton implementation
 
@@ -813,6 +814,146 @@ bool Tournament::newTournament(string* mapStrings, Player** players, int games, 
 
 Tournament* Tournament::instance() {
 	return singletonInstance;
+}
+
+void Tournament::runTournament() {
+	// Add all players to game engine
+	for (int i = 0; i < 4; i++) {
+		if (players[i] != NULL) {
+			GameEngine::instance()->addPlayer(players[i]);
+			numberOfPlayers++;
+		}
+	}
+
+	// Run every game
+	for (int i = 0; i < 5; i++) { // On every map
+		if (maps[i] != NULL) {
+			for (int i = 0; i < games; i++) { // -G times
+				tournamentStartupPhase(i);
+			}
+		}
+	}
+}
+
+void Tournament::tournamentStartupPhase(int i) {
+	// Game engine setup
+	GameEngine::instance()->reset();
+	GameEngine::instance()->transition("loadmap");
+	GameEngine::instance()->transition("validatemap");
+	GameEngine::instance()->transition("addplayer");
+	
+	cout << "\nYou have selected " << numberOfPlayers << " players: " << endl;
+	for (int i = 0; i < numberOfPlayers; i++) {
+		cout << "\nPlayer " << i + 1 << ": " << players[i]->getName() << "\n" << endl;
+	}
+
+	// a) fairly distribute all the territories to the players
+
+	// get all territories from the map and put them into the vector
+	vector<Territory*> territories = maps[i]->getTerritories();
+
+	// shuffle the vector to randomize the order of the territories
+	auto randomSeed = std::mt19937(std::random_device{}());
+	std::shuffle(territories.begin(), territories.end(), randomSeed);
+
+	//distribute variable calculates how many territories to give each player
+	// total number of territories divided by total number of players = how many territories each player recieves 
+	int distribute = territories.size() / numberOfPlayers;
+
+	//for loop to iterate through each player
+	for (int i = 0; i < numberOfPlayers; i++) {
+		//the loop will add random territories evenly between the players 
+		//i * distribute is the index of the first territory that the player should receive
+		//(i + 1) * distribute trepresents the end index of the range of territories that will be assigned to the player.
+		for (int j = i * distribute; j < (i + 1) * distribute; j++) {
+			//adds territory to player
+			players[i]->owned(territories[j]);
+			territories[j]->setOwner(players[i]);
+		}
+	}
+	cout << "Number of territories: " << territories.size() << endl;
+	cout << "Number of Players: " << numberOfPlayers << endl;
+	cout << "When equally distributing the territories, each player will have: " << distribute << " territories." << endl;
+
+	// print each player's territories
+	for (int i = 0; i < numberOfPlayers; i++) {
+		cout << "\nPlayer " << i + 1 << "'s territories " << "(" << players[i]->getName() << "): \n" << endl;
+		for (int j = 0; j < players[i]->getPlayerTerritories().size(); j++) {
+			cout << j + 1 << ". " << players[i]->getPlayerTerritories()[j]->getName() << endl;
+		}
+		cout << endl;
+	}
+	cout << "----------------------------------------------\n" << endl;
+
+	// b) determine randomly the order of play of the players in the games 
+	cout << "----------------------------------------------\n" << endl;
+
+	// randomize the order of the territories
+	vector<Player*> order(numberOfPlayers);
+	// Shuffle the order of players randomly
+	//std::shuffle(players.begin(), players.end(), randomSeed);
+
+
+	// print the player order
+	cout << "Player Order: \n";
+	for (int i = 0; i < numberOfPlayers; i++) {
+		cout << "Player " << i + 1 << ": " << players[i]->getName() << "\n";
+	}
+	cout << endl;
+
+
+	// c) give 50 initial armies to the players, which are placed in their respective reinforcement pool 
+	cout << "----------------------------------------------\n" << endl;
+
+	cout << "Initial Armies: \n";
+	for (int i = 0; i < numberOfPlayers; i++) {
+		players[i]->setArmy(50);
+		cout << "Player " << i + 1 << " (" << players[i]->getName() << "): " << players[i]->getArmy() << "\n";
+	}
+	cout << "\n";
+
+
+	// d) get each player draw 2 initial cards from the deck using the deck’s draw() method 
+	cout << "----------------------------------------------\n" << endl;
+
+	//set hand size to 2
+	const int HAND_SIZE = 5;
+	//initialize and fill deck
+	Deck myDeck;
+	myDeck.fillDeck(20);
+
+	//for loop to iterate through player.size
+	for (int i = 0; i < numberOfPlayers; i++)
+	{
+		//create a new hand for each player
+		Hand* hand = new Hand();
+		OrdersList* ordersList = new OrdersList();
+		players[i]->myOrders = ordersList;
+		players[i]->myHand = hand;
+
+		//for loop to iterate through hand.size
+		for (int j = 0; j < HAND_SIZE; j++)
+		{
+			//draws card from the deck and gives it to the player's hand
+			players[i]->myHand->handCards.push_back(myDeck.draw());
+		}
+	}
+	//loop to print out player's hand
+	for (int i = 0; i < numberOfPlayers; i++)
+	{
+		cout << "Player " << i + 1 << "'s hand " << "(" << players[i]->getName() << "): \n" << endl;
+		for (int j = 0; j < players[i]->myHand->handCards.size(); j++)
+		{
+			cout << players[i]->myHand->handCards[j] << endl;
+		}
+		cout << endl;
+	}
+
+	// e) switch the game to the play phase
+	/*if (transition("gamestart"))
+	{
+		cout << "Game has switched to Play Phase." << endl;
+	}*/
 }
 
 ostream& operator<<(ostream& out, Tournament& tournament) {

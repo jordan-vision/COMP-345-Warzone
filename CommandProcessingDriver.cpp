@@ -57,7 +57,9 @@ GameEngine:: instance()->reset();
         // Reading from the commands.txt file 
         while (!fileCommand->isEntireFileRead()) {
             Command* commandFromFile = fileCommand->getCommand();
-            GameEngine::instance()->transition(commandFromFile->getCommandEffect());
+            if (commandFromFile != NULL) {
+                GameEngine::instance()->transition(commandFromFile->getCommandEffect());
+            }
         }
         cout<<"\nEnd of file reached."<<endl;
 
