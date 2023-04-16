@@ -1,4 +1,5 @@
 #pragma once
+#include "Player.h"
 #include <string>
 #include <vector>
 using namespace std;
@@ -114,6 +115,7 @@ public:
     void validate();       
     void mapTraversal(Territory* current, vector <Territory*> &visitedTerritories);          
     void mapTraversal(Territory* current, vector <Territory*> &visitedTerritories, string name); 
+    void reset();
 
 // GETTERS
     vector <Territory*> getTerritories();        

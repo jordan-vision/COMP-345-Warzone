@@ -161,8 +161,8 @@ vector <Territory*> Player:: getPlayerTerritories(){
     return territoriesOwned;
 }
 
-void Player::setPlayerTerritories(vector <Territory*> territories) {
-    territoriesOwned = territories;
+void Player::clearPlayerTerritories() {
+    territoriesOwned.clear();
 }
   
 

@@ -828,16 +828,18 @@ void Tournament::runTournament() {
 	// Run every game
 	for (int i = 0; i < 5; i++) { // On every map
 		if (maps[i] != NULL) {
-			for (int i = 0; i < games; i++) { // -G times
+			for (int j = 0; j < games; j++) { // -G times
+				cout << "MAP " << *maps[i] << " -- GAME " << j + 1 << endl;
 				tournamentStartupPhase(i);
 			}
 		}
 	}
 }
 
-void Tournament::tournamentStartupPhase(int i) {
-	// Game engine setup
+void Tournament::tournamentStartupPhase(int mapNumber) {
+	// Game engine and map setup
 	GameEngine::instance()->reset();
+	maps[mapNumber]->reset();
 	GameEngine::instance()->transition("loadmap");
 	GameEngine::instance()->transition("validatemap");
 	GameEngine::instance()->transition("addplayer");
@@ -850,7 +852,7 @@ void Tournament::tournamentStartupPhase(int i) {
 	// a) fairly distribute all the territories to the players
 
 	// get all territories from the map and put them into the vector
-	vector<Territory*> territories = maps[i]->getTerritories();
+	vector<Territory*> territories = maps[mapNumber]->getTerritories();
 
 	// shuffle the vector to randomize the order of the territories
 	auto randomSeed = std::mt19937(std::random_device{}());

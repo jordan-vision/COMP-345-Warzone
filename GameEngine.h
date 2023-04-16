@@ -16,6 +16,7 @@ using namespace std;
 class State;
 class Transition;
 class DirectedGraph;
+class Map;
 class PlayerStrategy;
 
 class DirectedGraph {

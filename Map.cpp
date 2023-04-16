@@ -361,6 +361,14 @@ void Map:: validate(){
     cout<<"The map is connected and is a subgraph, with no duplicate territories: Valid map. "<<endl;
 }
 
+void Map::reset() {
+    for (int i = 0; i < territories.size(); i++) {
+        if (territories[i]->getOwner()) {
+            territories[i]->getOwner()->clearPlayerTerritories();
+            territories[i]->setOwner(NULL);
+        }
+    }
+}
 
 Map:: ~Map(){
 

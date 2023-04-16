@@ -46,8 +46,8 @@ class Player
         Territory* getWeakestCountry(Player* player);
         //method to get player territories
         vector <Territory*> getPlayerTerritories(); 
-        // method to set player territories
-        void setPlayerTerritories(vector <Territory*> territories);
+        // method to clear player territories
+        void clearPlayerTerritories();
         //creating an order object called myOrderss
         OrdersList* myOrders;
         //method named issueOrder() 
