@@ -710,7 +710,7 @@ void GameEngine::executeOrdersPhase(){
     // Iterate through highest order count
     for (int i = 0; i < players.size(); i++){ 
         // Iterate through player count
-		while (players[i]->myOrders->vectorOfOrders.size() != 0) {
+		while (!players[i]->myOrders->vectorOfOrders.empty()) {
 			// Execute highest priority order (if not empty)
 			cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
 
@@ -980,7 +980,7 @@ void Tournament::tournamentGameLoop() {
 		GameEngine::instance()->executeOrdersPhase();
 		i++;
 		for (auto p : players) {
-			if (p->getPlayerTerritories().size() == ALL_TERRITORIES) {
+			if (p != NULL && p->getPlayerTerritories().size() == ALL_TERRITORIES) {
 				gameNotDone = false;
 			}
 		}
