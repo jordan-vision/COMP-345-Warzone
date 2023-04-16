@@ -184,9 +184,9 @@ return strongestTerritory;
 
 Territory* Player::getWeakestCountry(Player* player) {
     Territory* weakestTerritory;
-    int lowestArmyCount = 100;
+    int lowestArmyCount = 500;
     for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
-    if (player->getPlayerTerritories()[i]->getArmy() < lowestArmyCount) {
+    if (player->getPlayerTerritories()[i]->getArmy() <= lowestArmyCount) {
         lowestArmyCount = player->getPlayerTerritories()[i]->getArmy();
         weakestTerritory = player->getPlayerTerritories()[i];
     }
@@ -267,7 +267,7 @@ void Player::issueOrder(vector<Player*> player, int index)
         else{
 
         if (player[index]->getStrategy()->getName() == "human"){
-        cout << player[index]->getName() << ": You have these cards: "<< player[index]->myHand << endl;
+        cout << player[index]->getName() << ": \n "<< player[index]->myHand << endl;
         cout << "\n-- Orders --\n";
         cout << "1. Advance\n";
         cout << "2. Bomb\n";

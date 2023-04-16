@@ -386,6 +386,7 @@ return "Game Engine New State: ...";
 CommandProcessor* cp = new CommandProcessor();
 
 void GameEngine::startupPhase() {
+
 			//command selection menu
 			cout << "\n--------------" << endl;
 			cout << "Startup Phase: " << endl;
@@ -619,7 +620,11 @@ void GameEngine::mainGameLoop() {
 	}
 
 void GameEngine::issueOrdersPhase(bool isTournament){
+		bool gameIsNotDone = true;
 	cout << "\nISSUING ORDERS PHASE" <<endl;
+	transition("issueorder");
+	cout << "the current state is: " << gameLoop->getCurrentState()->getLabel() << endl;
+
 // Start game loop
 for (int i = 0; i < players.size(); i++) {
     // Print which player's turn it is
@@ -680,46 +685,74 @@ for (int i = 0; i < players.size(); i++) {
 		players[i]->setStrategy(ps);
 	}		
 
-	// Debugging output to check the value of ps after setting it
-	// cout << "ps after setting: " << players[i]->getStrategy() << endl;
+	
 	// Print which strategy was selected for the current player
 	cout << "\nPlayer " << i + 1 << "'s strategy: " << players[i]->ps->getName() << endl;
 	// Call the issueOrder method for the current player's strategy
-	//  players[i]->getStrategy()->issueOrder(players);
 	players[i]->ps->issueOrder(players);
-	// Debugging output to check the value of ps after calling issueOrder
-	// cout << "ps after issueOrder: " << players[i]->getStrategy() << endl;
 	// Print that the current player's turn is completed
-	cout << "\n*** " << players[i]->getName() << "'s turn is complete. ***" << endl;
+	cout << "\n*** " << players[i]->getName() << "'s turn is complete. ***\n" << endl;
 	if (!isTournament) {
 		players[i]->setStrategy(nullptr);
 	}
-
+		if (players[i]->getPlayerTerritories().size() == ALL_TERRITORIES){
+			cout << players[i]->getName() << " owns all territories!\n" << endl;
+				gameIsNotDone = false; 
+				break;
+			}
 
 	}
 // Print that the issuing phase is complete
 cout<<"Finished issuing phase..." << endl;
 
-	
+transition("issueordersend");
+cout << "the current state is: " << gameLoop->getCurrentState()->getLabel() << endl;
+
+
 }
 
 void GameEngine::executeOrdersPhase(){
 	cout << "\nEXECUTING ORDERS PHASE" <<endl;
+	transition("execorder");
 	int max = 0;    // Stores highest order count among players
 
     // Iterate through highest order count
     for (int i = 0; i < players.size(); i++){ 
+		if (players[i]->getStrategy()->getName() == "human"){
         // Iterate through player count
-		while (!players[i]->myOrders->vectorOfOrders.empty()) {
-			// Execute highest priority order (if not empty)
-			cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
+			while (!players[i]->myOrders->vectorOfOrders.empty()) {
+				// Execute highest priority order (if not empty)
+				cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
 
-			players[i]->myOrders->vectorOfOrders[0]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
-			cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect() << endl;
+				players[i]->myOrders->vectorOfOrders[0]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
+				cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect() << endl;
 
-			players[i]->myOrders->remove(0); //remove order
+				
+
+						players[i]->myOrders->remove(0); //remove order
+				}
 		}
+
+			if (players[i]->getPlayerTerritories().size() == ALL_TERRITORIES){
+				transition("win");
+				cout << "The game is now over. Would you like to quit or replay?" << endl;
+				string answer;
+				cin >> answer;
+				if (answer == "quit"){
+				transition("quit");
+				}
+				else if (answer == "replay"){
+				transition("replay");
+				}
+				else{
+				cout << "Invalid choice." << endl;
+				}
+				return;
+
+			}
 	}
+		transition("endexecorders");
+
 }
 
 void GameEngine::reinforcementPhase(){ // reinforcment phase implementation
