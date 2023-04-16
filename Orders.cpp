@@ -75,7 +75,7 @@ string OrdersList::stringToLog() {
 
 Order::Order() // default constructor
 {
-	orderEffect = "Order has been placed on order list. Nothing happened yet";
+	orderEffect = "Order has been placed on order list. Nothing happened yet\n";
 }
 
 Order::Order(Order& copy){ // copy constructor

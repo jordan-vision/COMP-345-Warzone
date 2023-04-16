@@ -31,4 +31,11 @@ int main() {
 	GameEngine::instance()->startupPhase(); // start the startup phase
 	GameEngine::instance()->mainGameLoop(); // start the main game loop with its three phases
 
+if (GameEngine::instance()->getIsGameOver() == false){
+
+	GameEngine::instance()->reset(); //reset all previous settings 
+	GameEngine::instance()->startupPhase(); // start the startup phase
+	GameEngine::instance()->mainGameLoop(); // start the main game loop with its three phases
+}
+
 };
