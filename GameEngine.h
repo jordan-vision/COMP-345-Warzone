@@ -129,16 +129,18 @@ ostream& operator<<(ostream& out, GameEngine& engine);
 
 class Tournament {
 private:
-	string maps[5];
+	Map* maps[5];
 	Player* players[4];
 	int games, turns;
 
 	static Tournament* singletonInstance;
 	Tournament();
-	Tournament(string* maps, Player** players, int games, int turns);
+	Tournament(Map** maps, Player** players, int games, int turns);
 	~Tournament();
 
 public:
-	static bool newTournament(string* maps, Player** players, int games, int turns);
+	static bool newTournament(string* mapStrings, Player** players, int games, int turns);
 	static Tournament* instance();
+
+	friend ostream& operator<<(ostream& out, Tournament& tournament);
 };

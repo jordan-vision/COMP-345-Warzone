@@ -752,21 +752,70 @@ for (int i = 0; i < players.size(); i++) {
 
 Tournament *Tournament::singletonInstance;
 
-Tournament::Tournament() {
+Tournament::Tournament() {}
+Tournament::Tournament(Map** maps, Player** players, int games, int turns) {
+	copy(maps, maps + 5, this->maps);
+	copy(players, players + 4, this->players);
 
-}
-Tournament::Tournament(string* maps, Player** players, int games, int turns) {
+	this->games = games;
+	this->turns = turns;
 
+	delete[] maps;
+	delete[] players;
 }
+
 Tournament::~Tournament() {
-	
+	for (Player* player : players) {
+		delete player;
+	}
 }
 
-bool Tournament::newTournament(string* maps, Player** players, int games, int turns) {
+bool Tournament::newTournament(string* mapStrings, Player** players, int games, int turns) {
+	Map** maps = new Map*[5];
+	MapLoader* mapLoader = new MapLoader();
 
+	// Turn strings into maps. Return error if a map doesn't exist or is invalid
+	for (int i = 0; i < 5; i++) {
+		if (mapStrings[i] != "") {
+			Map* newMap = mapLoader->loadMap(mapStrings[i]);
+			newMap->validate();
+			if (!newMap->getIsValid()) {
+				delete[] mapStrings;
+				delete[] maps;
+				delete[] players;
+				return false;
+			}
+			maps[i] = newMap;
+		}
+	}
+	delete[] mapStrings;
+
+	// Instantiate singleton
+	delete singletonInstance;
+	singletonInstance = new Tournament(maps, players, games, turns);
+	cout << *singletonInstance << endl;
 	return true;
 }
 
 Tournament* Tournament::instance() {
 	return singletonInstance;
+}
+
+ostream& operator<<(ostream& out, Tournament& tournament) {
+	out << "Tournament Mode:" << endl;
+	out << "M: " << *tournament.maps[0];
+	for (int i = 1; i < 5; i++) {
+		if (tournament.maps[i] != NULL) {
+			out << ", " << *tournament.maps[i] << endl;
+		}
+	}
+	out << endl << "P: " << *tournament.players[0]/*->getStrategy()*/;
+	for (int i = 1; i < 4; i++) {
+		if (tournament.players[i] != NULL) {
+			out << ", " << *tournament.players[i]/*->getStrategy()*/;
+		}
+	}
+	out << endl << "G: " << tournament.games << endl;
+	out << "D: " << tournament.turns << endl;
+	return out;
 }
