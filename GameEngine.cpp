@@ -673,6 +673,7 @@ for (int i = 0; i < players.size(); i++) {
 		else if (strategyType == "human") {
 			ps = new HumanPlayerStrategy(players[i]);
 			ps->setName("human");
+			players[i]->isHumanStrategy = true;
 		}
 		else {
 			// handle invalid strategy type input
@@ -718,18 +719,19 @@ void GameEngine::executeOrdersPhase(){
 
     // Iterate through highest order count
     for (int i = 0; i < players.size(); i++){ 
-		if (players[i]->getStrategy()->getName() == "human"){
+
+
+		if (players[i]->isHumanStrategy){
         // Iterate through player count
 			while (!players[i]->myOrders->vectorOfOrders.empty()) {
 				// Execute highest priority order (if not empty)
 				cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
+				cout<< "got the initial order effect!" <<endl;
 
 				players[i]->myOrders->vectorOfOrders[0]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
 				cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect() << endl;
-
-				
-
-						players[i]->myOrders->remove(0); //remove order
+				players[i]->myOrders->remove(0); //remove order
+						
 				}
 		}
 
