@@ -316,7 +316,6 @@ string Advance::getDescription()
 }
 
 Advance::~Advance(){
-
 }
 
 

@@ -221,7 +221,7 @@ void Player::issueOrder(vector<Player*> player, int index)
             Territory* selectedTarget = getValidTarget(tToDefend);
             int reinforcementAmount = 0;
             while (true) {
-                cout << "\nPlayer " << player[index]->getName() << "'s turn: " << endl;
+                // cout << "\nPlayer " << player[index]->getName() << "'s turn: " << endl;
                 cout << "How many reinforcements do you wish to send ( 1 - " << numberOfArmies << " )?";
                 
                 if (!(cin >> reinforcementAmount)) {
