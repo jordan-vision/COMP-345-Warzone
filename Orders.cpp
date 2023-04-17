@@ -227,7 +227,7 @@ void Advance::execute(Player* player){
 
 			int attacking = units;
 			int defending = target->getArmy();
-			target->setIsAttacked(true);
+			enemy->setIsAttacked(true);
 
 			cout<<"\nTarget territory belongs to another player.";
 			cout<<"\n" << *source << " has " <<units << " armies and is commencing attack on " << *target << " which has " << target->getArmy() << " armies."<<endl;
