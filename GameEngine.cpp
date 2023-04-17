@@ -896,6 +896,13 @@ Tournament* Tournament::instance() {
 }
 
 void Tournament::runTournament() {
+	// Add all players to game engine
+	for (int i = 0; i < numberOfPlayers; i++) {
+		if (players[i] != NULL) {
+			GameEngine::instance()->addPlayer(players[i]);
+		}
+	}
+
 	// Run every game
 	for (int i = 0; i < numberOfMaps; i++) { // On every map
 		for (int j = 0; j < games; j++) { // -G times
@@ -910,13 +917,6 @@ void Tournament::runTournament() {
 }
 
 void Tournament::tournamentStartupPhase(int mapNumber) {
-	// Add all players to game engine
-	for (int i = 0; i < numberOfPlayers; i++) {
-		if (players[i] != NULL) {
-			GameEngine::instance()->addPlayer(players[i]);
-		}
-	}
-	
 	// Game engine and map setup
 	maps[mapNumber]->reset();
 	for (int i = 0; i < numberOfPlayers; i++) {
