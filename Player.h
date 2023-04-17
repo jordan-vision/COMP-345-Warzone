@@ -80,6 +80,10 @@ class Player
 
         bool isHumanStrategy;
 
+        bool getIsAttacked();  
+        void setIsAttacked(bool attacked);                       
+                               
+
     private:
         vector <Territory*> territories; 
         vector<Territory*> territoriesOwned;
@@ -89,6 +93,8 @@ class Player
         bool deployOrdersIssued;
         string name;
         int reinforcements;
+        bool isAttacked; 
+
 
 };
  #endif

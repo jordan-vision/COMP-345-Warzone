@@ -68,45 +68,42 @@ cout << "Player has " << p->getArmy() << " armies to deploy." <<endl;
         if (strongestTerritory != nullptr) 
         {
             cout << "Strongest territory: " << *strongestTerritory<< endl;
-             if ( p->getArmy() !=0 ){ //  (2) a player will only issue deploy orders and no other kind of orders if they still have armies in their reinforcement pool;
+             if ( p->getArmy() !=0 ){ 
             Deploy* deploy = new Deploy(strongestTerritory, numberOfArmies);
+            cout<<"\nCreated Deploy Order\n"<<endl;
             int currentArmy = strongestTerritory->getArmy();
             strongestTerritory->setArmy(numberOfArmies + currentArmy);
-            cout << *strongestTerritory << " now has " << strongestTerritory->getArmy() << " armies" <<endl;
-            cout<<"\nCreated Deploy Order"<<endl;
+            cout << *strongestTerritory << " now has " << strongestTerritory->getArmy() << " armies." <<endl;
             // deploy->orderEffect = "order deployed";
             p->myOrders->add(deploy);// add deploy order to orderslist
              }
             vector<Territory*> strongestAdjacentTerritories = strongestTerritory->getAdjacentTerritories();
-            cout << *strongestTerritory << " has: " << strongestAdjacentTerritories.size() << " adjacent territories " <<endl; 
+            cout << *strongestTerritory << " has: " << strongestAdjacentTerritories.size() << " adjacent territories." <<endl; 
             Territory* targetTerritory = strongestAdjacentTerritories[0];
              cout << "Target territory: " << targetTerritory->getName() << "\n" << endl;
              Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
+            cout<<"Created Advance Order"<<endl;
+             advanceOrder->execute(p);
              p->myOrders->add(advanceOrder);
-            //advanceOrder->execute(p);
-             //cout << "Aggressive Advance order executed.\n" << endl;
+
              
          
         } else
         {
-            if ( p->getArmy() !=0 ){ //  (2) a player will only issue deploy orders and no other kind of orders if they still have armies in their reinforcement pool;
+            if ( p->getArmy() !=0 ){ 
             Deploy* deploy = new Deploy( p->getPlayerTerritories()[0], numberOfArmies);
             p->getPlayerTerritories()[0]->setArmy(numberOfArmies);
-            cout << "All armies have been deployed to " << p->getPlayerTerritories()[0]->getName() << " which has now become the strongest territory. " << p->getPlayerTerritories()[0]->getName()  << " now has " << p->getPlayerTerritories()[0]->getArmy() << " armies\n" <<endl;
             cout<<"Created Deploy Order"<<endl;
+            cout << "All armies have been deployed to " << p->getPlayerTerritories()[0]->getName() << " which has now become the strongest territory. " << p->getPlayerTerritories()[0]->getName()  << " now has " << p->getPlayerTerritories()[0]->getArmy() << " armies\n" <<endl;
             // deploy->orderEffect = "order deployed";
              p->myOrders->add(deploy);// add deploy order to orderslist
             }
             cout << "\nThe target territory which " << p->getName() << " will attempt to attack is: " << p->getPlayerTerritories()[0]->getAdjacentTerritories()[0]->getName() << endl;
             Territory* targetTerritory =  p->getPlayerTerritories()[0]->getAdjacentTerritories()[0];
             Advance* advanceOrder = new Advance(targetTerritory, p->getPlayerTerritories()[0], p->getPlayerTerritories()[0]->getArmy());
+            cout<<"Created Advance Order"<<endl;
+            advanceOrder->execute(p);
             p->myOrders->add(advanceOrder);
-              //  cout << "Advance order created.\n" << endl;
-                //advanceOrder->execute(p);
-                //cout << "Aggressive Advance order executed.\n" << endl;
-        
-            // cout<<"\nCannot advance with 0 armies"<<endl;
-
         }
     }
 
@@ -209,18 +206,19 @@ NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) {
 
 void NeutralPlayerStrategy::issueOrder(vector<Player*> players) {
 
-for (int i = 0; i < p->getPlayerTerritories().size(); i++){
     
-    if (p->getPlayerTerritories()[i]->getIsAttacked() == true){
+    if (p->getIsAttacked() == true){
         cout<<"\nNeutral player has been attacked. Switching to aggressive strategy"<<endl;
         p->setStrategy(new AggressivePlayerStrategy(p));
         p->getStrategy()->issueOrder(players);
+        p->setIsAttacked(false);
+
     } else {
          cout<<"\nNeutral player has not been attacked. Remaining neutral"<<endl;
     }
 
 }
-};
+
 
 vector<Territory*> NeutralPlayerStrategy::toAttack() {
 

@@ -720,24 +720,9 @@ void GameEngine::executeOrdersPhase(){
     // Iterate through highest order count
     for (int i = 0; i < players.size(); i++){ 
 
-
-		if (players[i]->isHumanStrategy){
-        // Iterate through player count
-			while (!players[i]->myOrders->vectorOfOrders.empty()) {
-				// Execute highest priority order (if not empty)
-				cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
-				cout<< "got the initial order effect!" <<endl;
-
-				players[i]->myOrders->vectorOfOrders[0]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
-				cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect() << endl;
-				players[i]->myOrders->remove(0); //remove order
-						
-				}
-		}
-
 			if (players[i]->getPlayerTerritories().size() == ALL_TERRITORIES){
 				transition("win");
-				cout << "The game is now over. Would you like to quit or replay?" << endl;
+				cout << "GAME OVER. Would you like to quit or replay?" << endl;
 				string answer;
 				cin >> answer;
 				if (answer == "quit"){
@@ -751,7 +736,20 @@ void GameEngine::executeOrdersPhase(){
 				}
 				return;
 
+			} else {
+				if (players[i]->isHumanStrategy){
+					// Iterate through player count
+						while (!players[i]->myOrders->vectorOfOrders.empty()) {
+							// Execute highest priority order (if not empty)
+							cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
+							players[i]->myOrders->vectorOfOrders[0]->execute(players[i]);    
+							cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect() << endl;
+							players[i]->myOrders->remove(0); //remove order
+									
+							}
+					}
 			}
+
 	}
 		transition("endexecorders");
 

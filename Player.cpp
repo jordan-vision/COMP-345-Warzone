@@ -67,6 +67,14 @@ void Player::setFlag(bool deployOrdersIssued){
     this->deployOrdersIssued = deployOrdersIssued;
 }
 
+bool Player:: getIsAttacked(){
+    return isAttacked;
+}
+
+void Player:: setIsAttacked(bool attacked){
+    this->isAttacked = attacked; 
+}
+
 void Player::removeCardOfTypeFromHand(Player* player, CardType cardType) {
     // Find the first card in the hand that matches the specified CardType
     auto it = find_if(player->myHand->handCards.begin(), player->myHand->handCards.end(), 
@@ -269,7 +277,6 @@ void Player::issueOrder(vector<Player*> player, int index)
         }
         else{
 
-        if (player[index]->getStrategy()->getName() == "human"){
         cout << player[index]->getName() << ": \n "<< player[index]->myHand << endl;
         cout << "\n-- Orders --\n";
         cout << "1. Advance\n";
@@ -419,12 +426,9 @@ void Player::issueOrder(vector<Player*> player, int index)
                 player[index]->setFlag(false);
                 break;
         }
-    } else {
-       player[index]->getStrategy()->issueOrder(player);
-    }
-
+    } 
  }
-}
+
 }
      
             
