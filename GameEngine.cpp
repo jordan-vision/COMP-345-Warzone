@@ -613,7 +613,9 @@ void GameEngine::mainGameLoop() {
 		executeOrdersPhase(false);
 		for (auto p: players){
 			if (p->getPlayerTerritories().size() == ALL_TERRITORIES){
+				cout<<"\nGAME IS DONE"<<endl;
 				gameNotDone = false; 
+				
 			}
 	}
 	}
@@ -752,13 +754,16 @@ void GameEngine::executeOrdersPhase(bool isTournament){
 			} else {
 				if (players[i]->isHumanStrategy){
 					// Iterate through player count
-						while (!players[i]->myOrders->vectorOfOrders.empty()) {
+					int sizeOrders = players[i]->myOrders->vectorOfOrders.size();
+						while (sizeOrders > 0) {
 							// Execute highest priority order (if not empty)
 							cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect();
 							players[i]->myOrders->vectorOfOrders[0]->execute(players[i]);    
 							cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect() << endl;
+							sizeOrders = players[i]->myOrders->vectorOfOrders.size();
+							//cout<<players[i]->myOrders->vectorOfOrders.size();
 							players[i]->myOrders->remove(0); //remove order
-									
+
 							}
 					}
 			}
