@@ -353,9 +353,9 @@ void Map:: validate(){
 
 void Map::reset() {
     for (int i = 0; i < territories.size(); i++) {
+        territories[i]->setArmy(0);
         if (territories[i]->getOwner()) {
-            territories[i]->setArmy(0);
-            territories[i]->getOwner()->clearPlayerTerritories();
+            // territories[i]->getOwner()->clearPlayerTeritories();
             territories[i]->setOwner(NULL);
         }
     }
