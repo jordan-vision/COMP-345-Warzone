@@ -46,7 +46,7 @@ void OrdersList::remove(int i) // removes order at position i
 { 
 	cout << "Erasing order at position" << i << "..." << endl;
 	cout << endl;
-	delete vectorOfOrders[i];
+	//delete vectorOfOrders[i];
 	vectorOfOrders.erase(vectorOfOrders.begin() + i); 
 }
 

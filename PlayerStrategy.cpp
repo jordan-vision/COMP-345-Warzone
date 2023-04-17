@@ -242,16 +242,12 @@ int highestArmyCount =0;
                         sourceTerritory = sourceTerritories[i];
                         }
                         cout << "Territory that we will be taking armies from: " << sourceTerritory->getName() << endl;
-<<<<<<< Updated upstream
                         Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, sourceTerritory->getArmy());
-                        advanceOrder->execute(p);
-=======
-                       Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, sourceTerritory->getArmy());
+                        
                         //advanceOrder->execute(p); 
                         p->myOrders->add(advanceOrder);
                         // Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, sourceTerritory->getArmy());
                         advanceOrder->execute(p); 
->>>>>>> Stashed changes
                         }   
                  }
                  else{
