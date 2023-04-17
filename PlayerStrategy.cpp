@@ -147,6 +147,7 @@ int highestArmyCount =0;
                 Deploy* deploy = new Deploy(weakestTerritory, numberOfArmies);
                 int currentArmy = weakestTerritory->getArmy();
                 weakestTerritory->setArmy(numberOfArmies + currentArmy);
+                cout << "Current weakest territory is " << *weakestTerritory << endl;
                 cout << *weakestTerritory << " now has " << weakestTerritory->getArmy() << " armies" <<endl;
                 cout<<"\nCreated Deploy Order"<<endl;
                 // deploy->orderEffect = "order deployed";
@@ -172,9 +173,14 @@ int highestArmyCount =0;
                         sourceTerritory = sourceTerritories[i];
                         }
                         cout << "Territory that we will be taking armies from: " << sourceTerritory->getName() << endl;
+<<<<<<< Updated upstream
                         Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, weakestTerritory->getArmy());
                         //advanceOrder->execute(p); 
                         p->myOrders->add(advanceOrder);
+=======
+                        Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, sourceTerritory->getArmy());
+                        advanceOrder->execute(p); 
+>>>>>>> Stashed changes
                         }   
                  }
                  else{
