@@ -730,6 +730,7 @@ void GameEngine::executeOrdersPhase(bool isTournament){
 
 				players[i]->myOrders->vectorOfOrders[0]->execute(players[i]);    // WILL NEED TO BE CHANGED FOR PART 3/4
 				cout << players[i]->myOrders->vectorOfOrders[0]->getOrderEffect() << endl;
+				delete players[i]->myOrders->vectorOfOrders[0];
 				players[i]->myOrders->remove(0); //remove order
 						
 				}
@@ -908,6 +909,9 @@ void Tournament::runTournament() {
 void Tournament::tournamentStartupPhase(int mapNumber) {
 	// Game engine and map setup
 	maps[mapNumber]->reset();
+	for (int i = 0; i < numberOfPlayers; i++) {
+		players[i]->clearPlayerTerritories();
+	}
 	GameEngine::instance()->reset();
 	GameEngine::instance()->transition("loadmap");
 	GameEngine::instance()->transition("validatemap");

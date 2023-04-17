@@ -175,7 +175,8 @@ int highestArmyCount =0;
                         }
                         cout << "Territory that we will be taking armies from: " << sourceTerritory->getName() << endl;
                         Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, weakestTerritory->getArmy());
-                        advanceOrder->execute(p); 
+                        //advanceOrder->execute(p); 
+                        p->myOrders->add(advanceOrder);
                         }   
                  }
                  else{

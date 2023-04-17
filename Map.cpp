@@ -365,10 +365,7 @@ void Map::reset() {
     for (int i = 0; i < territories.size(); i++) {
         territories[i]->setArmy(0);
         territories[i]->setIsAttacked(false);
-        if (territories[i]->getOwner()) {
-            territories[i]->getOwner()->clearPlayerTeritories();
-            territories[i]->setOwner(NULL);
-        }
+        territories[i]->setOwner(NULL);
     }
 }
 
