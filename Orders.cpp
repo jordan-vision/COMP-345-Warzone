@@ -48,7 +48,6 @@ void OrdersList::remove(int i) // removes order at position i
 	cout << endl;
 	delete vectorOfOrders[i];
 	vectorOfOrders.erase(vectorOfOrders.begin() + i); 
-	
 }
 
 void OrdersList::move(int from, int to) { // moves order from position <from> to position <to>
@@ -251,7 +250,6 @@ void Advance::execute(Player* player){
 				}
 
 			}
-
 			// If the player conquers this target territory: 
 			// Set the new number of army units in the target territory after it has been conquered
 			// Erase its previous owner by removing it from their list of territories owned
@@ -266,8 +264,6 @@ void Advance::execute(Player* player){
        					 break;
 					}
 				}
-				vector<Territory*> enemyTerritories = enemy->getPlayerTerritories();
-
 
 				// Erase the territory pointer from the vector
 				enemy->removeTerritory(indexToDelete);
@@ -280,6 +276,7 @@ void Advance::execute(Player* player){
 				source->setArmy(this->source->getArmy() - units);
 				cout << "Ownership of " << target->getName() << " has been changed to " << player->getName() <<  "." << endl;
 				cout << "You now own " << target->getName() << " with " << target->getArmy() <<  " armies on it.\n" << endl;
+
 
 				// give the player a card since they conquered a territory
 				//player->myHand->handCards.push_back(myDeck->draw());
@@ -296,7 +293,6 @@ void Advance::execute(Player* player){
        					 break;
 					}
 				}
-				vector<Territory*> playerTerritories = player->getPlayerTerritories();
 
 
 				// Erase the territory pointer from the vector

@@ -84,8 +84,7 @@ cout << "Player has " << p->getArmy() << " armies to deploy." <<endl;
              cout << "Target territory: " << targetTerritory->getName() << "\n" << endl;
              Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
             cout<<"Created Advance Order"<<endl;
-             //advanceOrder->execute(p);
-             p->myOrders->add(advanceOrder);
+             advanceOrder->execute(p);
 
              
          
@@ -103,8 +102,7 @@ cout << "Player has " << p->getArmy() << " armies to deploy." <<endl;
             Territory* targetTerritory =  p->getPlayerTerritories()[0]->getAdjacentTerritories()[0];
             Advance* advanceOrder = new Advance(targetTerritory, p->getPlayerTerritories()[0], p->getPlayerTerritories()[0]->getArmy());
             cout<<"Created Advance Order"<<endl;
-            //advanceOrder->execute(p);
-            p->myOrders->add(advanceOrder);
+            advanceOrder->execute(p);
         }
     }
 
@@ -173,14 +171,8 @@ int highestArmyCount =0;
                         sourceTerritory = sourceTerritories[i];
                         }
                         cout << "Territory that we will be taking armies from: " << sourceTerritory->getName() << endl;
-<<<<<<< Updated upstream
-                        Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, weakestTerritory->getArmy());
-                        //advanceOrder->execute(p); 
-                        p->myOrders->add(advanceOrder);
-=======
                         Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, sourceTerritory->getArmy());
-                        advanceOrder->execute(p); 
->>>>>>> Stashed changes
+                        advanceOrder->execute(p);
                         }   
                  }
                  else{

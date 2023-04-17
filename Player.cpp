@@ -185,16 +185,17 @@ Territory* Player::getStrongestCountry(Player* player) {
     Territory* strongestTerritory = player->getPlayerTerritories()[0];
     int highestArmyCount = 0;
     for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
-    if (player->getPlayerTerritories()[i]->getArmy() >= highestArmyCount) {
-        highestArmyCount = player->getPlayerTerritories()[i]->getArmy();
-        strongestTerritory = player->getPlayerTerritories()[i];
-    } if (strongestTerritory->getArmy() == 0){
+        if (player->getPlayerTerritories()[i]->getArmy() >= highestArmyCount) {
+            highestArmyCount = player->getPlayerTerritories()[i]->getArmy();
+            strongestTerritory = player->getPlayerTerritories()[i];
+        }
+    }
+    if (strongestTerritory->getArmy() == 0) {
         cout<<"\nAll territories have 0 armies"<<endl;
         strongestTerritory = nullptr;
         return strongestTerritory;
     }
-}
-return strongestTerritory;
+    return strongestTerritory;
 }
 
 Territory* Player::getWeakestCountry(Player* player) {
@@ -222,7 +223,9 @@ void Player::addTerritory(Territory* newTerritory) {
 }
 
 void Player::removeTerritory(int index) {
-    territoriesOwned.erase(territoriesOwned.begin() + index);
+    if (index >= 0) {
+        territoriesOwned.erase(territoriesOwned.begin() + index);
+    }
 }
 
  // create an OrderList object
