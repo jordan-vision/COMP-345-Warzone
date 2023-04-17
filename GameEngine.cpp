@@ -763,13 +763,15 @@ void GameEngine::executeOrdersPhase(bool isTournament){
 							sizeOrders = players[i]->myOrders->vectorOfOrders.size();
 							//cout<<players[i]->myOrders->vectorOfOrders.size();
 							players[i]->myOrders->remove(0); //remove order
+							break;
 
 							}
 					}
 			}
+				
 
 	}
-		transition("endexecorders");
+		 transition("endexecorders");
 
 }
 

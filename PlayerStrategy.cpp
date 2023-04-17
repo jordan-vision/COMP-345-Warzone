@@ -7,6 +7,16 @@ ostream& operator<<(ostream& output, PlayerStrategy& ps) {
     return output;
 }
 
+// PlayerStrategy:: PlayerStrategy(const PlayerStrategy& copy){
+//     this->p = copy.p; 
+// }
+
+// PlayerStrategy& PlayerStrategy:: operator =(const PlayerStrategy& rhs){
+//     this->p = rhs.p;
+//     return *this;
+// }
+
+
 string PlayerStrategy:: getName(){
     return name; 
 }
@@ -14,6 +24,12 @@ string PlayerStrategy:: getName(){
 void PlayerStrategy:: setName(string name){
     this->name = name; 
 }
+
+PlayerStrategy:: ~PlayerStrategy(){
+    delete p;
+}
+
+
 
 
 /************** HUMAN PLAYER STRATEGY **************/
@@ -23,6 +39,25 @@ HumanPlayerStrategy::HumanPlayerStrategy(Player* player) {
     this->p = player;
     // set player type to human
 };
+
+
+ostream& operator<<(ostream& output, HumanPlayerStrategy& ps) {
+    output << ps.getName();
+    return output;
+}
+
+HumanPlayerStrategy:: ~HumanPlayerStrategy(){
+    delete p;
+}
+
+HumanPlayerStrategy:: HumanPlayerStrategy(const HumanPlayerStrategy& copy){
+    this->p = copy.p; 
+}
+
+HumanPlayerStrategy& HumanPlayerStrategy:: operator =(const HumanPlayerStrategy& rhs){
+    this->p = rhs.p;
+    return *this;
+}
 
 void HumanPlayerStrategy::issueOrder(vector<Player*> players) {
     int index = 0;
@@ -55,6 +90,24 @@ AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) {
 
 };
 
+
+ostream& operator<<(ostream& output, AggressivePlayerStrategy& ps) {
+    output << ps.getName();
+    return output;
+}
+
+AggressivePlayerStrategy:: AggressivePlayerStrategy(const AggressivePlayerStrategy& copy){
+    this->p = copy.p; 
+}
+
+AggressivePlayerStrategy& AggressivePlayerStrategy:: operator =(const AggressivePlayerStrategy& rhs){
+    this->p = rhs.p;
+    return *this;
+}
+
+AggressivePlayerStrategy:: ~AggressivePlayerStrategy(){
+    delete p;
+}
 
 void AggressivePlayerStrategy::issueOrder(vector<Player*> players) {
 
@@ -132,6 +185,24 @@ BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) {
     // set player type to benevolent
 };
 
+BenevolentPlayerStrategy:: BenevolentPlayerStrategy(const BenevolentPlayerStrategy& copy){
+    this->p = copy.p; 
+}
+
+ostream& operator<<(ostream& output, BenevolentPlayerStrategy& ps) {
+    output << ps.getName();
+    return output;
+}
+
+BenevolentPlayerStrategy& BenevolentPlayerStrategy:: operator =(const BenevolentPlayerStrategy& rhs){
+    this->p = rhs.p;
+    return *this;
+}
+
+BenevolentPlayerStrategy:: ~BenevolentPlayerStrategy(){
+    delete p;
+}
+
 void BenevolentPlayerStrategy::issueOrder(vector<Player*> players) {
 cout << "\n-- Benevolent player issuing order --" << endl;
 // cout << p->getName() << endl;
@@ -171,8 +242,16 @@ int highestArmyCount =0;
                         sourceTerritory = sourceTerritories[i];
                         }
                         cout << "Territory that we will be taking armies from: " << sourceTerritory->getName() << endl;
+<<<<<<< Updated upstream
                         Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, sourceTerritory->getArmy());
                         advanceOrder->execute(p);
+=======
+                       Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, sourceTerritory->getArmy());
+                        //advanceOrder->execute(p); 
+                        p->myOrders->add(advanceOrder);
+                        // Advance* advanceOrder = new Advance(weakestTerritory, sourceTerritory, sourceTerritory->getArmy());
+                        advanceOrder->execute(p); 
+>>>>>>> Stashed changes
                         }   
                  }
                  else{
@@ -203,6 +282,25 @@ NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) {
     this->p = player;
     // set player type to neutral
 };
+
+NeutralPlayerStrategy:: ~NeutralPlayerStrategy(){
+    delete p;
+}
+
+ostream& operator<<(ostream& output, NeutralPlayerStrategy& ps) {
+    output << ps.getName();
+    return output;
+}
+
+NeutralPlayerStrategy:: NeutralPlayerStrategy(const NeutralPlayerStrategy& copy){
+    this->p = copy.p; 
+}
+
+NeutralPlayerStrategy& NeutralPlayerStrategy:: operator =(const NeutralPlayerStrategy& rhs){
+    this->p = rhs.p;
+    return *this;
+}
+
 
 void NeutralPlayerStrategy::issueOrder(vector<Player*> players) {
 
@@ -235,6 +333,25 @@ CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player) {
 
     this->p = player;
 };
+
+CheaterPlayerStrategy:: CheaterPlayerStrategy(const CheaterPlayerStrategy& copy){
+    this->p = copy.p; 
+}
+
+CheaterPlayerStrategy& CheaterPlayerStrategy:: operator =(const CheaterPlayerStrategy& rhs){
+    this->p = rhs.p;
+    return *this;
+}
+
+CheaterPlayerStrategy:: ~CheaterPlayerStrategy(){
+    delete p;
+}
+
+
+ostream& operator<<(ostream& output, CheaterPlayerStrategy& ps) {
+    output << ps.getName();
+    return output;
+}
 
 void CheaterPlayerStrategy::issueOrder(vector<Player*> players) {
 
