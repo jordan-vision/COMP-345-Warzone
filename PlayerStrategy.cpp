@@ -360,20 +360,16 @@ void CheaterPlayerStrategy::issueOrder(vector<Player*> players) {
    
     vector<Territory*> terToAttack = this->toAttack();
     for (int i = 0; i < terToAttack.size(); i++) {
-
-        for (Player* player : players) {
-
-            vector<Territory*> playerTer = player->getPlayerTerritories();
-            for (int j = 0; j < playerTer.size(); j++) {
-
-                if (playerTer[j]->getName() == terToAttack[i]->getName()) {
-                    player->removeTerritory(j);
-                    this->p->addTerritory(playerTer[j]);
-                    playerTer[j]->setOwner(this->p);
-                    
-                }
+        Territory* thisTerritory = terToAttack[i];
+        Player* owner = thisTerritory->getOwner();
+        for (int j = 0; j < owner->getPlayerTerritories().size(); j++) {
+            if (owner->getPlayerTerritories()[j] == thisTerritory) {
+                owner->removeTerritory(j);
             }
         }
+
+        p->addTerritory(thisTerritory);
+        thisTerritory->setOwner(p);
     }
 
     cout << "-- UPDATED LIST OF PLAYER " << this->p->getName() << " OWNED TERRITORIES --" << endl;

@@ -612,7 +612,7 @@ void GameEngine::mainGameLoop() {
 		issueOrdersPhase(false);
 		executeOrdersPhase(false);
 		for (auto p: players){
-			if (p->getPlayerTerritories().size() == ALL_TERRITORIES){
+			if (p->getPlayerTerritories().size() >= ALL_TERRITORIES){
 				cout<<"\nGAME IS DONE"<<endl;
 				gameNotDone = false; 
 				
@@ -632,7 +632,7 @@ void GameEngine::issueOrdersPhase(bool isTournament){
 for (int i = 0; i < players.size(); i++) {
 	if (players[i]->getPlayerTerritories().empty()) {
 		cout << players[i]->getName() << " cannot play because they have no territories!";
-		break;
+		continue;
 	}
     // Print which player's turn it is
     cout << "\n*** " << players[i]->getName() << "'s turn! ***" << endl;
@@ -703,7 +703,7 @@ for (int i = 0; i < players.size(); i++) {
 	if (!isTournament) {
 		players[i]->setStrategy(nullptr);
 	}
-		if (players[i]->getPlayerTerritories().size() == ALL_TERRITORIES){
+		if (players[i]->getPlayerTerritories().size() >= ALL_TERRITORIES){
 			cout << players[i]->getName() << " owns all territories!\n" << endl;
 				gameIsNotDone = false; 
 				break;
@@ -729,9 +729,9 @@ void GameEngine::executeOrdersPhase(bool isTournament){
     for (int i = 0; i < players.size(); i++){ 
 		if (players[i]->getPlayerTerritories().empty()) {
 			cout << players[i]->getName() << " cannot play because they have no territories!";
-			break;
+			continue;
 		}
-			if (players[i]->getPlayerTerritories().size() == ALL_TERRITORIES){
+			if (players[i]->getPlayerTerritories().size() >= ALL_TERRITORIES){
 				if (isTournament) {
 					transition("replay");
 					return;
@@ -780,7 +780,7 @@ cout << "\nREINFORCEMENT PHASE" <<endl;
 for (int i = 0; i < players.size(); i++) {
 	if (players[i]->getPlayerTerritories().empty()) {
 		cout << players[i]->getName() << " cannot play because they have no territories!";
-		break;
+		continue;
 	}
     cout << "\nPlayer " << i + 1 << "'s territories "  << "("<< players[i]->getName() << "): \n"<< endl; // output players territories
 
@@ -1059,7 +1059,7 @@ void Tournament::tournamentGameLoop(int mapNumber, int gameNumber) {
 		GameEngine::instance()->executeOrdersPhase(true);
 		
 		for (auto p : players) {
-			if (p != NULL && p->getPlayerTerritories().size() == ALL_TERRITORIES) {
+			if (p != NULL && p->getPlayerTerritories().size() >= ALL_TERRITORIES) {
 				results[mapNumber][gameNumber] = p->getStrategy()->getName();
 				gameNotDone = false;
 			}
