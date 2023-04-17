@@ -620,13 +620,18 @@ void GameEngine::mainGameLoop() {
 	}
 
 void GameEngine::issueOrdersPhase(bool isTournament){
-		bool gameIsNotDone = true;
+
+	bool gameIsNotDone = true;
 	cout << "\nISSUING ORDERS PHASE" <<endl;
 	transition("issueorder");
 	cout << "the current state is: " << gameLoop->getCurrentState()->getLabel() << endl;
 
 // Start game loop
 for (int i = 0; i < players.size(); i++) {
+	if (players[i]->getPlayerTerritories().empty()) {
+		cout << players[i]->getName() << " cannot play because they have no territories!";
+		break;
+	}
     // Print which player's turn it is
     cout << "\n*** " << players[i]->getName() << "'s turn! ***" << endl;
     // Debugging output to check the value of ps before setting it
@@ -713,13 +718,17 @@ cout << "the current state is: " << gameLoop->getCurrentState()->getLabel() << e
 }
 
 void GameEngine::executeOrdersPhase(bool isTournament){
+	
 	cout << "\nEXECUTING ORDERS PHASE" <<endl;
 	transition("execorder");
 	int max = 0;    // Stores highest order count among players
 
     // Iterate through highest order count
     for (int i = 0; i < players.size(); i++){ 
-
+		if (players[i]->getPlayerTerritories().empty()) {
+			cout << players[i]->getName() << " cannot play because they have no territories!";
+			break;
+		}
 			if (players[i]->getPlayerTerritories().size() == ALL_TERRITORIES){
 				if (isTournament) {
 					transition("replay");
@@ -762,6 +771,10 @@ void GameEngine::executeOrdersPhase(bool isTournament){
 void GameEngine::reinforcementPhase(){ // reinforcment phase implementation
 cout << "\nREINFORCEMENT PHASE" <<endl;
 for (int i = 0; i < players.size(); i++) {
+	if (players[i]->getPlayerTerritories().empty()) {
+		cout << players[i]->getName() << " cannot play because they have no territories!";
+		break;
+	}
     cout << "\nPlayer " << i + 1 << "'s territories "  << "("<< players[i]->getName() << "): \n"<< endl; // output players territories
 
 	// 
@@ -883,13 +896,6 @@ Tournament* Tournament::instance() {
 }
 
 void Tournament::runTournament() {
-	// Add all players to game engine
-	for (int i = 0; i < numberOfPlayers; i++) {
-		if (players[i] != NULL) {
-			GameEngine::instance()->addPlayer(players[i]);
-		}
-	}
-
 	// Run every game
 	for (int i = 0; i < numberOfMaps; i++) { // On every map
 		for (int j = 0; j < games; j++) { // -G times
@@ -904,6 +910,13 @@ void Tournament::runTournament() {
 }
 
 void Tournament::tournamentStartupPhase(int mapNumber) {
+	// Add all players to game engine
+	for (int i = 0; i < numberOfPlayers; i++) {
+		if (players[i] != NULL) {
+			GameEngine::instance()->addPlayer(players[i]);
+		}
+	}
+	
 	// Game engine and map setup
 	maps[mapNumber]->reset();
 	for (int i = 0; i < numberOfPlayers; i++) {

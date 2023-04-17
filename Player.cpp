@@ -178,7 +178,7 @@ void Player::clearPlayerTerritories() {
   
 
 Territory* Player::getStrongestCountry(Player* player) {
-    Territory* strongestTerritory;
+    Territory* strongestTerritory = player->getPlayerTerritories()[0];
     int highestArmyCount = 0;
     for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
     if (player->getPlayerTerritories()[i]->getArmy() >= highestArmyCount) {
@@ -194,9 +194,9 @@ return strongestTerritory;
 }
 
 Territory* Player::getWeakestCountry(Player* player) {
-    Territory* weakestTerritory;
-    int lowestArmyCount = 500;
-    for (int i = 0; i < player->getPlayerTerritories().size(); i++) {
+    Territory* weakestTerritory = getPlayerTerritories()[0];
+    int lowestArmyCount = getPlayerTerritories()[0]->getArmy();
+    for (int i = 1; i < player->getPlayerTerritories().size(); i++) {
     if (player->getPlayerTerritories()[i]->getArmy() <= lowestArmyCount) {
         lowestArmyCount = player->getPlayerTerritories()[i]->getArmy();
         weakestTerritory = player->getPlayerTerritories()[i];

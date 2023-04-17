@@ -67,7 +67,8 @@ cout << "Player has " << p->getArmy() << " armies to deploy." <<endl;
 
         if (strongestTerritory != nullptr) 
         {
-            cout << "Strongest territory: " << *strongestTerritory<< endl;
+            cout << "Strongest territory: " << *strongestTerritory << endl;
+            
              if ( p->getArmy() !=0 ){ 
             Deploy* deploy = new Deploy(strongestTerritory, numberOfArmies);
             cout<<"\nCreated Deploy Order\n"<<endl;
@@ -83,7 +84,7 @@ cout << "Player has " << p->getArmy() << " armies to deploy." <<endl;
              cout << "Target territory: " << targetTerritory->getName() << "\n" << endl;
              Advance* advanceOrder = new Advance(targetTerritory, strongestTerritory, strongestTerritory->getArmy());
             cout<<"Created Advance Order"<<endl;
-             advanceOrder->execute(p);
+             //advanceOrder->execute(p);
              p->myOrders->add(advanceOrder);
 
              
@@ -102,7 +103,7 @@ cout << "Player has " << p->getArmy() << " armies to deploy." <<endl;
             Territory* targetTerritory =  p->getPlayerTerritories()[0]->getAdjacentTerritories()[0];
             Advance* advanceOrder = new Advance(targetTerritory, p->getPlayerTerritories()[0], p->getPlayerTerritories()[0]->getArmy());
             cout<<"Created Advance Order"<<endl;
-            advanceOrder->execute(p);
+            //advanceOrder->execute(p);
             p->myOrders->add(advanceOrder);
         }
     }
